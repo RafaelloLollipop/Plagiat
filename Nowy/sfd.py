@@ -1,1 +1,0 @@
-print "Czesc Rafa³"
