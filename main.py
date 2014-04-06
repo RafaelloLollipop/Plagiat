@@ -313,12 +313,23 @@ class StartQT4(QtGui.QMainWindow):
         self.ui.setupUi(self)
         self.source=Source()
         #self.source=Source()
-        QtCore.QObject.connect(self.ui.Button_LoadMainFile,QtCore.SIGNAL("clicked()"), self.file_dialog)
+        QtCore.QObject.connect(self.ui.Button_LoadMainFile,QtCore.SIGNAL("clicked()"), self.LoadMainFile_Button)
+        QtCore.QObject.connect(self.ui.Button_Next1,QtCore.SIGNAL("clicked()"), self.Next1_Button)
         
-    def file_dialog(self):
+    def LoadMainFile_Button(self):
         text=self.source.SearchFile()
         self.ui.lineEdit.setText(text)
-        print text
+        
+    def Next1_Button(self):
+        self.ui.Button_LoadMainFile.setEnabled(False)
+        self.ui.lineEdit.setEnabled(False)
+        self.ui.Next1_Button.setEnabled(False)
+        self.ui.listView.setEnabled(True)
+        self.ui.pushButton_3.setEnabled(True)
+        self.ui.pushButton_4.setEnabled(True)
+        self.ui.pushButton_5.setEnabled(True)
+        
+
 
 if __name__ == "__main__":
     app = QtGui.QApplication(sys.argv)
