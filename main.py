@@ -1,10 +1,63 @@
 from Tkinter import Tk
 from tkFileDialog import askopenfilename
 
-class OutFile():
+
+class File():
+    def __init__(self,path):
+        self.pathToFile=path
+        self.repeats
+        self.hashedText
+    
+    
+        '''Return hashedText'''  
+    def GetHashedText(self):
+        return self.hashedText    
+    
+    '''Delete colons, space, making the letters small'''
+    def PrepareSentenceToHash(self,sentence):
+        ''' #At return must be completly edited STRING, for ex from sentence "Rafal jest ok." Make "rafaljestok"
+        @TODO:KAMIL
+        '''
+        clearedSentence=""
+        return clearedSentence
+    
+        '''Hashing sentence Method'''
+    def HashSentence(self,sentece):
+        """Hashing sentece 
+        parameters:
+        sentece - sentence to hash
+         for ex. "rafaljestok" -> 23D#@fA25F#2!S
+         TODO:KAMIL
+         """
+        hashedSentence=""
+        return hashedSentence
+    
+    
+    '''Method take HTML code and delete from it tags, operators etc. At end we have clear text'''
+    def ParseHTML(self,HTMLtext):
+        '''TODO:RAFAL'''
+        parsedText=""
+        return parsedText
+    
+    '''Method get path and return big text from file'''
+    def LoadTextFromFile(self,path):
+        '''TODO: RAFAL '''
+        text=''
+        return text
+    
+    '''Return true if contain www or http'''
+    def IsLink(self,sentence):
+        '''
+        TODO: RAFAL
+        '''
+        return True
+
+
+class OutFile(File):
     '''Constructor'''
     def __init__(self,path):
-        self.pathToFile="" # Generated File by this class, file contain raport
+        
+        File.__init__(self,path)
         self.repeats=[] # list of int,  - no repeat, x - number of senetnce 
         self.hashedText=[] # Text from file transported to List 
         self.raportGenereted=False   # Raport exist checker
@@ -14,17 +67,14 @@ class OutFile():
     def GetRaportGenereted(self):
         return self.raportGenereted
      
-    '''Return hashedText'''  
-    def GetHashedText(self):
-        return self.hashedText    
     
     ''' Automatic function started in Constructor    
      Taking path (MUST BE IN CONSUTRCTOR) (local or www) & preapre it
-     At finish method start HashText method with clear text
+     At finish method start MakeHashedText method with clear text
      www, http are REMOVED!! '''
     def Generate(self,path):
         ''' This method end when OutFile is properly created
-            TODO: KTOS
+            TODO: KAMIL
         '''
         if (self.IsLink(path)):  # Contain www or http ? 
             pathToDownloadedFile=self.Download(path)  
@@ -33,37 +83,19 @@ class OutFile():
         else:
             text=text=self.LoadTextFromFile(path)
         
-        self.HashText(text)
+        self.MakeHashedText(text)
             
         
         
         return True
     
-    '''Delete colons, space, making the letters small'''
-    def PrepareSentenceToHash(self,sentence):
-        ''' #At return must be completly edited STRING, for ex from sentence "Rafal jest ok." Make "rafaljestok"
-        @TODO:KTOS
-        '''
-        clearedSentence=""
-        return clearedSentence
     
-    '''Hashing sentence Method'''
-    def HashSentence(self,sentece):
-        """Hashing sentece 
-        parameters:
-        sentece - sentence to hash
-         for ex. "rafaljestok" -> 23D#@fA25F#2!S
-         TODO:KTOS
-         """
-        hashedSentence=""
-        return hashedSentence
-
     '''Take text, fork text to sentence, prepare it and hash
         At end we get hashedText List - List of senetence hash '''
-    def HashText(self,text):
+    def MakeHashedText(self,text):
         '''
         text(string) - clear text like " Rafal jest ok. Kamil spoko loko.
-        TODO:KTOS
+        TODO:KAMIL
         '''
         
         # Loop
@@ -75,54 +107,34 @@ class OutFile():
         
         return True
 
-    '''Method take HTML code and delete from it tags, operators etc. At end we have clear text'''
-    def ParseHTML(self,HTMLtext):
-        '''TODO:KTOS'''
-        parsedText=""
-        return parsedText
 
-    '''Method get path and return big text from file'''
-    def LoadTextFromFile(self,path):
-        '''TODO: KTOS '''
-        text=''
-        return text
 
     '''Method Download file and return path to it'''
     def Download(self,link):
         '''
-        TODO: KTOS
+        TODO: RAFAL
         '''
         pathToFile=''
         return pathToFile
     
-    '''Return true if contain www or http'''
-    def IsLink(self,sentence):
-        '''
-        TODO: KTOS
-        '''
-        return True
     
     '''Method generate raport and save it'''
     def GenerateRaport(self):
         '''
-        TODO: KTOS
+        TODO: KAMIL
         '''
         self.raportGenereted=True
         return True
     
-class MainFile():
+class MainFile(File):
     '''Constructor'''
-    def __init__(self, _path):
-        self.path=_path  #Path to main File
-        self.repeatNumber=[]  # Nie pamietam po chuj to, w domysle bool to mialo byc?XD bool [nameFile]
-        self.structure={}  # { sentence : hash }
+    def __init__(self, path):
+        File.__init__(self,path)
+        self.repeats=[]  # Nie pamietam po chuj to, w domysle bool to mialo byc?XD bool [nameFile]
+        self.hashedText={}  # { sentence : hash }
         self.wwwAdress=[] # Contain a www sites from MainFile
-        self.Create() #AutoCreateMethod Start
+        self.Generate() #AutoGenerateMethod Start
         
-    '''Return structue'''
-    def GetStructure(self):
-        return self.structure
-    
     '''Return wwwAdress'''
     def GetwwwAdress(self):
         return self.wwwAdress
@@ -135,78 +147,47 @@ class MainFile():
     '''Method started by constructor
         Making object ready to use
         Order to LoadText from file
-        And make structure
+        And make hashedText
     '''
-    def Create(self):
+    def Generate(self):
         ''' Start all methods
         '''
-        text=self.LoadFileText()
-        text=self.MakeStructure(text)
+        text=self.LoadTextFromFile()
+        if (self.DotHTML()):
+            text=self.ParseHTML(text)
+        text=self.MakeHashedText(text)
         
         return True
     
-    '''Delete colonos etc, same in OutFile!'''
-    def PrepareSectenceToHash(self,sentence):
-        ''' Delete colons, space, making the letters small
-        TODO:KTOS SAME IN OUTFILE
-        '''
-        clearedSentence=""
-        return clearedSentence
+
+    
+    '''check te path to mainFile, if end with .html or .htm return true'''
+    def DotHTML(self):
+        return True
     
     '''Method started by Create()
     Method taking address from text or bibliography and collect it in the wwwAdress list
     next fork and hash
     '''
-    def MakeStructure(self,text):
-        ''' This functon at end of work guarantees properly make structure
-        TODO: KTOS Analogy to HashText in OUTFILE
+    def MakeHashedText(self,text):
+        ''' This functon at end of work guarantees properly make hashedText
+        TODO: RAFAL
         '''
         # Loop
         sentence=""
         if (self.IsLink(sentence)):
-            #TODO:KTOS
+            #TODO:RAFAL
             # Fork adress
             # Add to wwwAdress
             return False
         else:
             sentenceHash=self.PrepareSectenceToHash(sentence)
             sentenceHash=self.HashSentence(sentence)
-            self.structure[sentence]=sentenceHash
+            self.hashedText[sentence]=sentenceHash
         # End loop
         
         return True
     
-    '''If start with www or http'''
-    def IsLink(self,sentence):
-        #TODO:KTOS SAME IN THE OUTFILE
-        return True
-    
-    def LoadFileText(self):
-        '''Return text(string) -  content of file
-        self.path - path to file
-        Remember to parse html !!
-        '''
-        text=""
-        return text
-    
-    '''Method take HTML code and delete from it tags, operators etc. At end we have clear text'''
-    def ParseHTML(self,HTMLtext):
-        '''TODO:KTOS analog in OutFile'''
-        parsedText=""
-        return parsedText
-    
-    '''Hashing sentence Method'''
-    def HashSentence(self,sentece):
-        """Hashing sentece 
-        parameters:
-        sentece - sentence to hash
-         for ex. "rafaljestok" -> 23D#@fA25F#2!S
-         TODO:KTOS ANALOGICZNE W OUTFILE
-         """
-        hashedSentence=""
-        return hashedSentence
-
-
 
 class Source():
     """Main Class of program """
@@ -255,6 +236,7 @@ class Source():
     
     def SearchFile(self):
         """ This function return path to File"""
+        #TODO:RAFAL
         Tk().withdraw() # we don't want a full GUI, so keep the root window from appearing
         self.pathToMainFile=askopenfilename() 
         return True
@@ -264,6 +246,7 @@ class Source():
         Used after click event
         To add:
         Check pathToMainFile correctness
+        TODO:RAFAL
         '''
         self.mainFile=MainFile(self.pathToMainFile)
         return True
@@ -271,6 +254,7 @@ class Source():
     def GenerateOutFile(self):
         '''
         After button click
+        TODO:KAMIL
         '''
         #Loop
         adress=""  # Pobrany z self.Adress
@@ -281,6 +265,8 @@ class Source():
     
     def SearchPlagiarsim(self):
         '''Start crazy machine : D
+        start by click
+        TODO:KAMIL
         '''    
         #Loop
         OutFile=''
@@ -290,19 +276,22 @@ class Source():
         return True
 
     def CompareHash(self,OutFile):
-        ''' Compare  MainFile.structue(use GetStructure Method) with hashedText ( use GetHashedText Method)
+        ''' Compare  MainFile.structue(use GetHashedText Method) with hashedText ( use GetHashedText Method)
         Remember that 1st one is a dictionary, 2nd is list!
+        TODO:KAMIL
         '''
         return True
     
     def GenerateRaport(self,OutFile):
         ''' End when Raport is sucesfully generated
+        TODO:KAMIL
         '''
         OutFile.GenerateRaport()
         return True
     
     def ShowRaports(self):
         ''' Start by click
+        TODO:RAFAL
         '''
         return True 
     
