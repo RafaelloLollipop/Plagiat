@@ -323,7 +323,7 @@ class StartQT4(QtGui.QMainWindow):
     def Next1_Button(self):
         self.ui.Button_LoadMainFile.setEnabled(False)
         self.ui.lineEdit.setEnabled(False)
-        self.ui.Next1_Button.setEnabled(False)
+        self.ui.Button_Next1.setEnabled(False)
         self.ui.listView.setEnabled(True)
         self.ui.pushButton_3.setEnabled(True)
         self.ui.pushButton_4.setEnabled(True)
