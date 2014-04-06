@@ -296,9 +296,5 @@ class Source():
         return True 
     
     
-#DUNNO
 
-class Main():
-    """Open Gui, Load basic classes etc """
-    x=0
     
