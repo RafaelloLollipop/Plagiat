@@ -1,12 +1,15 @@
 from Tkinter import Tk
 from tkFileDialog import askopenfilename
+import sys
+from PyQt4 import QtCore, QtGui
+
 
 
 class File():
     def __init__(self,path):
         self.pathToFile=path
-        self.repeats
-        self.hashedText
+        #self.repeats
+        #self.hashedText
     
     
         '''Return hashedText'''  
@@ -152,7 +155,7 @@ class MainFile(File):
     def Generate(self):
         ''' Start all methods
         '''
-        text=self.LoadTextFromFile()
+        text=self.LoadTextFromFile('')
         if (self.DotHTML()):
             text=self.ParseHTML(text)
         text=self.MakeHashedText(text)
@@ -195,7 +198,7 @@ class Source():
     def __init__(self):
         self.pathToMainFile="" # .txt,.pdf etc
         self.configPath="" # dunno, nic z tym nie robilem bo nie pamietam jak to tam mialo byc xD
-        self.mainFile   # mainFile object
+        self.mainFile=MainFile('s')   # mainFile object
         self.Adress=[] # list of adress when we want to search for OutFile, www & local
         self.OutFiles=[] # List of OutFiles
     
@@ -238,8 +241,9 @@ class Source():
         """ This function return path to File"""
         #TODO:RAFAL
         Tk().withdraw() # we don't want a full GUI, so keep the root window from appearing
-        self.pathToMainFile=askopenfilename() 
-        return True
+        path=askopenfilename() 
+        self.pathToMainFile=path
+        return path
         
     def PreapreMainFile(self):
         '''Create objectMainFile
@@ -296,5 +300,28 @@ class Source():
         return True 
     
     
+#DUNNO
 
-    
+#TODO: poki nie naprawisz pythonQT ten kod moze Ci jebac bledami :D
+from gui import Ui_MainWindow
+
+class StartQT4(QtGui.QMainWindow):
+    def __init__(self, parent=None):
+        QtGui.QWidget.__init__(self, parent)
+        # nazwa klasy
+        self.ui = Ui_MainWindow()
+        self.ui.setupUi(self)
+        self.source=Source()
+        #self.source=Source()
+        QtCore.QObject.connect(self.ui.Button_LoadMainFile,QtCore.SIGNAL("clicked()"), self.file_dialog)
+        
+    def file_dialog(self):
+        text=self.source.SearchFile()
+        self.ui.lineEdit.setText(text)
+        print text
+
+if __name__ == "__main__":
+    app = QtGui.QApplication(sys.argv)
+    myapp = StartQT4()
+    myapp.show()
+    sys.exit(app.exec_())
