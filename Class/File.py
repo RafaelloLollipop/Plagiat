@@ -4,8 +4,8 @@ import nltk
 import StringIO
 from PyPDF2 import PdfFileWriter, PdfFileReader
 import urllib
-import re                       # do wyrażeń regularnych
-from hashlib import sha224      # do tworzenia hashy
+import re                       # do wyrażeń regularnych!
+from hashlib import sha224      # do tworzenia hashy!
 class File():
     def __init__(self,path):
         self.pathToFile=path
