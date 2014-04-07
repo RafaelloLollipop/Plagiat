@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from os import path
 from Tkinter import Tk
 from tkFileDialog import askopenfilename

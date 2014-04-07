@@ -71,6 +71,7 @@ class File():
     '''Method get path and return big text from file'''
     def LoadTextFromFile(self,path):
         '''TODO: RAFAL '''
+        text=''
         if(path.find('.pdf')>=0):
             text=self.LoadFromPdf(path)
         if(path.find('.txt')>=0):
