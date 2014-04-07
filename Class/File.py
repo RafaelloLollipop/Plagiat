@@ -1,4 +1,5 @@
-
+# -*- coding: utf-8 -*-
+import re
 
 class File():
     def __init__(self,path):
@@ -13,10 +14,35 @@ class File():
     
     '''Delete colons, space, making the letters small'''
     def PrepareSentenceToHash(self,sentence):
-        ''' #At return must be completly edited STRING, for ex from sentence "Rafal jest ok." Make "rafaljestok"
-        @TODO:KAMIL
+        ''' #Input: string sentence (unprocessed) 
+        Output: string sentence (processed)
+        Description: Fuction makes lower cases, deletes all punctuations (all spaces as well), polish joins-word (i, ale, pod) and changes polish letter to english equivalent.
         '''
-        clearedSentence=""
+        
+        sentence = "Australijski okręt biorący udział w poszukiwaniach samolotu malezyjskich linii lotniczych wykrył sygnały podobne do tych, jakie emitują czarne skrzynki - poinformowały w poniedziałek władze w Canberze."
+         # 0. do małych liter
+        sentence = sentence.lower()
+        # 1. znaki interpunkcyjne
+        interpunkcja = [',', ':', ';', '!', '@', '#', '$', '%', '^', '&', '\*', '\.', '\(', '\)', '-', '_', '\+', '=', '\{', '\}', '\[', '\]', '\|', '<', '>', '\?']
+        # polskie łączniki
+        laczniki = ['i', 'a', 'w', 'o', 'lub','jednak', 'na', 'u', 'pod', 'powyżej', 'poniżej', 'ponad', ]
+        # polskie znaki ę ą 
+        polskie_znaki = {'ę': 'e', 'ó': 'o', 'ą': 'a', 'ś': 's', 'ł': 'l', 'ż': 'z', 'ź': 'z', 'ć': 'c', 'ń': 'n', 'Ę': 'e', 'Ó': 'o', 'Ą': 'a', 'Ś': 's', 'Ł': 'l', 'Ż': 'z', 'Ź': 'z', 'Ć': 'c', 'Ń': 'n'}
+        
+        print polskie_znaki
+        
+        
+        for pol, ang in polskie_znaki.items():
+            sentence = sentence.replace(pol, ang)
+        for char in interpunkcja:
+            sentence = re.sub(char, '', sentence)
+        for char in laczniki:
+            sentence = re.sub('\W'+char+'\W', '', sentence)  # znak w środku
+            sentence = re.sub('^'+char+'\W', '', sentence) # znak na początku tekstu
+            sentence = re.sub('\W'+char+'$', '', sentence) # znak na końcu tekstu
+        sentence = re.sub(' ', '', sentence) # usuwanie spacji
+        
+        clearedSentence = sentence
         return clearedSentence
     
         '''Hashing sentence Method'''
