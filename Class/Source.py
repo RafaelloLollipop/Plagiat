@@ -54,8 +54,18 @@ class Source():
     def SearchFile(self):
         """ This function return path to File"""
         #TODO:RAFAL
+
+        self.file_opt = options = {}
+        myFormats = [
+            ('Text','*.txt'),
+            ('PDF','*.pdf'),
+            ('HTML','*.html'),
+            ('Microsoft Office .doc','*.doc'),
+            ]
+        
         Tk().withdraw() # we don't want a full GUI, so keep the root window from appearing
-        path=askopenfilename() 
+        path=askopenfilename(filetypes=myFormats ) 
+
         self.pathToMainFile=path
         return path
         

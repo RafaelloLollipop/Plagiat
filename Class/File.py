@@ -1,4 +1,9 @@
+import nltk   
+import StringIO
+from PyPDF2 import PdfFileWriter, PdfFileReader
+import urllib
 # -*- coding: utf-8 -*-
+<<<<<<< HEAD
 
 import nltk   
 import StringIO
@@ -6,6 +11,10 @@ from PyPDF2 import PdfFileWriter, PdfFileReader
 import urllib
 import re                       # do wyrażeń regularnych!
 from hashlib import sha224      # do tworzenia hashy!
+=======
+import re                       # do wyrażeń regularnych
+from hashlib import sha224      # do tworzenia hashy
+>>>>>>> branch 'master' of https://github.com/Vallher/Plagiat.git
 class File():
     def __init__(self,path):
         self.pathToFile=path
@@ -33,7 +42,7 @@ class File():
         # polskie łączniki
         laczniki = ['i', 'a', 'w', 'o', 'lub','jednak', 'na', 'u', 'pod', 'powyżej', 'poniżej', 'ponad', ]
         # polskie znaki ę ą 
-        polskie_znaki = {'ę': 'e', 'ó': 'o', 'ą': 'a', 'ś': 's', 'ł': 'l', 'ż': 'z', 'ź': 'z', 'ć': 'c', 'ń': 'n', 'Ę': 'e', 'Ó': 'o', 'Ą': 'a', 'Ś': 's', 'Ł': 'l', 'Ż': 'z', 'Ź': 'z', 'Ć': 'c', 'Ń': 'n'}
+        polskie_znaki = {'ę': 'e', 'ó': 'o', 'ą': 'a', 'ś': 's', 'ł': 'l', 'ż': 'z', 'ź': 'z', 'ć': 'c', 'ń': 'n', '�?': 'e', 'Ó': 'o', 'Ą': 'a', 'Ś': 's', '�?': 'l', 'Ż': 'z', 'Ź': 'z', 'Ć': 'c', '�?': 'n'}
         
         print polskie_znaki
         
