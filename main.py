@@ -36,6 +36,10 @@ class StartQT4(QtGui.QMainWindow):
 
 if __name__ == "__main__":
     app = QtGui.QApplication(sys.argv)
+    MainWindow = QtGui.QMainWindow()
+    app.setActiveWindow(MainWindow)
+    ui = Ui_MainWindow()
+    ui.setupUi(MainWindow)
     myapp = StartQT4()
     myapp.show()
     sys.exit(app.exec_())
