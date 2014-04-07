@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-import re
+import re                       # do wyrażeń regularnych
+from hashlib import sha224      # do tworzenia hashy
 
 class File():
     def __init__(self,path):
@@ -10,6 +11,7 @@ class File():
     
         '''Return hashedText'''  
     def GetHashedText(self):
+        
         return self.hashedText    
     
     '''Delete colons, space, making the letters small'''
@@ -47,13 +49,12 @@ class File():
     
         '''Hashing sentence Method'''
     def HashSentence(self,sentece):
-        """Hashing sentece 
-        parameters:
-        sentece - sentence to hash
-         for ex. "rafaljestok" -> 23D#@fA25F#2!S
-         TODO:KAMIL
-         """
-        hashedSentence=""
+        ''' #Input: string sentence (processed) 
+        Output: hash-tag (52 bites)
+        Description: Fuction using hashlib library creates hast-tag from proceesed sentence.
+        '''
+        
+        hashedSentence = sha224(sentence).hexdigest()
         return hashedSentence
     
     
