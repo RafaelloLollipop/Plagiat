@@ -25,7 +25,6 @@ class File():
         Description: Function makes lower cases, deletes all punctuations (all spaces as well), polish joins-word (i, ale, pod) and changes polish letter to english equivalent.
         '''
         
-        sentence = "Australijski okręt biorący udział w poszukiwaniach samolotu malezyjskich linii lotniczych wykrył sygnały podobne do tych, jakie emitują czarne skrzynki - poinformowały w poniedziałek władze w Canberze."
          # 0. do małych liter
         sentence = sentence.lower()
         # 1. znaki interpunkcyjne
@@ -34,8 +33,6 @@ class File():
         laczniki = ['i', 'a', 'w', 'o', 'lub','jednak', 'na', 'u', 'pod', 'powyżej', 'poniżej', 'ponad', ]
         # polskie znaki ę ą 
         polskie_znaki = {'ę': 'e', 'ó': 'o', 'ą': 'a', 'ś': 's', 'ł': 'l', 'ż': 'z', 'ź': 'z', 'ć': 'c', 'ń': 'n', 'Ę': 'e', 'Ó': 'o', 'Ą': 'a', 'Ś': 's', 'Ł': 'l', 'Ż': 'z', 'Ź': 'z', 'Ć': 'c', 'Ń': 'n'}
-        
-        print polskie_znaki
         
         
         for pol, ang in polskie_znaki.items():
@@ -55,7 +52,7 @@ class File():
     def HashSentence(self,sentece):
         ''' #Input: string sentence (processed) 
         Output: hash-tag (52 bites)
-        Description: Fuction using hashlib library creates hast-tag from proceesed sentence.
+        Description: Function using hashlib library creates hast-tag from proceesed sentence.
         '''
         
         hashedSentence = sha224(sentence).hexdigest()
