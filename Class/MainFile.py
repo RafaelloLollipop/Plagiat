@@ -59,8 +59,8 @@ class MainFile(File):
             # Add to wwwAdress
             return False
         else:
-            sentenceHash=self.PrepareSectenceToHash(sentence)
-            sentenceHash=self.HashSentence(sentence)
+            sentencePrepared=self.PrepareSectenceToHash(sentence)
+            sentenceHash=self.HashSentence(sentencePrepared) 
             self.hashedText[sentence]=sentenceHash
         # End loop
         
