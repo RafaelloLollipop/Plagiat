@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+#pyuic form1.ui > form1.py
 from os import path
 from Tkinter import Tk
 from tkFileDialog import askopenfilename
@@ -22,11 +23,11 @@ class StartQT4(QtGui.QMainWindow):
         
     def LoadMainFile_Button(self):
         text=self.source.SearchFile()
-        self.ui.lineEdit.setText(text)
+        self.ui.Line_LoadMainFile.setText(text)
         
     def Next1_Button(self):
         self.ui.Button_LoadMainFile.setEnabled(False)
-        self.ui.lineEdit.setEnabled(False)
+        self.ui.Line_LoadMainFile.setEnabled(False)
         self.ui.Button_Next1.setEnabled(False)
         self.ui.listView.setEnabled(True)
         self.ui.pushButton_3.setEnabled(True)

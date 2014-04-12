@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'untitled.ui'
+# Form implementation generated from reading ui file 'gui.ui'
 #
-# Created: Sun Apr 06 13:10:08 2014
+# Created: Sun Apr 13 00:58:33 2014
 #      by: PyQt4 UI code generator 4.10.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -27,18 +27,18 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName(_fromUtf8("MainWindow"))
         MainWindow.setEnabled(True)
-        MainWindow.resize(825, 600)
+        MainWindow.resize(783, 600)
         self.centralwidget = QtGui.QWidget(MainWindow)
         self.centralwidget.setObjectName(_fromUtf8("centralwidget"))
         self.Button_LoadMainFile = QtGui.QPushButton(self.centralwidget)
         self.Button_LoadMainFile.setEnabled(True)
         self.Button_LoadMainFile.setGeometry(QtCore.QRect(80, 60, 101, 31))
         self.Button_LoadMainFile.setObjectName(_fromUtf8("Button_LoadMainFile"))
-        self.lineEdit = QtGui.QLineEdit(self.centralwidget)
-        self.lineEdit.setEnabled(True)
-        self.lineEdit.setGeometry(QtCore.QRect(210, 60, 341, 31))
-        self.lineEdit.setReadOnly(True)
-        self.lineEdit.setObjectName(_fromUtf8("lineEdit"))
+        self.Line_LoadMainFile = QtGui.QLineEdit(self.centralwidget)
+        self.Line_LoadMainFile.setEnabled(True)
+        self.Line_LoadMainFile.setGeometry(QtCore.QRect(210, 60, 341, 31))
+        self.Line_LoadMainFile.setReadOnly(True)
+        self.Line_LoadMainFile.setObjectName(_fromUtf8("Line_LoadMainFile"))
         self.Button_LoadConfig = QtGui.QPushButton(self.centralwidget)
         self.Button_LoadConfig.setEnabled(False)
         self.Button_LoadConfig.setGeometry(QtCore.QRect(80, 130, 101, 31))
@@ -53,9 +53,6 @@ class Ui_MainWindow(object):
         self.label_2 = QtGui.QLabel(self.centralwidget)
         self.label_2.setGeometry(QtCore.QRect(240, 100, 151, 21))
         self.label_2.setObjectName(_fromUtf8("label_2"))
-        self.listView = QtGui.QListView(self.centralwidget)
-        self.listView.setGeometry(QtCore.QRect(80, 180, 321, 241))
-        self.listView.setObjectName(_fromUtf8("listView"))
         self.pushButton_3 = QtGui.QPushButton(self.centralwidget)
         self.pushButton_3.setEnabled(False)
         self.pushButton_3.setGeometry(QtCore.QRect(430, 180, 101, 41))
@@ -72,9 +69,22 @@ class Ui_MainWindow(object):
         self.Button_Next1 = QtGui.QPushButton(self.centralwidget)
         self.Button_Next1.setGeometry(QtCore.QRect(610, 80, 101, 41))
         self.Button_Next1.setObjectName(_fromUtf8("Button_Next1"))
+        self.List_ = QtGui.QListWidget(self.centralwidget)
+        self.List_.setGeometry(QtCore.QRect(140, 180, 256, 192))
+        self.List_.setObjectName(_fromUtf8("List_"))
+        item = QtGui.QListWidgetItem()
+        self.List_.addItem(item)
+        item = QtGui.QListWidgetItem()
+        self.List_.addItem(item)
+        item = QtGui.QListWidgetItem()
+        self.List_.addItem(item)
+        item = QtGui.QListWidgetItem()
+        self.List_.addItem(item)
+        item = QtGui.QListWidgetItem()
+        self.List_.addItem(item)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 825, 21))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 783, 21))
         self.menubar.setObjectName(_fromUtf8("menubar"))
         self.menuFile = QtGui.QMenu(self.menubar)
         self.menuFile.setObjectName(_fromUtf8("menuFile"))
@@ -88,6 +98,7 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.menuFile.menuAction())
 
         self.retranslateUi(MainWindow)
+        QtCore.QObject.connect(self.actionQuit, QtCore.SIGNAL(_fromUtf8("triggered()")), MainWindow.close)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -100,6 +111,19 @@ class Ui_MainWindow(object):
         self.pushButton_4.setText(_translate("MainWindow", "PushButton", None))
         self.pushButton_5.setText(_translate("MainWindow", "PushButton", None))
         self.Button_Next1.setText(_translate("MainWindow", "Next", None))
+        __sortingEnabled = self.List_.isSortingEnabled()
+        self.List_.setSortingEnabled(False)
+        item = self.List_.item(0)
+        item.setText(_translate("MainWindow", "Nowy element", None))
+        item = self.List_.item(1)
+        item.setText(_translate("MainWindow", "Nowy element", None))
+        item = self.List_.item(2)
+        item.setText(_translate("MainWindow", "Nowy element", None))
+        item = self.List_.item(3)
+        item.setText(_translate("MainWindow", "Nowy element", None))
+        item = self.List_.item(4)
+        item.setText(_translate("MainWindow", "Nowy element", None))
+        self.List_.setSortingEnabled(__sortingEnabled)
         self.menuFile.setTitle(_translate("MainWindow", "File", None))
         self.actionQuit.setText(_translate("MainWindow", "Quit", None))
 
