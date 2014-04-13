@@ -15,8 +15,10 @@ class Source():
         self.configPath="" # dunno, nic z tym nie robilem bo nie pamietam jak to tam mialo byc xD
         self.mainFile=MainFile('s')   # mainFile object
         self.Adress=[] # list of adress when we want to search for OutFile, www & local
-        self.OutFiles=[] # List of OutFiles
-        self.OutFilesCandidate=[] # List of filles who we want to make OutFile
+        self.OutFiles=[] # List of OutFiles, with raports
+        self.OutFilesCandidate=[] # List of filles who we want to make OutFile, path list
+    
+    
     # Tych dwoch metod nie jestem pewien :D
     '''getery i setery jebac to'''
     def AddOutFile(self,outFile):
@@ -80,42 +82,48 @@ class Source():
         self.mainFile=MainFile(self.pathToMainFile)
         return True
     
-    def GenerateOutFile(self):
+    def GenerateOutFile(self,pathList):
         '''
         After button click
         TODO:KAMIL
         '''
+        pathList = []  # lista adresow
         #Loop
-        adress=""  # Pobrany z self.Adress
-        newOutFile=OutFile(adress)
+        path=""  
+        newOutFile=OutFile(path)
+        self.OutFilesCandidate.remove(path)
         self.OutFiles.append(newOutFile)
+        self.SearchPlagiarsim(path)
         #EndOfLopp
         return True
     
-    def SearchPlagiarsim(self):
+    def SearchPlagiarsim(self,path):
         '''Start crazy machine : D
         start by click
         TODO:KAMIL
         '''    
         #Loop
-        OutFile=''
-        self.CompareHash(OutFile)
+        self.CompareHashMethod(OutFile)
         self.GenerateRaport(OutFile)
         #EndOfLoop
         return True
 
-    def CompareHash(self,OutFile):
-        ''' Compare  MainFile.structue(use GetHashedText Method) with hashedText ( use GetHashedText Method)
-        Remember that 1st one is a dictionary, 2nd is list!
+    def CompareHashMethod(self,OutFile):
+        ''' 
         TODO:KAMIL
-        '''
+        make repeats list in OutFile complete         '''
+
+        
         return True
     
     def GenerateRaport(self,OutFile):
         ''' End when Raport is sucesfully generated
         TODO:KAMIL
         '''
-        OutFile.GenerateRaport()
+        if (OutFile.GenerateRaport(path)):
+            OutFile.SetRaportGenereted()
+        
+        
         return True
     
     def ShowRaports(self):

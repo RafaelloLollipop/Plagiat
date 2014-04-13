@@ -11,12 +11,17 @@ class OutFile(File):
         
         File.__init__(self)
         self.repeats=[] # list of int,  - no repeat, x - number of senetnce 
+        self.raportGenereted=false
         self.GenerateOutFile(path)
     
     ''' Automatic function started in Constructor    
      Taking path (MUST BE IN CONSUTRCTOR) (local or www) & preapre it
      At finish method start MakeHashedText method with clear text
      www, http are REMOVED!! '''
+        
+    def SetRaportGenereted(self):
+        self.raportGenereted=true
+        
     def GenerateOutFile(self,path):
         ''' This method end when OutFile is properly created
             TODO: KAMIL
@@ -28,7 +33,6 @@ class OutFile(File):
             text=text=self.LoadTextFromFile(path)
         
         self.MakeClearAndHashedText(text)
-            
 
         return True
     
@@ -38,9 +42,10 @@ class OutFile(File):
         At end we get hashedText List - List of senetence hash '''
     
     '''Method generate raport and save it'''
-    def GenerateRaport(self):
+    def GenerateRaport(self,path):
         '''
         TODO: KAMIL
+        path -> directory where raport should be
         '''
         return True
     
