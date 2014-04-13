@@ -16,7 +16,7 @@ class Source():
         self.mainFile=MainFile('s')   # mainFile object
         self.Adress=[] # list of adress when we want to search for OutFile, www & local
         self.OutFiles=[] # List of OutFiles
-    
+        self.OutFilesCandidate=[] # List of filles who we want to make OutFile
     # Tych dwoch metod nie jestem pewien :D
     '''getery i setery jebac to'''
     def AddOutFile(self,outFile):
