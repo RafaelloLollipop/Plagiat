@@ -5,6 +5,8 @@ from PyPDF2 import PdfFileWriter, PdfFileReader
 import urllib
 import re                       # do wyrażeń regularnych!
 from hashlib import sha224      # do tworzenia hashy!
+import xml.etree.ElementTree as ET
+
 
 class File():
     def __init__(self):
@@ -22,6 +24,12 @@ class File():
     def GetClearText(self):
         
         return self.clearText
+    
+    def FromListToTxt(self,list):
+        text=""
+        for sentence in list:
+            text+=sentence
+        return text
     
     def MakeClearAndHashedText(self,text):
         '''
@@ -168,11 +176,4 @@ class File():
         '''
         return True
     
-    '''Save file in given path and with given name'''
-    def SaveText(self,path,name):
-        '''
-        TODO:RAFAL
-        '''
-        
-        return True
-
+ 

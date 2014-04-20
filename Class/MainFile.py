@@ -36,8 +36,28 @@ class MainFile(File):
         
         return True
     
-    
+
     '''search for www in text and add it to field wwwAdress'''
     def searchForWWW(self,text):
         
+        return True
+    
+
+    '''Crate XML config from given name'''
+    def CreateXMLConfig(self,configName):
+        '''
+        TODO:RAFAL
+        '''
+        text=self.FromListToTxt(self.clearText)
+        hashedText=self.FromListToTxt(self.hashedText)
+            
+        root=ET.Element('Config',{'name':configName})
+        tree=ET.ElementTree(root)
+        files=ET.SubElement(root, 'MainFile',{'name':self.fileName})
+        sentences=ET.SubElement(files, 'Sentences')
+        sentences.text=text
+    
+        hashes=ET.SubElement(files, 'Hashes')
+        hashes.text=hashedText
+        tree.write(configName+".xml")
         return True

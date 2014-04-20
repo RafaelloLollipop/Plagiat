@@ -7,12 +7,12 @@ from Tkinter import Tk
 from tkFileDialog import askopenfilename
 
 
-class Source():
-    """Main Class of program """
+class Config():
+    """Config class """
     '''Constructor'''
     def __init__(self):
         self.pathToMainFile="" # .txt,.pdf etc
-        self.configPath="" # dunno, nic z tym nie robilem bo nie pamietam jak to tam mialo byc xD
+        self.configName="" # dunno, nic z tym nie robilem bo nie pamietam jak to tam mialo byc xD
         self.mainFile=MainFile('s')   # mainFile object
         self.Adress=[] # list of adress when we want to search for OutFile, www & local
         self.OutFiles=[] # List of OutFiles, with raports
@@ -82,6 +82,10 @@ class Source():
         self.mainFile=MainFile(self.pathToMainFile)
         return True
     
+    def CreateConfig(self):
+        self.mainFile.CreateXMLConfig(self.configName)
+    
+    
     def GenerateOutFile(self,pathList):
         '''
         After button click
@@ -120,10 +124,7 @@ class Source():
         ''' End when Raport is sucesfully generated
         TODO:KAMIL
         '''
-        if (OutFile.GenerateRaport(path)):
-            OutFile.SetRaportGenereted()
-        
-        
+        OutFile.AddOutFileToConfigXML(self.configName)
         return True
     
     def ShowRaports(self):
@@ -131,5 +132,42 @@ class Source():
         TODO:RAFAL
         '''
         return True 
+
+    '''return [text,hashedText,repeats] list'''
+    def GetOutFileFromXMLConfig(self,outFileName):
+        tree= ET.parse(self.configName+".xml")
+        root=tree.getroot()
+        text=''
+        hashedText=''
+        repeats=''
+        for outFile in root.findall('OutFile'):
+            name=outFile.attrib['name']
+            if (outFileName==name):
+                text=outFile.find('Sentences').text
+                hashedText=outFile.find('Hashes').text
+                repeats=outFile.find('Repeats').text
+        return [text,hashedText,repeats]
     
+    def GetMainFileFromXMLConfig(self,outFileName):
+        tree= ET.parse(self.configName+".xml")
+        root=tree.getroot()
+        text=''
+        hashedText=''
+        for outFile in root.findall('MainFile'):
+            name=outFile.attrib['name']
+            if (outFileName==name):
+                text=outFile.find('Sentences').text
+                hashedText=outFile.find('Hashes').text
+        return [text,hashedText]
+    
+    
+    
+    def RemoveOutFileFromXMLConfig(self,outFileName):
+        tree= ET.parse(self.configName+".xml")
+        root=tree.getroot()
+        for outFile in root.findall('OutFile'):
+            name=outFile.attrib['name']
+            if (outFileName==name):
+                root.remove(outFile)
+        return True
     

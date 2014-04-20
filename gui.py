@@ -2,13 +2,14 @@
 
 # Form implementation generated from reading ui file 'gui.ui'
 #
-# Created: Sun Apr 13 22:07:32 2014
+# Created: Sat Apr 19 10:23:07 2014
 #      by: PyQt4 UI code generator 4.10.4
 #
 # WARNING! All changes made in this file will be lost!
 
 from PyQt4 import QtCore, QtGui
-
+import gc
+gc.disable()
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:
@@ -128,7 +129,7 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.menuFile.menuAction())
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(1)
+        self.stackedWidget.setCurrentIndex(0)
         QtCore.QObject.connect(self.actionQuit, QtCore.SIGNAL(_fromUtf8("triggered()")), MainWindow.close)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 

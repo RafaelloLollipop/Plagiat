@@ -11,7 +11,6 @@ class OutFile(File):
         
         File.__init__(self)
         self.repeats=[] # list of int,  - no repeat, x - number of senetnce 
-        self.raportGenereted=false
         self.GenerateOutFile(path)
     
     ''' Automatic function started in Constructor    
@@ -37,15 +36,28 @@ class OutFile(File):
         return True
     
     
+    ''' Add this OutFile to configName.xml'''
+    def AddOutFileToConfigXML(self,configName):
     
-    '''Take text, fork text to sentence, prepare it and hash
-        At end we get hashedText List - List of senetence hash '''
+        text=self.FromListToTxt(self.clearText)
+        hashedText=self.FromListToTxt(self.hashedText)
+        repeats=self.FromListToTxt(self.repeats)
+        
+        tree= ET.parse(configName+".xml")
+        root=tree.getroot()
     
-    '''Method generate raport and save it'''
-    def GenerateRaport(self,path):
-        '''
-        TODO: KAMIL
-        path -> directory where raport should be
-        '''
+        files=ET.SubElement(root, 'OutFile',{'name':self.fileName})
+    
+        sentences=ET.SubElement(files, 'Sentences')
+        sentences.text=text
+    
+        hashes=ET.SubElement(files, 'Hashes')
+        hashes.text=hashedText
+    
+        rep=ET.SubElement(files, 'Repeats')
+        rep.text=repeats
+    
+        tree.write(configName+".xml")
+        
         return True
     

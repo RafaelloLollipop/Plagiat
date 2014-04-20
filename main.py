@@ -6,11 +6,11 @@ from tkFileDialog import askopenfilename
 import sys
 import time
 from PyQt4 import QtCore, QtGui
-
 sys.path.append(path.abspath('./Class'))
 from Source import Source
-
 from gui import Ui_MainWindow
+
+
 
 class StartQT4(QtGui.QMainWindow):
     def __init__(self, parent=None):
@@ -26,7 +26,7 @@ class StartQT4(QtGui.QMainWindow):
         QtCore.QObject.connect(self.ui.Back_Button,QtCore.SIGNAL("clicked()"), self.Back_Button)
         QtCore.QObject.connect(self.ui.testButton,QtCore.SIGNAL("clicked()"), self.RunProgram)
 
-        
+    
     def RunProgram(self):
         value=self.ui.progressBar_StartProgram.value()+23
         self.ui.progressBar_StartProgram.setValue(value)
@@ -43,21 +43,14 @@ class StartQT4(QtGui.QMainWindow):
     def Back_Button(self):
         self.ui.stackedWidget.setCurrentIndex(0)
 
-        
 
-        
-
-
-if __name__ == "__main__":
-    app = QtGui.QApplication(sys.argv)
-    MainWindow = QtGui.QMainWindow()
-    app.setActiveWindow(MainWindow)
-    ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
-    myapp = StartQT4()
-    myapp.show()
-    sys.exit(app.exec_())
-    myapp.RunProgram()
-
-
- 
+#if __name__ == "__main__":
+app = QtGui.QApplication(sys.argv)
+MainWindow = QtGui.QMainWindow()
+app_holder=app.setActiveWindow(MainWindow)
+ui = Ui_MainWindow()
+ui_holder=ui.setupUi(MainWindow)
+myapp = StartQT4()
+myapp_holder=myapp.show()
+sys_holder=sys.exit(app.exec_())
+myapp_runprogram_hollder=myapp.RunProgram()
