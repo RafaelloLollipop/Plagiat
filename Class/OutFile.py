@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import sys
 import re
+import json
 from os import path
 sys.path.append(path.abspath('./Class'))
 from File import *
@@ -23,41 +24,37 @@ class OutFile(File):
         
     def GenerateOutFile(self,path):
         ''' This method end when OutFile is properly created
-            TODO: KAMIL
+            
+            TODO: KAMIL, pamietaj zeby bylo filename
         '''
+        self.fileName=path.split('/')[len(path.split('/'))-1]
         if (self.IsLink(path)):  # Contain www or http ? 
             downText=self.DownloadText(path)  
             text=self.ParseHTML(downText)
         else:
             text=text=self.LoadTextFromFile(path)
-        
+            
         self.MakeClearAndHashedText(text)
 
         return True
     
     
-    ''' Add this OutFile to configName.xml'''
-    def AddOutFileToConfigXML(self,configName):
-    
-        text=self.FromListToTxt(self.clearText)
-        hashedText=self.FromListToTxt(self.hashedText)
-        repeats=self.FromListToTxt(self.repeats)
+    def AddOutFileToConfigJSON(self,configName):
+        f = open(configName+'.json', 'r')
+        config=f.read()
+        f.close()
+        config= json.loads(config,encoding="ISO-8859-1")
         
-        tree= ET.parse(configName+".xml")
-        root=tree.getroot()
-    
-        files=ET.SubElement(root, 'OutFile',{'name':self.fileName})
-    
-        sentences=ET.SubElement(files, 'Sentences')
-        sentences.text=text
-    
-        hashes=ET.SubElement(files, 'Hashes')
-        hashes.text=hashedText
-    
-        rep=ET.SubElement(files, 'Repeats')
-        rep.text=repeats
-    
-        tree.write(configName+".xml")
+        outFile={
+        "Sentences": self.clearText,
+        "Hashes" : self.hashedText,
+        "Repeats": self.repeats
+        }
+        config['outFiles'][self.fileName]=outFile
+        config= json.dumps(config,indent=2, encoding="ISO-8859-1")
+        f = open(configName+'.json', 'w')
+        f.write(config)
+        f.close()
         
         return True
     

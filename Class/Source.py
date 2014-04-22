@@ -5,15 +5,16 @@ sys.path.append(path.abspath('./Class'))
 from MainFile import *
 from Tkinter import Tk
 from tkFileDialog import askopenfilename
+from OutFile import OutFile
+import json
 
-
-class Config():
+class Source():
     """Config class """
     '''Constructor'''
     def __init__(self):
         self.pathToMainFile="" # .txt,.pdf etc
         self.configName="" # dunno, nic z tym nie robilem bo nie pamietam jak to tam mialo byc xD
-        self.mainFile=MainFile('s')   # mainFile object
+        #self.mainFile=MainFile('s')   # mainFile object
         self.Adress=[] # list of adress when we want to search for OutFile, www & local
         self.OutFiles=[] # List of OutFiles, with raports
         self.OutFilesCandidate=[] # List of filles who we want to make OutFile, path list
@@ -21,6 +22,10 @@ class Config():
     
     # Tych dwoch metod nie jestem pewien :D
     '''getery i setery jebac to'''
+    def AddOutFileCandidate(self,outFilePath):
+        self.OutFilesCandidate.append(outFilePath)
+        return True
+    
     def AddOutFile(self,outFile):
         self.OutFiles.append(outFile)
         return True
@@ -69,10 +74,10 @@ class Config():
         Tk().withdraw() # we don't want a full GUI, so keep the root window from appearing
         path=askopenfilename(filetypes=myFormats ) 
 
-        self.pathToMainFile=path
+        
         return path
         
-    def PreapreMainFile(self):
+    def PrepareMainFile(self):
         '''Create objectMainFile
         Used after click event
         To add:
@@ -83,7 +88,8 @@ class Config():
         return True
     
     def CreateConfig(self):
-        self.mainFile.CreateXMLConfig(self.configName)
+        self.mainFile.CreateJSONConfig(self.configName)
+
     
     
     def GenerateOutFile(self,pathList):
@@ -91,17 +97,17 @@ class Config():
         After button click
         TODO:KAMIL
         '''
-        pathList = []  # lista adresow
-        #Loop
-        path=""  
-        newOutFile=OutFile(path)
-        self.OutFilesCandidate.remove(path)
-        self.OutFiles.append(newOutFile)
-        self.SearchPlagiarsim(path)
-        #EndOfLopp
+        print pathList
+        #pathList = []  # lista adresow
+        for path in pathList:  
+            newOutFile=OutFile(path)
+            self.OutFilesCandidate.remove(path)
+            self.OutFiles.append(newOutFile)
+            self.SearchPlagiarsim(newOutFile)
+            
         return True
     
-    def SearchPlagiarsim(self,path):
+    def SearchPlagiarsim(self,OutFile):
         '''Start crazy machine : D
         start by click
         TODO:KAMIL
@@ -124,7 +130,7 @@ class Config():
         ''' End when Raport is sucesfully generated
         TODO:KAMIL
         '''
-        OutFile.AddOutFileToConfigXML(self.configName)
+        OutFile.AddOutFileToConfigJSON(self.configName)
         return True
     
     def ShowRaports(self):
@@ -132,42 +138,49 @@ class Config():
         TODO:RAFAL
         '''
         return True 
-
-    '''return [text,hashedText,repeats] list'''
-    def GetOutFileFromXMLConfig(self,outFileName):
-        tree= ET.parse(self.configName+".xml")
-        root=tree.getroot()
-        text=''
-        hashedText=''
-        repeats=''
-        for outFile in root.findall('OutFile'):
-            name=outFile.attrib['name']
-            if (outFileName==name):
-                text=outFile.find('Sentences').text
-                hashedText=outFile.find('Hashes').text
-                repeats=outFile.find('Repeats').text
-        return [text,hashedText,repeats]
     
-    def GetMainFileFromXMLConfig(self,outFileName):
-        tree= ET.parse(self.configName+".xml")
-        root=tree.getroot()
-        text=''
-        hashedText=''
-        for outFile in root.findall('MainFile'):
-            name=outFile.attrib['name']
-            if (outFileName==name):
-                text=outFile.find('Sentences').text
-                hashedText=outFile.find('Hashes').text
-        return [text,hashedText]
+    def GetOutFileFromJSONConfig(self,outFileName):
+        f = open(self.configName+'.json', 'r')
+        config=f.read()
+        f.close()
+        config= json.loads(config,encoding="ISO-8859-1")
+        
+        outFileDict=config['outFiles'][outFileName]
+    
+        return outFileDict
+    
+    def GetMainFileFromJSONConfig(self):
+        '''return dictionary
+          "mainFile": {
+            "Hashes": [
+              "cc0020a591a12020164ff4ac6012ce965ea4c60b83b8f97137fc336a"
+            ], 
+            "name": "test.txt", 
+            "wwwAdress": [], 
+            "Sentences": [
+              "zcxczczxcx\u00b3"
+            ]
+          },  '''
+        f = open(self.configName+'.json', 'r')
+        config=f.read()
+        f.close()
+        config= json.loads(config,encoding="ISO-8859-1")
+        
+        mainFileDict=config['mainFile']
+    
+        return mainFileDict
     
     
-    
-    def RemoveOutFileFromXMLConfig(self,outFileName):
-        tree= ET.parse(self.configName+".xml")
-        root=tree.getroot()
-        for outFile in root.findall('OutFile'):
-            name=outFile.attrib['name']
-            if (outFileName==name):
-                root.remove(outFile)
+    def RemoveOutFileFromJSONConfig(self,outFileName):
+        f = open(self.configName+'.json', 'r')
+        config=f.read()
+        f.close()
+        
+        config= json.loads(config,encoding="ISO-8859-1")
+        config['outFiles'].pop(outFileName)
+                
+        f = open(self.configName+'.json', 'w')
+        f.write(config)
+        f.close()
         return True
     

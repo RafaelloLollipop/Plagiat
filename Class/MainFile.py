@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import sys
+import json
 from os import path
 sys.path.append(path.abspath('./Class'))
 from File import *
@@ -28,10 +29,12 @@ class MainFile(File):
     def GenerateMainFile(self,path):
         ''' Start all methods
         '''
-        text=self.LoadTextFromFile('')
-        if (self.IsLink(path)):
+        self.fileName=path.split('/')[len(path.split('/'))-1]
+        text=self.LoadTextFromFile(path)
+       
+        if (self.IsLink(path)):  #notwork
             text=self.ParseHTML(text)
-        self.searchForWWW(text)
+        self.searchForWWW(text)#not work
         self.MakeClearAndHashedText(text)
         
         return True
@@ -42,22 +45,20 @@ class MainFile(File):
         
         return True
     
-
-    '''Crate XML config from given name'''
-    def CreateXMLConfig(self,configName):
-        '''
-        TODO:RAFAL
-        '''
-        text=self.FromListToTxt(self.clearText)
-        hashedText=self.FromListToTxt(self.hashedText)
-            
-        root=ET.Element('Config',{'name':configName})
-        tree=ET.ElementTree(root)
-        files=ET.SubElement(root, 'MainFile',{'name':self.fileName})
-        sentences=ET.SubElement(files, 'Sentences')
-        sentences.text=text
     
-        hashes=ET.SubElement(files, 'Hashes')
-        hashes.text=hashedText
-        tree.write(configName+".xml")
+    def CreateJSONConfig(self,configName):
+         
+        mainFile={ "name":self.fileName,
+        "Sentences": self.clearText,
+        "Hashes": self.hashedText,
+        "wwwAdress" : self.wwwAdress}
+        
+        config = { 'mainFile': mainFile}
+        config['outFiles']={}
+        configToSave=json.dumps(config, indent=2, encoding="ISO-8859-1")
+
+        f = open(configName+".json", 'w')
+        f.write(configToSave)
+        f.close()
+                
         return True
