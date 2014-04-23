@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 #pyuic4 gui.ui > gui.py
+#QtCore.QTextCodec.setCodecForCStrings(QtCore.QTextCodec.codecForName("UTF-8"))
 from os import path
 from Tkinter import Tk
 from tkFileDialog import askopenfilename
@@ -41,6 +42,7 @@ class StartQT4(QtGui.QMainWindow):
     
     def Next1_Button(self):
         self.source.PrepareMainFile()
+        print self.source.mainFile.clearText
         self.source.configName=self.ui.lineEdit_LoadMainFile_Name.displayText() 
         self.source.CreateConfig()
         self.ui.testText.setText(self.source.mainFile.FromListToTxt(self.source.mainFile.hashedText))

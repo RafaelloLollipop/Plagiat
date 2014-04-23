@@ -104,7 +104,9 @@ class Source():
         f.close()
         config = json.loads(config)  
        
-        configName='xD'#TODO
+        print self.pathToMainFile
+        configName=self.pathToMainFile.split('/')[len(self.pathToMainFile.split('/'))-1][:-5]
+        print configName
         self.pathToMainFile="" # .txt,.pdf etc
         self.configName=configName 
 

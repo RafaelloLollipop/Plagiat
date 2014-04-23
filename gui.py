@@ -9,6 +9,7 @@
 
 from PyQt4 import QtCore, QtGui
 
+QtCore.QTextCodec.setCodecForCStrings(QtCore.QTextCodec.codecForName("UTF-8"))
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:

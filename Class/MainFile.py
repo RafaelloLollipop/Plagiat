@@ -32,16 +32,14 @@ class MainFile(File):
     def GenerateMainFile(self,path):
         ''' Start all methods
         '''
-        if(path.find('.json')):
-            self.GetMainFileFromJSONConfig(path)
-        else:
-            self.fileName=path.split('/')[len(path.split('/'))-1]
 
-            text=self.LoadTextFromFile(path)
-            if (self.IsLink(path)):  #notwork
-                text=self.ParseHTML(text)
-                self.searchForWWW(text)#not work
-                self.MakeClearAndHashedText(text)
+        self.fileName=path.split('/')[len(path.split('/'))-1]
+
+        text=self.LoadTextFromFile(path)
+        if (self.IsLink(path)):
+            text=self.ParseHTML(text)
+        self.searchForWWW(text)#not work
+        self.MakeClearAndHashedText(text)
         
         return True
     
