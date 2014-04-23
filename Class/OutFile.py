@@ -18,10 +18,7 @@ class OutFile(File):
      Taking path (MUST BE IN CONSUTRCTOR) (local or www) & preapre it
      At finish method start MakeHashedText method with clear text
      www, http are REMOVED!! '''
-        
-    def SetRaportGenereted(self):
-        self.raportGenereted=true
-        
+
     def GenerateOutFile(self,path):
         ''' This method end when OutFile is properly created
             
@@ -51,7 +48,7 @@ class OutFile(File):
         "Repeats": self.repeats
         }
         config['outFiles'][self.fileName]=outFile
-        config= json.dumps(config,indent=2, encoding="ISO-8859-1")
+        config= json.dumps(config,indent=2)
         f = open(configName+'.json', 'w')
         f.write(config)
         f.close()

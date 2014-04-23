@@ -42,20 +42,21 @@ class MainFile(File):
 
     '''search for www in text and add it to field wwwAdress'''
     def searchForWWW(self,text):
-        
+        #TODOKAMIL
         return True
     
     
     def CreateJSONConfig(self,configName):
-         
+
         mainFile={ "name":self.fileName,
         "Sentences": self.clearText,
         "Hashes": self.hashedText,
         "wwwAdress" : self.wwwAdress}
-        
+
         config = { 'mainFile': mainFile}
         config['outFiles']={}
-        configToSave=json.dumps(config, indent=2, encoding="ISO-8859-1")
+
+        configToSave=json.dumps(config, indent=2)
 
         f = open(configName+".json", 'w')
         f.write(configToSave)

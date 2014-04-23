@@ -91,15 +91,13 @@ class File():
         '''
         
 
-        #text="Można się w nim dopatrzyć nawet odpowiednika owłosienia łonowego. Ale to nasz mózg dokłada wszelkich starań, by odnaleźć podobieństwa, zwłaszcza do tych części ciała, które uważamy za szczególnie interesujące. Podejrzewam, że tak właśnie ich szuka w wyglądzie orzechów kokosowych i profilu Kennedy’ego na zboczu wzgórza."
-            
-        
         query = "[A-Z]*[.?!] " # Zapytanie regex
         temp=re.split(query ,text) # Wstępny podział tekstu
     
         lista = []
         skrot = 0;
         #@TODO: KAMIL Jak już to naprawisz zrób z tego dodatkową metodę, najlepiej w file, ponieważ w MainFile też jej bęzdie trzeba użyć
+        
         for el in temp:
             if (skrot==0): # sprawdzam czy to zdanie jest po skrócie
                 # zdanie nie jest po skrócie
@@ -115,13 +113,11 @@ class File():
                 else:
                     skrot = 0
         for sentence in lista:
-            print sentence
             # metody jeszcze nie napisane, więc jeszcze komment
             self.clearText.append(sentence)
             sentencePrepared = self.PrepareSentenceToHash(sentence)
             sentenceHash=self.HashSentence(sentencePrepared)
             self.hashedText.append(sentenceHash)
-        
         return True
         
     

@@ -61,7 +61,6 @@ class Source():
     
     def SearchFile(self):
         """ This function return path to File"""
-        #TODO:RAFAL
 
         self.file_opt = options = {}
         myFormats = [
@@ -97,7 +96,7 @@ class Source():
         After button click
         TODO:KAMIL
         '''
-        print pathList
+        
         #pathList = []  # lista adresow
         for path in pathList:  
             newOutFile=OutFile(path)
@@ -128,7 +127,6 @@ class Source():
     
     def GenerateRaport(self,OutFile):
         ''' End when Raport is sucesfully generated
-        TODO:KAMIL
         '''
         OutFile.AddOutFileToConfigJSON(self.configName)
         return True
@@ -143,7 +141,7 @@ class Source():
         f = open(self.configName+'.json', 'r')
         config=f.read()
         f.close()
-        config= json.loads(config,encoding="ISO-8859-1")
+        config= json.loads(config)
         
         outFileDict=config['outFiles'][outFileName]
     
@@ -164,7 +162,7 @@ class Source():
         f = open(self.configName+'.json', 'r')
         config=f.read()
         f.close()
-        config= json.loads(config,encoding="ISO-8859-1")
+        config= json.loads(config)
         
         mainFileDict=config['mainFile']
     
@@ -176,7 +174,7 @@ class Source():
         config=f.read()
         f.close()
         
-        config= json.loads(config,encoding="ISO-8859-1")
+        config= json.loads(config)
         config['outFiles'].pop(outFileName)
                 
         f = open(self.configName+'.json', 'w')

@@ -2,12 +2,14 @@
 
 # Form implementation generated from reading ui file 'gui.ui'
 #
-# Created: Mon Apr 21 16:07:15 2014
+# Created: Tue Apr 22 21:54:05 2014
 #      by: PyQt4 UI code generator 4.10.4
 #
 # WARNING! All changes made in this file will be lost!
 
 from PyQt4 import QtCore, QtGui
+
+QtCore.QTextCodec.setCodecForCStrings(QtCore.QTextCodec.codecForName("UTF-8"))
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
@@ -95,23 +97,21 @@ class Ui_MainWindow(object):
         self.Button_Next2 = QtGui.QPushButton(self.page)
         self.Button_Next2.setGeometry(QtCore.QRect(590, 390, 101, 41))
         self.Button_Next2.setObjectName(_fromUtf8("Button_Next2"))
-        self.Line_LoadMainFile_Name = QtGui.QLineEdit(self.page)
-        self.Line_LoadMainFile_Name.setEnabled(True)
-        self.Line_LoadMainFile_Name.setGeometry(QtCore.QRect(200, 140, 341, 31))
-        self.Line_LoadMainFile_Name.setReadOnly(True)
-        self.Line_LoadMainFile_Name.setObjectName(_fromUtf8("Line_LoadMainFile_Name"))
+        self.lineEdit_LoadMainFile_Name = QtGui.QLineEdit(self.page)
+        self.lineEdit_LoadMainFile_Name.setGeometry(QtCore.QRect(210, 150, 331, 21))
+        self.lineEdit_LoadMainFile_Name.setObjectName(_fromUtf8("lineEdit_LoadMainFile_Name"))
         self.stackedWidget.addWidget(self.page)
         self.page_2 = QtGui.QWidget()
         self.page_2.setCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor))
         self.page_2.setObjectName(_fromUtf8("page_2"))
-        self.Button_LoadOutFile = QtGui.QPushButton(self.page_2)
-        self.Button_LoadOutFile.setGeometry(QtCore.QRect(140, 30, 75, 23))
-        self.Button_LoadOutFile.setObjectName(_fromUtf8("Button_LoadOutFile"))
+        self.Button_LoadOutFileCandidate = QtGui.QPushButton(self.page_2)
+        self.Button_LoadOutFileCandidate.setGeometry(QtCore.QRect(90, 180, 101, 61))
+        self.Button_LoadOutFileCandidate.setObjectName(_fromUtf8("Button_LoadOutFileCandidate"))
         self.Label_LoadConfig = QtGui.QLabel(self.page_2)
-        self.Label_LoadConfig.setGeometry(QtCore.QRect(30, 30, 111, 41))
+        self.Label_LoadConfig.setGeometry(QtCore.QRect(30, 20, 111, 41))
         self.Label_LoadConfig.setObjectName(_fromUtf8("Label_LoadConfig"))
         self.testText = QtGui.QLineEdit(self.page_2)
-        self.testText.setGeometry(QtCore.QRect(0, 260, 711, 51))
+        self.testText.setGeometry(QtCore.QRect(-20, 290, 711, 211))
         self.testText.setObjectName(_fromUtf8("testText"))
         self.Line_LoadOutFile_Path = QtGui.QLineEdit(self.page_2)
         self.Line_LoadOutFile_Path.setEnabled(True)
@@ -119,11 +119,32 @@ class Ui_MainWindow(object):
         self.Line_LoadOutFile_Path.setReadOnly(True)
         self.Line_LoadOutFile_Path.setObjectName(_fromUtf8("Line_LoadOutFile_Path"))
         self.Button_AddOutFromCandidate = QtGui.QPushButton(self.page_2)
-        self.Button_AddOutFromCandidate.setGeometry(QtCore.QRect(360, 30, 75, 23))
+        self.Button_AddOutFromCandidate.setGeometry(QtCore.QRect(330, 190, 91, 23))
         self.Button_AddOutFromCandidate.setObjectName(_fromUtf8("Button_AddOutFromCandidate"))
+        self.listWidget_CandidateOutFiles = QtGui.QListWidget(self.page_2)
+        self.listWidget_CandidateOutFiles.setGeometry(QtCore.QRect(80, 250, 256, 192))
+        self.listWidget_CandidateOutFiles.setObjectName(_fromUtf8("listWidget_CandidateOutFiles"))
+        self.listWidget_OutFiles = QtGui.QListWidget(self.page_2)
+        self.listWidget_OutFiles.setGeometry(QtCore.QRect(400, 250, 256, 192))
+        self.listWidget_OutFiles.setObjectName(_fromUtf8("listWidget_OutFiles"))
+        self.Button_ShowRaport = QtGui.QPushButton(self.page_2)
+        self.Button_ShowRaport.setGeometry(QtCore.QRect(430, 510, 91, 23))
+        self.Button_ShowRaport.setObjectName(_fromUtf8("Button_ShowRaport"))
         self.stackedWidget.addWidget(self.page_2)
         self.page_3 = QtGui.QWidget()
         self.page_3.setObjectName(_fromUtf8("page_3"))
+        self.listWidget_MainFile = QtGui.QListWidget(self.page_3)
+        self.listWidget_MainFile.setGeometry(QtCore.QRect(10, 100, 351, 481))
+        font = QtGui.QFont()
+        font.setFamily(_fromUtf8("Tahoma"))
+        self.listWidget_MainFile.setFont(font)
+        self.listWidget_MainFile.setObjectName(_fromUtf8("listWidget_MainFile"))
+        self.listWidget_OutFilesList = QtGui.QListWidget(self.page_3)
+        self.listWidget_OutFilesList.setGeometry(QtCore.QRect(360, 30, 351, 61))
+        self.listWidget_OutFilesList.setObjectName(_fromUtf8("listWidget_OutFilesList"))
+        self.listWidget_ChoosenOutFile = QtGui.QListWidget(self.page_3)
+        self.listWidget_ChoosenOutFile.setGeometry(QtCore.QRect(370, 100, 351, 481))
+        self.listWidget_ChoosenOutFile.setObjectName(_fromUtf8("listWidget_ChoosenOutFile"))
         self.stackedWidget.addWidget(self.page_3)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(MainWindow)
@@ -144,7 +165,7 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.menuFile.menuAction())
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(1)
+        self.stackedWidget.setCurrentIndex(0)
         QtCore.QObject.connect(self.actionQuit, QtCore.SIGNAL(_fromUtf8("triggered()")), MainWindow.close)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
@@ -157,9 +178,10 @@ class Ui_MainWindow(object):
         self.Button_Next1.setText(_translate("MainWindow", "Next", None))
         self.Button_LoadConfig.setText(_translate("MainWindow", "Load", None))
         self.Button_Next2.setText(_translate("MainWindow", "Next", None))
-        self.Button_LoadOutFile.setText(_translate("MainWindow", "PushButton", None))
+        self.Button_LoadOutFileCandidate.setText(_translate("MainWindow", "Load Candidate", None))
         self.Label_LoadConfig.setText(_translate("MainWindow", "LoadConfig", None))
-        self.Button_AddOutFromCandidate.setText(_translate("MainWindow", "PushButton", None))
+        self.Button_AddOutFromCandidate.setText(_translate("MainWindow", "Make OutFile", None))
+        self.Button_ShowRaport.setText(_translate("MainWindow", "Raport", None))
         self.menuFile.setTitle(_translate("MainWindow", "File", None))
         self.toolBar.setWindowTitle(_translate("MainWindow", "toolBar", None))
         self.actionQuit.setText(_translate("MainWindow", "Quit", None))
