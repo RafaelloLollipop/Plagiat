@@ -2,14 +2,13 @@
 
 # Form implementation generated from reading ui file 'gui.ui'
 #
-# Created: Wed Apr 23 16:00:59 2014
+# Created: Wed Apr 23 17:25:41 2014
 #      by: PyQt4 UI code generator 4.10.4
 #
 # WARNING! All changes made in this file will be lost!
 
 from PyQt4 import QtCore, QtGui
 
-QtCore.QTextCodec.setCodecForCStrings(QtCore.QTextCodec.codecForName("UTF-8"))
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:

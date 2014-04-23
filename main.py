@@ -29,6 +29,10 @@ class StartQT4(QtGui.QMainWindow):
         QtCore.QObject.connect(self.ui.testButton,QtCore.SIGNAL("clicked()"), self.RunProgram)
         QtCore.QObject.connect(self.ui.Button_AddOutFromCandidate,QtCore.SIGNAL("clicked()"), self.AddOutFromCandidate)
         QtCore.QObject.connect(self.ui.Button_ShowRaport,QtCore.SIGNAL("clicked()"), self.ShowRaport)
+        QtCore.QObject.connect(self.ui.listWidget_OutFilesList,QtCore.SIGNAL("doubleClicked(QModelIndex)"), self.ChangeOutFile)
+        QtCore.QObject.connect(self.ui.listWidget_MainFile,QtCore.SIGNAL("doubleClicked(QModelIndex)"), self.listWidget_MainFileDClicked)
+        QtCore.QObject.connect(self.ui.listWidget_ChoosenOutFile,QtCore.SIGNAL("doubleClicked(QModelIndex)"), self.listWidget_ChoosenOutFileDClicked)
+
 
 #1        
     def RunProgram(self):
@@ -83,18 +87,44 @@ class StartQT4(QtGui.QMainWindow):
             self.ui.listWidget_OutFiles.addItem(outFile.fileName)
     
     def ShowRaport(self):
+        self.source.GenerateRaport()
         self.ui.stackedWidget.setCurrentIndex(3) 
         for sentence in self.source.mainFile.clearText:
             self.ui.listWidget_MainFile.addItem(sentence)
-            print sentence
         for outFile in self.source.OutFiles:
             self.ui.listWidget_OutFilesList.addItem(outFile.fileName)
         for sentence in self.source.OutFiles[0].clearText:
             self.ui.listWidget_ChoosenOutFile.addItem(sentence)
+        self.ui.listWidget_OutFilesList.setCurrentRow(0)    
+    def UpdateRaport(self):
+        currentRow=self.ui.listWidget_OutFilesList.currentRow()
+        print currentRow
+        self.ui.listWidget_ChoosenOutFile.clear()
+        for sentence in self.source.OutFiles[currentRow].clearText:
+            self.ui.listWidget_ChoosenOutFile.addItem(sentence)
+    
+    def ChangeOutFile(self):
+        self.UpdateRaport()
 
+    def listWidget_MainFileDClicked(self):
+        currentRow=self.ui.listWidget_MainFile.currentRow()
+        self.source.raportStructure=[{0:2}, {}, {}, {}, {}, {}, {}, {}]
+        
+        fileNumber=self.source.raportStructure[currentRow].keys()[0]
+        sentenceNumber=self.source.raportStructure[currentRow].values()[0]
+        
+        self.ui.listWidget_OutFilesList.setCurrentRow(fileNumber)
+        self.UpdateRaport()
+        self.ui.listWidget_ChoosenOutFile.setCurrentRow(sentenceNumber)
+        
+    def listWidget_ChoosenOutFileDClicked(self):
+        clickedRow=self.ui.listWidget_ChoosenOutFile.currentRow()
+        self.source.raportStructure=[{0:2}, {}, {}, {}, {}, {}, {}, {}]
+        outFileNumber=self.ui.listWidget_OutFilesList.currentRow()
+        self.source.OutFiles[outFileNumber].repeats=[2,2,2,2,2,2,2]
+        mainFileSentenceNumber=self.source.OutFiles[outFileNumber].repeats[clickedRow]
+        self.ui.listWidget_MainFile.setCurrentRow(mainFileSentenceNumber)
     #4
-            
-
 
 if __name__ == "__main__":
     app = QtGui.QApplication(sys.argv)

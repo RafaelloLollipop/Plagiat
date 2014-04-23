@@ -18,6 +18,7 @@ class Source():
         self.Adress=[] # list of adress when we want to search for OutFile, www & local
         self.OutFiles=[] # List of OutFiles, with raports
         self.OutFilesCandidate=[] # List of filles who we want to make OutFile, path list
+        self.raportStructure=[] # [{z ktorego outFile:ktore zdanie z outFile},[],[]]   raportStructure[0] jest 1 zdaniem z clearText    
     
     
     # Tych dwoch metod nie jestem pewien :D
@@ -45,6 +46,26 @@ class Source():
         self.Adress.remove(adress)
         return True
        
+    
+    def GenerateRaport(self):
+        '''@TODO RAFAL'''
+        self.raportStructure=[]
+        temp={}
+
+        for i in range(len(self.mainFile.clearText)):
+            self.raportStructure.append(temp)
+    
+        #print raportStructure
+        for outFileNumber in range(len(self.OutFiles)):
+            repeats=self.OutFiles[outFileNumber].repeats
+            #print self.OutFiles[outFileNumber].repeats
+            for repeatNumber in range(len(repeats)):
+                if repeats[repeatNumber]>=0:
+                    #print [repeatNumber,repeats[repeatNumber]]  
+                    #print "outFile numer "+str(outFileNumber) + ' w ktorym zdanie numer ' + str(repeatNumber) + ' jest zdaniem w main numer: '+str(repeats[repeatNumber])
+                    self.raportStructure[repeats[repeatNumber]]={outFileNumber:repeatNumber}
+        return True
+    
     def LoadChoosedLinks(self):
         ''' this method load all adress choosen from BiographyLinks 
         and show it in the table
@@ -97,6 +118,7 @@ class Source():
         self.mainFile=MainFile(self.pathToMainFile)
         return True
     
+    
     def LoadConfig(self):
         
         f = open(self.pathToMainFile, 'r')
@@ -144,7 +166,7 @@ class Source():
         '''    
         #Loop
         self.CompareHashMethod(OutFile)
-        self.GenerateRaport(OutFile)
+        self.AddOutFileToJSONConfig(OutFile)
         #EndOfLoop
         return True
 
@@ -156,7 +178,7 @@ class Source():
         
         return True
     
-    def GenerateRaport(self,OutFile):
+    def AddOutFileToJSONConfig(self,OutFile):
         ''' End when Raport is sucesfully generated
         '''
         OutFile.AddOutFileToConfigJSON(self.configName)
