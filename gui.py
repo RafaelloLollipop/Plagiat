@@ -2,14 +2,12 @@
 
 # Form implementation generated from reading ui file 'gui.ui'
 #
-# Created: Tue Apr 22 21:54:05 2014
+# Created: Wed Apr 23 16:00:59 2014
 #      by: PyQt4 UI code generator 4.10.4
 #
 # WARNING! All changes made in this file will be lost!
 
 from PyQt4 import QtCore, QtGui
-
-QtCore.QTextCodec.setCodecForCStrings(QtCore.QTextCodec.codecForName("UTF-8"))
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
@@ -89,11 +87,11 @@ class Ui_MainWindow(object):
         self.Button_LoadConfig.setEnabled(True)
         self.Button_LoadConfig.setGeometry(QtCore.QRect(40, 390, 101, 31))
         self.Button_LoadConfig.setObjectName(_fromUtf8("Button_LoadConfig"))
-        self.Line_LoadMainFile_Config = QtGui.QLineEdit(self.page)
-        self.Line_LoadMainFile_Config.setEnabled(True)
-        self.Line_LoadMainFile_Config.setGeometry(QtCore.QRect(200, 390, 341, 31))
-        self.Line_LoadMainFile_Config.setReadOnly(True)
-        self.Line_LoadMainFile_Config.setObjectName(_fromUtf8("Line_LoadMainFile_Config"))
+        self.Line_LoadConfig_Path = QtGui.QLineEdit(self.page)
+        self.Line_LoadConfig_Path.setEnabled(True)
+        self.Line_LoadConfig_Path.setGeometry(QtCore.QRect(200, 390, 341, 31))
+        self.Line_LoadConfig_Path.setReadOnly(True)
+        self.Line_LoadConfig_Path.setObjectName(_fromUtf8("Line_LoadConfig_Path"))
         self.Button_Next2 = QtGui.QPushButton(self.page)
         self.Button_Next2.setGeometry(QtCore.QRect(590, 390, 101, 41))
         self.Button_Next2.setObjectName(_fromUtf8("Button_Next2"))
@@ -165,7 +163,7 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.menuFile.menuAction())
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(0)
+        self.stackedWidget.setCurrentIndex(1)
         QtCore.QObject.connect(self.actionQuit, QtCore.SIGNAL(_fromUtf8("triggered()")), MainWindow.close)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 

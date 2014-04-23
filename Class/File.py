@@ -170,8 +170,9 @@ class File():
     '''
     def IsLink(self,path):
         '''
-        TODO: RAFAL
         '''
+        if (path.startswith('www') or path.startswith('http')): return True
+        
         return False
     
  

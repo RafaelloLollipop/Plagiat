@@ -7,10 +7,13 @@ from File import *
 
 class MainFile(File):
     '''Constructor'''
-    def __init__(self,path):
+    def __init__(self,path,isConfig=False):
         File.__init__(self)
         self.wwwAdress=[] # Contain a www sites from MainFile
-        self.GenerateMainFile(path) #AutoGenerateMethod Start
+        if(isConfig):
+            self.GenerateMainFileFromJSONConfig(path)
+        else:
+            self.GenerateMainFile(path) #AutoGenerateMethod Start
         
     '''Return wwwAdress'''
     def GetwwwAdress(self):
@@ -29,13 +32,16 @@ class MainFile(File):
     def GenerateMainFile(self,path):
         ''' Start all methods
         '''
-        self.fileName=path.split('/')[len(path.split('/'))-1]
-        text=self.LoadTextFromFile(path)
-       
-        if (self.IsLink(path)):  #notwork
-            text=self.ParseHTML(text)
-        self.searchForWWW(text)#not work
-        self.MakeClearAndHashedText(text)
+        if(path.find('.json')):
+            self.GetMainFileFromJSONConfig(path)
+        else:
+            self.fileName=path.split('/')[len(path.split('/'))-1]
+
+            text=self.LoadTextFromFile(path)
+            if (self.IsLink(path)):  #notwork
+                text=self.ParseHTML(text)
+                self.searchForWWW(text)#not work
+                self.MakeClearAndHashedText(text)
         
         return True
     
@@ -43,6 +49,13 @@ class MainFile(File):
     '''search for www in text and add it to field wwwAdress'''
     def searchForWWW(self,text):
         #TODOKAMIL
+        return True
+    
+    def GenerateMainFileFromJSONConfig(self,config):    
+        self.hashedText=config['Hashes']
+        self.fileName=config['name']
+        self.wwwAdress=config['wwwAdress']
+        self.clearText=config['Sentences']
         return True
     
     

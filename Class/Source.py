@@ -72,8 +72,19 @@ class Source():
         
         Tk().withdraw() # we don't want a full GUI, so keep the root window from appearing
         path=askopenfilename(filetypes=myFormats ) 
+        return path
+    
+    
+    def SearchConfig(self):
+        """ This function return path to File"""
 
+        self.file_opt = options = {}
+        myFormats = [
+            ('JSON','*.json')
+            ]
         
+        Tk().withdraw() # we don't want a full GUI, so keep the root window from appearing
+        path=askopenfilename(filetypes=myFormats ) 
         return path
         
     def PrepareMainFile(self):
@@ -84,6 +95,24 @@ class Source():
         TODO:RAFAL
         '''
         self.mainFile=MainFile(self.pathToMainFile)
+        return True
+    
+    def LoadConfig(self):
+        
+        f = open(self.pathToMainFile, 'r')
+        config = f.read()
+        f.close()
+        config = json.loads(config)  
+       
+        configName='xD'#TODO
+        self.pathToMainFile="" # .txt,.pdf etc
+        self.configName=configName 
+
+        mainFileJSON=config['mainFile']
+        self.mainFile=MainFile(mainFileJSON,True)
+        
+        for outName in config['outFiles']:
+            self.OutFiles.append(OutFile(config['outFiles'][outName],True,outName))
         return True
     
     def CreateConfig(self):
@@ -146,27 +175,7 @@ class Source():
         outFileDict=config['outFiles'][outFileName]
     
         return outFileDict
-    
-    def GetMainFileFromJSONConfig(self):
-        '''return dictionary
-          "mainFile": {
-            "Hashes": [
-              "cc0020a591a12020164ff4ac6012ce965ea4c60b83b8f97137fc336a"
-            ], 
-            "name": "test.txt", 
-            "wwwAdress": [], 
-            "Sentences": [
-              "zcxczczxcx\u00b3"
-            ]
-          },  '''
-        f = open(self.configName+'.json', 'r')
-        config=f.read()
-        f.close()
-        config= json.loads(config)
         
-        mainFileDict=config['mainFile']
-    
-        return mainFileDict
     
     
     def RemoveOutFileFromJSONConfig(self,outFileName):

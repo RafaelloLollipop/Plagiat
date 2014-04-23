@@ -21,8 +21,9 @@ class StartQT4(QtGui.QMainWindow):
         self.ui.setupUi(self)
         
         QtCore.QObject.connect(self.ui.Button_LoadMainFile,QtCore.SIGNAL("clicked()"), self.LoadMainFile_Button)
+        QtCore.QObject.connect(self.ui.Button_LoadConfig,QtCore.SIGNAL("clicked()"), self.LoadConfig_Button)
         QtCore.QObject.connect(self.ui.Button_Next1,QtCore.SIGNAL("clicked()"), self.Next1_Button)
-        QtCore.QObject.connect(self.ui.Button_Next2,QtCore.SIGNAL("clicked()"), self.Next1_Button)
+        QtCore.QObject.connect(self.ui.Button_Next2,QtCore.SIGNAL("clicked()"), self.Next2_Button)
         QtCore.QObject.connect(self.ui.Button_LoadOutFileCandidate,QtCore.SIGNAL("clicked()"), self.LoadOutFileCandidate)
         QtCore.QObject.connect(self.ui.testButton,QtCore.SIGNAL("clicked()"), self.RunProgram)
         QtCore.QObject.connect(self.ui.Button_AddOutFromCandidate,QtCore.SIGNAL("clicked()"), self.AddOutFromCandidate)
@@ -46,11 +47,20 @@ class StartQT4(QtGui.QMainWindow):
         self.ui.stackedWidget.setCurrentIndex(2)
 
             
-  
+    def Next2_Button(self):
+        self.source.LoadConfig()
+        self.ui.stackedWidget.setCurrentIndex(2)
+
+    
     def LoadMainFile_Button(self):
         self.ui.lineEdit_LoadMainFile_Name.setText("XD")
         path=self.source.SearchFile()
         self.ui.Line_LoadMainFile_Path.setText(path)
+        self.source.pathToMainFile=path
+        
+    def LoadConfig_Button(self):
+        path=self.source.SearchConfig()
+        self.ui.Line_LoadConfig_Path.setText(path)
         self.source.pathToMainFile=path
     
 #3
