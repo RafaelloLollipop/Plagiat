@@ -174,18 +174,23 @@ class Source():
         ''' 
         TODO:KAMIL
         make repeats list in OutFile complete         '''
-        
+        print "Tutaj hashe z Main File";
         powtorki = [];
         for hashOutFile in OutFile.hashedText:
-            iteracjaMain = 0;
+            iteracjaMain = 1;
+            dodany = 0;
             for hashMainFile in self.mainFile.hashedText: ## !!!!!!!!!!!!!!!!!!!!!!!!!!
+                print hashOutFile + " " + hashMainFile;
                 if (hashOutFile == hashMainFile):
+                    print iteracjaMain;
                     powtorki.append(iteracjaMain);
-                else:
-                    powtorki.append(0);
+                    dodany = 1;
                 iteracjaMain +=1;
+            if (dodany!=1):
+                powtorki.append(0);
                     
-        
+        for el in powtorki:
+            print el;
         return True
     
     def AddOutFileToJSONConfig(self,OutFile):
