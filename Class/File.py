@@ -47,14 +47,15 @@ class File():
         polskie_znaki = {'ę': 'e', 'ó': 'o', 'ą': 'a', 'ś': 's', 'ł': 'l', 'ż': 'z', 'ź': 'z', 'ć': 'c', 'ń': 'n', 'Ę': 'e', 'Ó': 'o', 'Ą': 'a', 'Ś': 's', 'Ł': 'l', 'Ż': 'z', 'Ź': 'z', 'Ć': 'c', 'Ń': 'n'}
         
         
-        for pol, ang in polskie_znaki.items():
-            sentence = sentence.replace(pol, ang)
+        
         for char in interpunkcja:
             sentence = re.sub(char, '', sentence)
         for char in laczniki:
             sentence = re.sub('\W'+char+'\W', '', sentence)  # znak w środku
             sentence = re.sub('^'+char+'\W', '', sentence) # znak na początku tekstu
             sentence = re.sub('\W'+char+'$', '', sentence) # znak na końcu tekstu
+        for pol, ang in polskie_znaki.items():
+            sentence = sentence.replace(pol, ang)
         sentence = re.sub(' ', '', sentence) # usuwanie spacji
         
         clearedSentence = sentence
@@ -90,34 +91,22 @@ class File():
         RAFAL: Pamiętaj, że będą tutaj też linki, chyba trzeba je też filtrować, żeby nie wyglądało głupio:) Pozdrawiam
         '''
         
-
         query = "[A-Z]*[.?!] " # Zapytanie regex
-        temp=re.split(query ,text) # Wstępny podział tekstu
-    
-        lista = []
-        skrot = 0;
-        #@TODO: KAMIL Jak już to naprawisz zrób z tego dodatkową metodę, najlepiej w file, ponieważ w MainFile też jej bęzdie trzeba użyć
-        
-        for el in temp:
-            if (skrot==0): # sprawdzam czy to zdanie jest po skrócie
-                # zdanie nie jest po skrócie
-                if ((el[-2]==' ') or (el[-3]==' ') or (el[-4]==' ') or (el[-5]==' ')): # szukam skrótu
-                    lista.append(el)
-                    skrot = 1;
-                else:
-                    lista.append(el)
-            else:   # zdanie jest po skrócie
-                lista[-1] = lista[-1] + ". " + el # zatem dopisuję do ostatniego wpisu
-                if ((el[-2]==' ') or (el[-3]==' ') or (el[-4]==' ') or (el[-5]==' ')): # czy teraz na końcu znów nie ma skrótu?
-                    skrot = 1;
-                else:
-                    skrot = 0
+        lista=re.split(query ,text) # Wstępny podział tekstu
+
+        print "text: " + text;
+        for el in lista:
+            print el;
         for sentence in lista:
             # metody jeszcze nie napisane, więc jeszcze komment
             self.clearText.append(sentence)
             sentencePrepared = self.PrepareSentenceToHash(sentence)
             sentenceHash=self.HashSentence(sentencePrepared)
             self.hashedText.append(sentenceHash)
+        for el in self.hashedText:
+            print el;
+        for el in self.clearText:
+            print el;
         return True
         
     

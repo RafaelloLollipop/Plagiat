@@ -174,7 +174,17 @@ class Source():
         ''' 
         TODO:KAMIL
         make repeats list in OutFile complete         '''
-
+        
+        powtorki = [];
+        for hashOutFile in OutFile.hashedText:
+            iteracjaMain = 0;
+            for hashMainFile in self.mainFile.hashedText: ## !!!!!!!!!!!!!!!!!!!!!!!!!!
+                if (hashOutFile == hashMainFile):
+                    powtorki.append(iteracjaMain);
+                else:
+                    powtorki.append(0);
+                iteracjaMain +=1;
+                    
         
         return True
     

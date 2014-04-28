@@ -46,7 +46,21 @@ class MainFile(File):
 
     '''search for www in text and add it to field wwwAdress'''
     def searchForWWW(self,text):
-        #TODOKAMIL
+        # poszukiwanie znacznika http https
+        www_temp = re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', text); 
+        # poszukiwanie znacznika www.
+        www_temp += re.findall('www.(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', text);
+        www = [];
+        # usuwanie kropki
+        for el in www_temp:
+            if (el[-1]=="."):
+                www.append(el[:-1]);
+            else:
+                www.append(el);
+        # TODO : usuwanie adresów powtarzających się
+        # wpisywanie adresów do listy wwwAdress
+        for address in www:
+            self.wwwAdress.append(address);
         return True
     
     def GenerateMainFileFromJSONConfig(self,config):    
