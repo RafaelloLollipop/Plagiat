@@ -190,6 +190,8 @@ class Source():
                 powtorki.append(0);
                     
         for el in powtorki:
+            OutFile.repeats.append(el);
+        for el in OutFile.repeats:
             print el;
         return True
     
