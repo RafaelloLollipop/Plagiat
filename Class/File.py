@@ -89,10 +89,10 @@ class File():
         Nie ma problemu ze wielokrotnymi kropkami itp. ponieważ zostaną usuniętę w metodzie PrepareSectenceToHash
         
         @TODO KAMIL
-        RAFAL: Pamiętaj, że będą tutaj też linki, chyba trzeba je też filtrować, żeby nie wyglądało głupio:) Pozdrawiam
+        
         '''
         
-        query = "[A-Z]*[.?!][ \\n]" # Zapytanie regex
+        query = "[A-Z]*[.?!][ \\n\\t]" # Zapytanie regex. Wzór: duża litera + coś + kropka, pytajnik, wykrzyknić + spacja enter lub tab
         lista=re.split(query ,text) # Wstępny podział tekstu
 
         print "text: " + text;
@@ -104,10 +104,6 @@ class File():
             sentencePrepared = self.PrepareSentenceToHash(sentence)
             sentenceHash=self.HashSentence(sentencePrepared)
             self.hashedText.append(sentenceHash)
-        for el in self.hashedText:
-            print el;
-        for el in self.clearText:
-            print el;
         return True
         
     

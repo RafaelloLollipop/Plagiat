@@ -46,21 +46,21 @@ class MainFile(File):
 
     '''search for www in text and add it to field wwwAdress'''
     def searchForWWW(self,text):
-        # poszukiwanie znacznika http https
-        www_temp = re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', text); 
-        # poszukiwanie znacznika www.
-        www_temp += re.findall('www.(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', text);
+        exp = '(https?:\/\/)?([\da-zA-z])([\da-z\.-]+)\.([a-z\.]{2,6})([\/\.-][\da-zA-Z\.-]+)?'; # http:// lub https:// adres.rozszerzenie/cos-z-myslnikami
+        www_temp = re.findall(exp, text);
         www = [];
-        # usuwanie kropki
+#         print "--------";
+#         www = [];
+#         for el in www_temp:
+#             print el;
         for el in www_temp:
-            if (el[-1]=="."):
-                www.append(el[:-1]);
-            else:
-                www.append(el);
-        # TODO : usuwanie adresów powtarzających się
-        # wpisywanie adresów do listy wwwAdress
-        for address in www:
-            self.wwwAdress.append(address);
+            adres = el[0]+el[1]+el[2]+"."+el[3]+el[4]   # dodaj wszystko do siebie
+            if ((adres[-1]==".") or (adres[-1]=="!") or (adres[-1]=="?")): # jeżeli na końcu www jest .!? to usuń ją
+                adres = adres[:-1];
+            self.wwwAdress.append(adres); # dodawanie do listy self.wwwAdress
+        print "-------------";
+        for el in self.wwwAdress:
+            print el;
         return True
     
     def GenerateMainFileFromJSONConfig(self,config):    
