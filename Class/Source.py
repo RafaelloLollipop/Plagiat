@@ -180,9 +180,9 @@ class Source():
             iteracjaMain = 1;
             dodany = 0;
             for hashMainFile in self.mainFile.hashedText: 
-#                 print hashOutFile + " " + hashMainFile;
+                print hashOutFile + " " + hashMainFile;
                 if (hashOutFile == hashMainFile):
-#                     print iteracjaMain;
+                    print iteracjaMain;
                     OutFile.repeats.append(iteracjaMain);
                     dodany = 1;
                 iteracjaMain +=1;

@@ -40,9 +40,9 @@ class File():
          # 0. do małych liter
         sentence = sentence.lower()
         # 1. znaki interpunkcyjne
-        interpunkcja = [',', ':', ';', '!', '@', '#', '$', '%', '^', '&', '\*', '\.', '\(', '\)', '-', '_', '\+', '=', '\{', '\}', '\[', '\]', '\|', '<', '>', '\?']
+        interpunkcja = [',', ':', ';', '!', '@', '#', '$', '%', '^', '&', '\*', '\.', '\(', '\)', '-', '_', '\+', '=', '\{', '\}', '\[', '\]', '\|', '<', '>', '\?', '\n', '\t']
         # polskie łączniki
-        laczniki = ['i', 'a', 'w', 'o', 'lub','jednak', 'na', 'u', 'pod', 'powyżej', 'poniżej', 'ponad', ]
+        laczniki = ['i', 'a', 'w', 'o', 'lub','jednak', 'na', 'u', 'pod', 'powyżej', 'poniżej', 'ponad', 'ale',]
         # polskie znaki ę ą 
         polskie_znaki = {'ę': 'e', 'ó': 'o', 'ą': 'a', 'ś': 's', 'ł': 'l', 'ż': 'z', 'ź': 'z', 'ć': 'c', 'ń': 'n', 'Ę': 'e', 'Ó': 'o', 'Ą': 'a', 'Ś': 's', 'Ł': 'l', 'Ż': 'z', 'Ź': 'z', 'Ć': 'c', 'Ń': 'n'}
         
@@ -92,12 +92,22 @@ class File():
         
         '''
         
-        query = "[A-Z]*[.?!][ \\n\\t]" # Zapytanie regex. Wzór: duża litera + coś + kropka, pytajnik, wykrzyknić + spacja enter lub tab
-        lista=re.split(query ,text) # Wstępny podział tekstu
+        query = "[A-Z]*[.?!][ \\n\\t]+" # Zapytanie regex. Wzór: duża litera + coś + kropka, pytajnik, wykrzyknić + spacja enter lub tab
+        lista_temp=re.split(query ,text) # Wstępny podział tekstu
 
         print "text: " + text;
-        for el in lista:
-            print el;
+        lista = [];
+        print "000000";
+        for el in lista_temp:
+            lista.append(el);
+#             if ((el[1]=="\n") or (el[1]==" ") or (el[1]=="\t")):
+#                 print el;
+#                 print "TU";
+#                 print el[2:];
+#                 lista.append(el[2:]);
+#             else:
+#                 print el;
+#                 lista.append(el);
         for sentence in lista:
             # metody jeszcze nie napisane, więc jeszcze komment
             self.clearText.append(sentence)
