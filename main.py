@@ -108,7 +108,7 @@ class StartQT4(QtGui.QMainWindow):
 
     def listWidget_MainFileDClicked(self):
         currentRow=self.ui.listWidget_MainFile.currentRow()
-        self.source.raportStructure=[{0:2}, {}, {}, {}, {}, {}, {}, {}]
+        #self.source.raportStructure=[{0:2}, {}, {}, {}, {}, {}, {}, {}]
         
         fileNumber=self.source.raportStructure[currentRow].keys()[0]
         sentenceNumber=self.source.raportStructure[currentRow].values()[0]
@@ -119,9 +119,9 @@ class StartQT4(QtGui.QMainWindow):
         
     def listWidget_ChoosenOutFileDClicked(self):
         clickedRow=self.ui.listWidget_ChoosenOutFile.currentRow()
-        self.source.raportStructure=[{0:2}, {}, {}, {}, {}, {}, {}, {}]
+        #self.source.raportStructure=[{0:2}, {}, {}, {}, {}, {}, {}, {}]
         outFileNumber=self.ui.listWidget_OutFilesList.currentRow()
-        self.source.OutFiles[outFileNumber].repeats=[2,2,2,2,2,2,2]
+        #self.source.OutFiles[outFileNumber].repeats=[2,2,2,2,2,2,2]
         mainFileSentenceNumber=self.source.OutFiles[outFileNumber].repeats[clickedRow]
         self.ui.listWidget_MainFile.setCurrentRow(mainFileSentenceNumber)
     #4

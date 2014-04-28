@@ -62,7 +62,7 @@ class Source():
             for repeatNumber in range(len(repeats)):
                 if repeats[repeatNumber]>=0:
                     #print [repeatNumber,repeats[repeatNumber]]  
-                    #print "outFile numer "+str(outFileNumber) + ' w ktorym zdanie numer ' + str(repeatNumber) + ' jest zdaniem w main numer: '+str(repeats[repeatNumber])
+                    print "outFile numer "+str(outFileNumber) + ' w ktorym zdanie numer ' + str(repeatNumber) + ' jest zdaniem w main numer: '+str(repeats[repeatNumber])
                     self.raportStructure[repeats[repeatNumber]]={outFileNumber:repeatNumber}
         return True
     
@@ -177,7 +177,7 @@ class Source():
         print "Tutaj hashe z Main File";
         powtorki = [];
         for hashOutFile in OutFile.hashedText:
-            iteracjaMain = 1;
+            iteracjaMain = 0;
             dodany = 0;
             for hashMainFile in self.mainFile.hashedText: 
                 print hashOutFile + " " + hashMainFile;
@@ -187,7 +187,7 @@ class Source():
                     dodany = 1;
                 iteracjaMain +=1;
             if (dodany!=1):
-                OutFile.repeats.append(0);
+                OutFile.repeats.append(-1);
                     
         for el in OutFile.repeats:
             print el;
