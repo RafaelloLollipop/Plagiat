@@ -58,6 +58,7 @@ class File():
             sentence = sentence.replace(pol, ang)
         sentence = re.sub(' ', '', sentence) # usuwanie spacji
         
+        
         clearedSentence = sentence
         return clearedSentence
     
@@ -91,7 +92,7 @@ class File():
         RAFAL: Pamiętaj, że będą tutaj też linki, chyba trzeba je też filtrować, żeby nie wyglądało głupio:) Pozdrawiam
         '''
         
-        query = "[A-Z]*[.?!] " # Zapytanie regex
+        query = "[A-Z]*[.?!][ \\n]" # Zapytanie regex
         lista=re.split(query ,text) # Wstępny podział tekstu
 
         print "text: " + text;
