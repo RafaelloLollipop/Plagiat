@@ -46,7 +46,7 @@ class MainFile(File):
 
     '''search for www in text and add it to field wwwAdress'''
     def searchForWWW(self,text):
-        exp = '(https?:\/\/)?([\da-zA-z])([\da-z\.-]+)\.([a-z\.]{2,6})([\/\.-][\da-zA-Z\.-]+)?'; # http:// lub https:// adres.rozszerzenie/cos-z-myslnikami
+        exp = '(https?:\/\/)?([\da-zA-z])([\da-zA-Z\.-]+)\.([a-zA-Z\.]{2,6})([\/\.-][\da-zA-Z\.-]+)?'; # http:// lub https:// adres.rozszerzenie/cos-z-myslnikami
         www_temp = re.findall(exp, text);
         www = [];
 #         print "--------";
