@@ -87,6 +87,21 @@ class Source():
                     self.raportStructure[repeats[repeatNumber]]={outFileNumber:repeatNumber}
         return True
     
+    def ListOfMainFileSentenceToColor(self):
+        '''return
+        [file1 sentences list],[file2senteneslist]]
+        '''
+        list=[]
+        for outFileNumber in range(len(self.OutFiles)):
+            outList=[]
+            repeats=self.OutFiles[outFileNumber].repeats
+            for repeatNumber in range(len(repeats)):
+                if repeats[repeatNumber]>=0:
+                    #print [repeatNumber,repeats[repeatNumber]]  
+                    outList.append(repeats[repeatNumber])
+            list.append(outList)
+        return list
+    
     def LoadChoosedLinks(self):
         ''' this method load all adress choosen from BiographyLinks 
         and show it in the table

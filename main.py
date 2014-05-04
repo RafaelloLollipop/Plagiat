@@ -124,18 +124,55 @@ class StartQT4(QtGui.QMainWindow):
     
     def ShowRaport(self):
         self.source.GenerateRaport() # Create raport
+        print self.source.raportStructure
         self.ui.stackedWidget.setCurrentIndex(3)  # Change scene
         self.ui.listWidget_MainFile.clear()
         for sentence in self.source.GetMainFileClearText():  # show MainFile text to left widget 
-            self.ui.listWidget_MainFile.addItem(sentence)  
+            self.ui.listWidget_MainFile.addItem(sentence) 
+            
         self.ui.listWidget_OutFilesList.clear()
         for outFile in self.source.GetOutFiles():  # make list of outfiles in top widget
             self.ui.listWidget_OutFilesList.addItem(outFile.fileName)  
             self.ui.listWidget_ChoosenOutFile.clear()
-            for sentence in outFile.GetClearText():   # show acutal OutFile text
+            for sentence in outFile.GetClearText():   # show acutal OutFile text            
                 self.ui.listWidget_ChoosenOutFile.addItem(sentence)
         self.ui.listWidget_OutFilesList.setCurrentRow(0)     #default start watching from '0' index file
+        
+        self.ColorMainFile()        
     
+    def ColorMainFile(self):    
+        ListOfSentencesToColor=self.source.ListOfMainFileSentenceToColor()
+        colors=self.GetColors()
+        colorIt=-1
+        for outFile in ListOfSentencesToColor:
+            colorIt+=1
+            color=colors[colorIt]
+            for number in outFile:
+                item=self.ui.listWidget_MainFile.item(number)
+                item.setBackgroundColor(color)
+            
+    def GetColors(self):
+        colors=[]
+        colors.append(QtGui.QColor(176,23,31))
+        colors.append(QtGui.QColor(65,105,225))
+        colors.append(QtGui.QColor(93,71,139))
+        colors.append(QtGui.QColor(238,162,173))
+        colors.append(QtGui.QColor(39   , 64  ,  139))
+        colors.append(QtGui.QColor(189    ,252   , 201))
+        colors.append(QtGui.QColor(139   , 117  ,  0))
+        colors.append(QtGui.QColor(61    ,145 ,   64    ))
+        colors.append(QtGui.QColor(124  ,  252  ,  0))
+        colors.append(QtGui.QColor(255  ,  246  ,  143))
+        colors.append(QtGui.QColor(0   , 245 ,   255))
+        colors.append(QtGui.QColor(222  ,  184 ,   135))
+        colors.append(QtGui.QColor(238  ,  118  ,  0))
+        colors.append(QtGui.QColor(238  ,  149  ,  114))
+        colors.append(QtGui.QColor(205   , 201  ,  201))
+        colors.append(QtGui.QColor(56  ,  142,    142    ))
+        colors.append(QtGui.QColor(113  ,  198  ,  113))
+        colors.append(QtGui.QColor(198  ,  113   , 113))
+
+        return colors        
     def UpdateRaport(self):
         currentRow=self.ui.listWidget_OutFilesList.currentRow()
         print currentRow
