@@ -15,6 +15,10 @@ class File():
         self.hashedText=[]  
     
         '''Return hashedText'''  
+    
+    def GetFileName(self):
+        return self.fileName
+    
     def GetHashedText(self):
         
         return self.hashedText    
@@ -94,7 +98,7 @@ class File():
         
         query = "[A-Z]*[.?!][ \\n\\t]+" # Zapytanie regex. Wzór: duża litera + coś + kropka, pytajnik, wykrzyknić + spacja enter lub tab
         lista_temp=re.split(query ,text) # Wstępny podział tekstu
-
+        
         print "text: " + text;
         lista = [];
         print "000000";
@@ -131,6 +135,7 @@ class File():
     
     '''download text from www'''
     def DownloadText(self,path):
+        if (path.startswith('www')): path='http://'+path
         usock = urllib.urlopen(path)
         text=usock.read()
         usock.close()
@@ -167,6 +172,7 @@ class File():
     def IsLink(self,path):
         '''
         '''
+        path=path.lower()
         if (path.startswith('www') or path.startswith('http')): return True
         
         return False

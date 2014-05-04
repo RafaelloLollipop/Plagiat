@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'gui.ui'
 #
-# Created: Wed Apr 23 17:25:41 2014
+# Created: Sun May 04 10:56:31 2014
 #      by: PyQt4 UI code generator 4.10.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -27,7 +27,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName(_fromUtf8("MainWindow"))
         MainWindow.setEnabled(True)
-        MainWindow.resize(858, 599)
+        MainWindow.resize(752, 596)
         MainWindow.setWindowOpacity(1.0)
         MainWindow.setDocumentMode(False)
         self.centralwidget = QtGui.QWidget(MainWindow)
@@ -108,9 +108,6 @@ class Ui_MainWindow(object):
         self.Label_LoadConfig = QtGui.QLabel(self.page_2)
         self.Label_LoadConfig.setGeometry(QtCore.QRect(30, 20, 111, 41))
         self.Label_LoadConfig.setObjectName(_fromUtf8("Label_LoadConfig"))
-        self.testText = QtGui.QLineEdit(self.page_2)
-        self.testText.setGeometry(QtCore.QRect(-20, 290, 711, 211))
-        self.testText.setObjectName(_fromUtf8("testText"))
         self.Line_LoadOutFile_Path = QtGui.QLineEdit(self.page_2)
         self.Line_LoadOutFile_Path.setEnabled(True)
         self.Line_LoadOutFile_Path.setGeometry(QtCore.QRect(60, 130, 341, 31))
@@ -128,6 +125,21 @@ class Ui_MainWindow(object):
         self.Button_ShowRaport = QtGui.QPushButton(self.page_2)
         self.Button_ShowRaport.setGeometry(QtCore.QRect(430, 510, 91, 23))
         self.Button_ShowRaport.setObjectName(_fromUtf8("Button_ShowRaport"))
+        self.listWidget_wwwFromMainFile = QtGui.QListWidget(self.page_2)
+        self.listWidget_wwwFromMainFile.setGeometry(QtCore.QRect(440, 40, 256, 151))
+        self.listWidget_wwwFromMainFile.setObjectName(_fromUtf8("listWidget_wwwFromMainFile"))
+        self.Button_LoadOutFileCandidateFromWWW = QtGui.QPushButton(self.page_2)
+        self.Button_LoadOutFileCandidateFromWWW.setGeometry(QtCore.QRect(500, 200, 131, 41))
+        self.Button_LoadOutFileCandidateFromWWW.setObjectName(_fromUtf8("Button_LoadOutFileCandidateFromWWW"))
+        self.Button_RemoveOutFileCandidate = QtGui.QPushButton(self.page_2)
+        self.Button_RemoveOutFileCandidate.setGeometry(QtCore.QRect(100, 470, 131, 41))
+        self.Button_RemoveOutFileCandidate.setObjectName(_fromUtf8("Button_RemoveOutFileCandidate"))
+        self.Button_RemoveOutFile = QtGui.QPushButton(self.page_2)
+        self.Button_RemoveOutFile.setGeometry(QtCore.QRect(440, 460, 131, 41))
+        self.Button_RemoveOutFile.setObjectName(_fromUtf8("Button_RemoveOutFile"))
+        self.Button_BackToPage_1 = QtGui.QPushButton(self.page_2)
+        self.Button_BackToPage_1.setGeometry(QtCore.QRect(0, 510, 101, 31))
+        self.Button_BackToPage_1.setObjectName(_fromUtf8("Button_BackToPage_1"))
         self.stackedWidget.addWidget(self.page_2)
         self.page_3 = QtGui.QWidget()
         self.page_3.setObjectName(_fromUtf8("page_3"))
@@ -143,10 +155,13 @@ class Ui_MainWindow(object):
         self.listWidget_ChoosenOutFile = QtGui.QListWidget(self.page_3)
         self.listWidget_ChoosenOutFile.setGeometry(QtCore.QRect(370, 100, 351, 481))
         self.listWidget_ChoosenOutFile.setObjectName(_fromUtf8("listWidget_ChoosenOutFile"))
+        self.Button_BackToPage_2 = QtGui.QPushButton(self.page_3)
+        self.Button_BackToPage_2.setGeometry(QtCore.QRect(10, 20, 101, 31))
+        self.Button_BackToPage_2.setObjectName(_fromUtf8("Button_BackToPage_2"))
         self.stackedWidget.addWidget(self.page_3)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 858, 21))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 752, 21))
         self.menubar.setObjectName(_fromUtf8("menubar"))
         self.menuFile = QtGui.QMenu(self.menubar)
         self.menuFile.setObjectName(_fromUtf8("menuFile"))
@@ -163,7 +178,7 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.menuFile.menuAction())
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(1)
+        self.stackedWidget.setCurrentIndex(2)
         QtCore.QObject.connect(self.actionQuit, QtCore.SIGNAL(_fromUtf8("triggered()")), MainWindow.close)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
@@ -180,6 +195,13 @@ class Ui_MainWindow(object):
         self.Label_LoadConfig.setText(_translate("MainWindow", "LoadConfig", None))
         self.Button_AddOutFromCandidate.setText(_translate("MainWindow", "Make OutFile", None))
         self.Button_ShowRaport.setText(_translate("MainWindow", "Raport", None))
+        self.Button_LoadOutFileCandidateFromWWW.setText(_translate("MainWindow", "Load Candidate \n"
+"FROM WWWW", None))
+        self.Button_RemoveOutFileCandidate.setText(_translate("MainWindow", "Remove OutFile\n"
+" Candidate", None))
+        self.Button_RemoveOutFile.setText(_translate("MainWindow", "Remove OutFile", None))
+        self.Button_BackToPage_1.setText(_translate("MainWindow", "Back", None))
+        self.Button_BackToPage_2.setText(_translate("MainWindow", "Back", None))
         self.menuFile.setTitle(_translate("MainWindow", "File", None))
         self.toolBar.setWindowTitle(_translate("MainWindow", "toolBar", None))
         self.actionQuit.setText(_translate("MainWindow", "Quit", None))

@@ -26,30 +26,38 @@ class StartQT4(QtGui.QMainWindow):
         QtCore.QObject.connect(self.ui.Button_Next1,QtCore.SIGNAL("clicked()"), self.Next1_Button)
         QtCore.QObject.connect(self.ui.Button_Next2,QtCore.SIGNAL("clicked()"), self.Next2_Button)
         QtCore.QObject.connect(self.ui.Button_LoadOutFileCandidate,QtCore.SIGNAL("clicked()"), self.LoadOutFileCandidate)
+        QtCore.QObject.connect(self.ui.Button_RemoveOutFileCandidate,QtCore.SIGNAL("clicked()"), self.RemoveOutFileCandidate)
+        QtCore.QObject.connect(self.ui.Button_RemoveOutFile,QtCore.SIGNAL("clicked()"), self.RemoveOutFile)
+        QtCore.QObject.connect(self.ui.Button_LoadOutFileCandidateFromWWW,QtCore.SIGNAL("clicked()"), self.LoadOutFileCandidateFromWWW)
         QtCore.QObject.connect(self.ui.testButton,QtCore.SIGNAL("clicked()"), self.RunProgram)
         QtCore.QObject.connect(self.ui.Button_AddOutFromCandidate,QtCore.SIGNAL("clicked()"), self.AddOutFromCandidate)
         QtCore.QObject.connect(self.ui.Button_ShowRaport,QtCore.SIGNAL("clicked()"), self.ShowRaport)
         QtCore.QObject.connect(self.ui.listWidget_OutFilesList,QtCore.SIGNAL("doubleClicked(QModelIndex)"), self.ChangeOutFile)
         QtCore.QObject.connect(self.ui.listWidget_MainFile,QtCore.SIGNAL("doubleClicked(QModelIndex)"), self.listWidget_MainFileDClicked)
         QtCore.QObject.connect(self.ui.listWidget_ChoosenOutFile,QtCore.SIGNAL("doubleClicked(QModelIndex)"), self.listWidget_ChoosenOutFileDClicked)
-
-
-#1        
+        QtCore.QObject.connect(self.ui.Button_BackToPage_2,QtCore.SIGNAL("clicked()"), self.Button_BackToPage_2)
+        QtCore.QObject.connect(self.ui.Button_BackToPage_1,QtCore.SIGNAL("clicked()"), self.Button_BackToPage_1)
+#0        
     def RunProgram(self):
         value=self.ui.progressBar_StartProgram.value()+23
         self.ui.progressBar_StartProgram.setValue(value)
+        value= 100
         if(value>99):
             self.ui.stackedWidget.setCurrentIndex(1)
 
 
-#2    
+#1    
+    
+    def InicializeWWWlist(self):
+        list= self.source.GetAdressFromMainFile()
+        for adress in list:
+            self.ui.listWidget_wwwFromMainFile.addItem(adress)
     
     def Next1_Button(self):
         self.source.PrepareMainFile()
-        print self.source.mainFile.clearText
         self.source.configName=self.ui.lineEdit_LoadMainFile_Name.displayText() 
         self.source.CreateConfig()
-        self.ui.testText.setText(self.source.mainFile.FromListToTxt(self.source.mainFile.hashedText))
+        self.InicializeWWWlist()
         self.ui.stackedWidget.setCurrentIndex(2)
 
             
@@ -69,7 +77,27 @@ class StartQT4(QtGui.QMainWindow):
         self.ui.Line_LoadConfig_Path.setText(path)
         self.source.pathToMainFile=path
     
-#3
+#2
+
+    
+    def LoadOutFileCandidateFromWWW(self):
+        list= self.source.GetAdressFromMainFile()
+        currentRow=self.ui.listWidget_wwwFromMainFile.currentRow()
+        path=list[currentRow]
+        self.source.AddOutFileCandidate(path)
+        self.ui.listWidget_CandidateOutFiles.clear()
+        for path in self.source.OutFilesCandidate:
+            self.ui.listWidget_CandidateOutFiles.addItem(path)
+
+    
+    def RemoveOutFileCandidate(self):
+        list= self.source.GetAdressFromMainFile()
+        currentRow=self.ui.listWidget_CandidateOutFiles.currentRow()
+        self.source.RemoveOutFileCandidate(currentRow)
+        self.ui.listWidget_CandidateOutFiles.clear()
+        for path in self.source.OutFilesCandidate:
+            self.ui.listWidget_CandidateOutFiles.addItem(path)    
+    
     def LoadOutFileCandidate(self):
         path=self.source.SearchFile()
         self.ui.Line_LoadOutFile_Path.setText(path)
@@ -77,25 +105,37 @@ class StartQT4(QtGui.QMainWindow):
         self.ui.listWidget_CandidateOutFiles.clear()
         for path in self.source.OutFilesCandidate:
             self.ui.listWidget_CandidateOutFiles.addItem(path)
+    
+    def RemoveOutFile(self):
+        currentRow=self.ui.listWidget_OutFiles.currentRow()
+        self.ui.listWidget_OutFiles.clear()
+        if(self.source.RemoveOutFile(currentRow)):
 
-        
+            for outFile in self.source.OutFiles:
+                print path
+                self.ui.listWidget_OutFiles.addItem(outFile.GetFileName())   
+
     def AddOutFromCandidate(self):
         self.source.GenerateOutFile(self.source.OutFilesCandidate)
         self.ui.listWidget_CandidateOutFiles.clear()
         self.ui.listWidget_OutFiles.clear()
         for outFile in self.source.OutFiles:
-            self.ui.listWidget_OutFiles.addItem(outFile.fileName)
+            self.ui.listWidget_OutFiles.addItem(outFile.GetFileName())
     
     def ShowRaport(self):
-        self.source.GenerateRaport()
-        self.ui.stackedWidget.setCurrentIndex(3) 
-        for sentence in self.source.mainFile.clearText:
-            self.ui.listWidget_MainFile.addItem(sentence)
-        for outFile in self.source.OutFiles:
-            self.ui.listWidget_OutFilesList.addItem(outFile.fileName)
-        for sentence in self.source.OutFiles[0].clearText:
-            self.ui.listWidget_ChoosenOutFile.addItem(sentence)
-        self.ui.listWidget_OutFilesList.setCurrentRow(0)    
+        self.source.GenerateRaport() # Create raport
+        self.ui.stackedWidget.setCurrentIndex(3)  # Change scene
+        self.ui.listWidget_MainFile.clear()
+        for sentence in self.source.GetMainFileClearText():  # show MainFile text to left widget 
+            self.ui.listWidget_MainFile.addItem(sentence)  
+        self.ui.listWidget_OutFilesList.clear()
+        for outFile in self.source.GetOutFiles():  # make list of outfiles in top widget
+            self.ui.listWidget_OutFilesList.addItem(outFile.fileName)  
+            self.ui.listWidget_ChoosenOutFile.clear()
+            for sentence in outFile.GetClearText():   # show acutal OutFile text
+                self.ui.listWidget_ChoosenOutFile.addItem(sentence)
+        self.ui.listWidget_OutFilesList.setCurrentRow(0)     #default start watching from '0' index file
+    
     def UpdateRaport(self):
         currentRow=self.ui.listWidget_OutFilesList.currentRow()
         print currentRow
@@ -105,26 +145,33 @@ class StartQT4(QtGui.QMainWindow):
     
     def ChangeOutFile(self):
         self.UpdateRaport()
+    def Button_BackToPage_1(self):
+        self.ui.stackedWidget.setCurrentIndex(1)
 
+    #3    
+    def Button_BackToPage_2(self):
+        self.ui.stackedWidget.setCurrentIndex(2)
+    
     def listWidget_MainFileDClicked(self):
-        currentRow=self.ui.listWidget_MainFile.currentRow()
+        currentRow=self.ui.listWidget_MainFile.currentRow() # number of clicked Sentence
         #self.source.raportStructure=[{0:2}, {}, {}, {}, {}, {}, {}, {}]
         
-        fileNumber=self.source.raportStructure[currentRow].keys()[0]
-        sentenceNumber=self.source.raportStructure[currentRow].values()[0]
+        if(len(self.source.raportStructure[currentRow].keys())>0):   # repeat exist
+            fileNumber=self.source.raportStructure[currentRow].keys()[0]   # number of file when is repeat
+            sentenceNumber=self.source.raportStructure[currentRow].values()[0]   # number of sentence in fileNumber where is repeat
         
-        self.ui.listWidget_OutFilesList.setCurrentRow(fileNumber)
-        self.UpdateRaport()
-        self.ui.listWidget_ChoosenOutFile.setCurrentRow(sentenceNumber)
+            self.ui.listWidget_OutFilesList.setCurrentRow(fileNumber)  #change outFile text to show
+            self.UpdateRaport() # update widget
+            self.ui.listWidget_ChoosenOutFile.setCurrentRow(sentenceNumber) # make focus on sentence
         
     def listWidget_ChoosenOutFileDClicked(self):
-        clickedRow=self.ui.listWidget_ChoosenOutFile.currentRow()
+        clickedRow=self.ui.listWidget_ChoosenOutFile.currentRow() # number of clicked sentence
         #self.source.raportStructure=[{0:2}, {}, {}, {}, {}, {}, {}, {}]
-        outFileNumber=self.ui.listWidget_OutFilesList.currentRow()
+        outFileNumber=self.ui.listWidget_OutFilesList.currentRow()  # in what file was that sentence
         #self.source.OutFiles[outFileNumber].repeats=[2,2,2,2,2,2,2]
-        mainFileSentenceNumber=self.source.OutFiles[outFileNumber].repeats[clickedRow]
-        self.ui.listWidget_MainFile.setCurrentRow(mainFileSentenceNumber)
-    #4
+        mainFileSentenceNumber=self.source.OutFiles[outFileNumber].repeats[clickedRow]  # search for repeat number
+        self.ui.listWidget_MainFile.setCurrentRow(mainFileSentenceNumber) #change focus on left widget
+    
 
 if __name__ == "__main__":
     app = QtGui.QApplication(sys.argv)

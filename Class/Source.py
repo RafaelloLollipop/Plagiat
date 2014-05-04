@@ -23,8 +23,20 @@ class Source():
     
     # Tych dwoch metod nie jestem pewien :D
     '''getery i setery jebac to'''
+    
+    
+    def GetOutFiles(self):
+        return self.OutFiles
+    
+    def GetMainFileClearText(self):
+        return self.mainFile.GetClearText()
+    
     def AddOutFileCandidate(self,outFilePath):
         self.OutFilesCandidate.append(outFilePath)
+        return True
+    
+    def RemoveOutFileCandidate(self,number):
+        self.OutFilesCandidate.pop(number)
         return True
     
     def AddOutFile(self,outFile):
@@ -32,14 +44,23 @@ class Source():
         return True
     
     def GetAdress(self):
+        
         return self.Adress
+    
+    def GetAdressFromMainFile(self):
+        
+        return self.mainFile.GetwwwAdress()
     
     def AddAdress(self,adress):
         self.Adress.append(adress)
         return True
  
-    def RemoveOutFile(self,outFile):
-        self.OutFiles.remove(outFile)
+    def RemoveOutFile(self,outFileNumber):
+        #TODOXD
+        outFileName=self.OutFiles[outFileNumber].GetFileName()
+        self.OutFiles.pop(outFileNumber)
+        self.RemoveOutFileFromJSONConfig(outFileName)
+
         return True 
     
     def RemoveAdress(self,adress):
@@ -223,9 +244,9 @@ class Source():
         f.close()
         
         config= json.loads(config)
-        config['outFiles'].pop(outFileName)
-                
+        if(config['outFiles'].has_key(outFileName)): config['outFiles'].pop(outFileName)
         f = open(self.configName+'.json', 'w')
+        config = json.dumps(config,indent=2)
         f.write(config)
         f.close()
         return True
