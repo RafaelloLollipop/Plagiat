@@ -207,8 +207,6 @@ class Source():
     
     def CreateConfig(self):
         self.mainFile.CreateJSONConfig(self.configName)
-
-    
     
     def GenerateOutFile(self,pathList):
         '''
