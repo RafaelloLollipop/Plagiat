@@ -19,12 +19,54 @@ class Source():
         self.OutFiles=[] # List of OutFiles, with raports
         self.OutFilesCandidate=[] # List of filles who we want to make OutFile, path list
         self.raportStructure=[] # [{z ktorego outFile:ktore zdanie z outFile},[],[]]   raportStructure[0] jest 1 zdaniem z clearText    
+        # 
     
     
-    # Tych dwoch metod nie jestem pewien :D
     '''getery i setery jebac to'''
+    
+    
+    def SetConfigName(self,name):
+        self.configName=name
+        return True
+    
+    def SetPath(self,path):
+        self.pathToMainFile=path
+        return True
+    
+    def GetPath(self):
+        return self.pathToMainFile
+    
+    def HowManySentencesRepeats(self):
+        ''' Return how many sentences from mainFile was found in outFiles '''
+        howMany=0
+        for dir in self.raportStructure:
+           if(len(dir)): howMany+=1
+        return howMany
+    
+    def HowManySentencesRepeatsInOutFiles(self):
+        '''return list of all outfiles repeats number
+        for ex. if 3 outfiles in database, it wil return [0,1,20]
+        '''
+        list=[]
+        for outFile in self.OutFiles:
+            list.append(outFile.HowManyRepeats())
+        return list
+    
+    def HowManySentencesInMainFile(self):
+        return len(self.raportStructure)
+    
+    def GetOutFiles(self):
+        return self.OutFiles
+    
+    def GetMainFileClearText(self):
+        return self.mainFile.GetClearText()
+    
     def AddOutFileCandidate(self,outFilePath):
         self.OutFilesCandidate.append(outFilePath)
+        return True
+    
+    def RemoveOutFileCandidate(self,number):
+        self.OutFilesCandidate.pop(number)
         return True
     
     def AddOutFile(self,outFile):
@@ -32,14 +74,23 @@ class Source():
         return True
     
     def GetAdress(self):
+        
         return self.Adress
+    
+    def GetAdressFromMainFile(self):
+        
+        return self.mainFile.GetwwwAdress()
     
     def AddAdress(self,adress):
         self.Adress.append(adress)
         return True
  
-    def RemoveOutFile(self,outFile):
-        self.OutFiles.remove(outFile)
+    def RemoveOutFile(self,outFileNumber):
+        #TODOXD
+        outFileName=self.OutFiles[outFileNumber].GetFileName()
+        self.OutFiles.pop(outFileNumber)
+        self.RemoveOutFileFromJSONConfig(outFileName)
+
         return True 
     
     def RemoveAdress(self,adress):
@@ -62,9 +113,24 @@ class Source():
             for repeatNumber in range(len(repeats)):
                 if repeats[repeatNumber]>=0:
                     #print [repeatNumber,repeats[repeatNumber]]  
-                    #print "outFile numer "+str(outFileNumber) + ' w ktorym zdanie numer ' + str(repeatNumber) + ' jest zdaniem w main numer: '+str(repeats[repeatNumber])
+                    print "outFile numer "+str(outFileNumber) + ' w ktorym zdanie numer ' + str(repeatNumber) + ' jest zdaniem w main numer: '+str(repeats[repeatNumber])
                     self.raportStructure[repeats[repeatNumber]]={outFileNumber:repeatNumber}
         return True
+    
+    def ListOfMainFileSentenceToColor(self):
+        '''return
+        [file1 sentences list],[file2senteneslist]]
+        '''
+        list=[]
+        for outFileNumber in range(len(self.OutFiles)):
+            outList=[]
+            repeats=self.OutFiles[outFileNumber].repeats
+            for repeatNumber in range(len(repeats)):
+                if repeats[repeatNumber]>=0:
+                    #print [repeatNumber,repeats[repeatNumber]]  
+                    outList.append(repeats[repeatNumber])
+            list.append(outList)
+        return list
     
     def LoadChoosedLinks(self):
         ''' this method load all adress choosen from BiographyLinks 
@@ -177,7 +243,7 @@ class Source():
         print "Tutaj hashe z Main File";
         powtorki = [];
         for hashOutFile in OutFile.hashedText:
-            iteracjaMain = 1;
+            iteracjaMain = 0;
             dodany = 0;
             for hashMainFile in self.mainFile.hashedText: 
                 print hashOutFile + " " + hashMainFile;
@@ -187,7 +253,7 @@ class Source():
                     dodany = 1;
                 iteracjaMain +=1;
             if (dodany!=1):
-                OutFile.repeats.append(0);
+                OutFile.repeats.append(-1);
                     
         for el in OutFile.repeats:
             print el;
@@ -223,9 +289,9 @@ class Source():
         f.close()
         
         config= json.loads(config)
-        config['outFiles'].pop(outFileName)
-                
+        if(config['outFiles'].has_key(outFileName)): config['outFiles'].pop(outFileName)
         f = open(self.configName+'.json', 'w')
+        config = json.dumps(config,indent=2)
         f.write(config)
         f.close()
         return True
