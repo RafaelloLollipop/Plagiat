@@ -109,6 +109,8 @@ class File():
         lista = [];
         print "000000";
         for el in lista_temp:
+            # usuwanie wielokoptnych spacji, enterów i tebów
+            el = " ".join(el.split());
             lista.append(el);
 #             if ((el[1]=="\n") or (el[1]==" ") or (el[1]=="\t")):
 #                 print el;
