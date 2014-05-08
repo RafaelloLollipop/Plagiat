@@ -44,9 +44,11 @@ class MainFile(File):
         return True
     
 
-    '''search for www in text and add it to field wwwAdress'''
+    '''search for www in text and add it to field wwwAdress
+        Pretty good working, wrong recognision: sthwww.page.com
+    '''
     def searchForWWW(self,text):
-        exp = '(https?:\/\/)?([\da-zA-z])([\da-zA-Z\.-]+)\.([a-zA-Z\.]{2,6})([\/\.-][\da-zA-Z\.-]+)?'; # http:// lub https:// adres.rozszerzenie/cos-z-myslnikami
+        exp = '(https?:\/\/|www)?([\da-zA-z]+)([\da-zA-Z\.-]+)\.([a-zA-Z]{2,6})([\/\.-][\S]+)?'; # http:// lub https:// adres.rozszerzenie/cos-z-myslnikami
         www_temp = re.findall(exp, text);
         www = [];
 #         print "--------";
