@@ -17,11 +17,11 @@ class OutFile(File):
         else:
             self.GenerateOutFile(path)
     
-    ''' Automatic function started in Constructor    
-     Taking path (MUST BE IN CONSUTRCTOR) (local or www) & preapre it
-     At finish method start MakeHashedText method with clear text
-     www, http are REMOVED!! '''
-
+    def HowManyRepeats(self):
+        howMany=0
+        for number in repeats:
+            if(number):howMany+=1
+        return howMany
     
     def GenerateOutFileFromJSONConfig(self,config,outName):    
         self.hashedText=config['Hashes']

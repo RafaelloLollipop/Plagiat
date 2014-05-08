@@ -19,11 +19,41 @@ class Source():
         self.OutFiles=[] # List of OutFiles, with raports
         self.OutFilesCandidate=[] # List of filles who we want to make OutFile, path list
         self.raportStructure=[] # [{z ktorego outFile:ktore zdanie z outFile},[],[]]   raportStructure[0] jest 1 zdaniem z clearText    
+        # 
     
     
-    # Tych dwoch metod nie jestem pewien :D
     '''getery i setery jebac to'''
     
+    
+    def SetConfigName(self,name):
+        self.configName=name
+        return True
+    
+    def SetPath(self,path):
+        self.pathToMainFile=path
+        return True
+    
+    def GetPath(self):
+        return self.pathToMainFile
+    
+    def HowManySentencesRepeats(self):
+        ''' Return how many sentences from mainFile was found in outFiles '''
+        howMany=0
+        for dir in self.raportStructure:
+           if(len(dir)): howMany+=1
+        return howMany
+    
+    def HowManySentencesRepeatsInOutFiles(self):
+        '''return list of all outfiles repeats number
+        for ex. if 3 outfiles in database, it wil return [0,1,20]
+        '''
+        list=[]
+        for outFile in self.OutFiles:
+            list.append(outFile.HowManyRepeats())
+        return list
+    
+    def HowManySentencesInMainFile(self):
+        return len(self.raportStructure)
     
     def GetOutFiles(self):
         return self.OutFiles
