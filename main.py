@@ -32,7 +32,7 @@ class StartQT4(QtGui.QMainWindow):
         QtCore.QObject.connect(self.ui.testButton,QtCore.SIGNAL("clicked()"), self.RunProgram)
         QtCore.QObject.connect(self.ui.Button_AddOutFromCandidate,QtCore.SIGNAL("clicked()"), self.Button_AddOutFromCandidate)
         QtCore.QObject.connect(self.ui.Button_ShowRaport,QtCore.SIGNAL("clicked()"), self.Button_ShowRaport)
-        QtCore.QObject.connect(self.ui.listWidget_OutFilesList,QtCore.SIGNAL("doubleClicked(QModelIndex)"), self.ChangeOutFile)
+        QtCore.QObject.connect(self.ui.listWidget_OutFilesList,QtCore.SIGNAL("doubleClicked(QModelIndex)"), self.listWidget_OutFilesListDClicked)
         QtCore.QObject.connect(self.ui.listWidget_MainFile,QtCore.SIGNAL("doubleClicked(QModelIndex)"), self.listWidget_MainFileDClicked)
         QtCore.QObject.connect(self.ui.listWidget_ChoosenOutFile,QtCore.SIGNAL("doubleClicked(QModelIndex)"), self.listWidget_ChoosenOutFileDClicked)
         QtCore.QObject.connect(self.ui.Button_BackToPage_2,QtCore.SIGNAL("clicked()"), self.Button_BackToPage_2)
@@ -56,7 +56,9 @@ class StartQT4(QtGui.QMainWindow):
     def Load1PageDisplay(self):
         self.ui.lineEdit_LoadMainFile_Name.clear()
         self.ui.Line_LoadConfig_Path.clear()
+        self.ui.Line_LoadMainFile_Path.clear()
         self.ui.stackedWidget.setCurrentIndex(1)
+
         
     '''Buttons'''
     def Button_Next1(self):
@@ -66,11 +68,14 @@ class StartQT4(QtGui.QMainWindow):
         self.source.SetConfigName(name) 
         self.source.CreateConfig()
         self.Load2PageDisplay()
+        self.ui.Line_LoadConfig_Path.clear()
 
     def Button_Next2(self):
         '''Load from config button'''
         self.source.LoadConfig()
         self.Load2PageDisplay()
+        self.ui.lineEdit_LoadMainFile_Name.clear()
+        self.ui.Line_LoadMainFile_Path.clear()
     
     def Button_LoadMainFilePath(self):
         self.ui.lineEdit_LoadMainFile_Name.setText("XD") #TODELETE
@@ -152,6 +157,15 @@ class StartQT4(QtGui.QMainWindow):
         self.UpdateOutFilesCandidateList()
         self.UpdateOutFilesList()
 
+    def Button_BackToPage_1(self):
+        self.ui.stackedWidget.setCurrentIndex(1)
+    
+    def Button_ShowRaport(self):
+        self.source.GenerateRaport() # Create raport
+        self.Load3PageDisplay()
+        return True        
+
+        '''Method to properly load 3 site'''
     
     def UpdateRaportStats(self):
         mainFileSentencesNumber=self.source.HowManySentencesInMainFile()
@@ -161,37 +175,18 @@ class StartQT4(QtGui.QMainWindow):
         percentValue=numberOfRepeatSentences*100/mainFileSentencesNumber
         self.ui.label_repeatSentencesProcent.setText(str(percentValue)+' %')
         pass
-    
-    def Load3PageDisplay(self):
-        self.UpdateRaportStats()
-        self.UpdateMainFileText()
-        self.UpdateOutFilesListInRaport()
-        self.ColorMainFile()
-        self.ColorOutFilesList()    
-        self.ui.stackedWidget.setCurrentIndex(3) 
-        return True
-    
+
     def UpdateMainFileText(self):
         self.ui.listWidget_MainFile.clear()
         for sentence in self.source.GetMainFileClearText():  # show MainFile text to left widget 
             self.ui.listWidget_MainFile.addItem(sentence) 
-    
-    def UpdateOutFilesListInRaport(self):
-        self.ui.listWidget_OutFilesList.clear()
-        for outFile in self.source.GetOutFiles():  # make list of outfiles in top widget
-            outFileName=outFile.GetFileName()
-            self.ui.listWidget_OutFilesList.addItem(outFileName)  
-            self.ui.listWidget_ChoosenOutFile.clear()
-            for sentence in outFile.GetClearText():   # show acutal OutFile text            
-                self.ui.listWidget_ChoosenOutFile.addItem(sentence)
-        self.ui.listWidget_OutFilesList.setCurrentRow(0)     #default start watching from '0' index file
-        
-    
-    def Button_ShowRaport(self):
-        self.source.GenerateRaport() # Create raport
-        self.Load3PageDisplay()
-    
-    
+
+    def UpdateChoosenOutFileText(self):
+        currentRow=self.ui.listWidget_OutFilesList.currentRow()
+        self.ui.listWidget_ChoosenOutFile.clear()
+        for sentence in self.source.OutFiles[currentRow].clearText:
+            self.ui.listWidget_ChoosenOutFile.addItem(sentence)
+       
     def ColorMainFile(self):    
         ListOfSentencesToColor=self.source.ListOfMainFileSentenceToColor()
         colors=self.GetColors()
@@ -212,8 +207,7 @@ class StartQT4(QtGui.QMainWindow):
             color=colors[colorIt]
             item=self.ui.listWidget_OutFilesList.item(outFileNumber)
             item.setBackgroundColor(color)
-            
-            
+                       
     def GetColors(self):
         colors=[]
         colors.append(QtGui.QColor(176,23,31))
@@ -234,24 +228,30 @@ class StartQT4(QtGui.QMainWindow):
         colors.append(QtGui.QColor(56  ,  142,    142    ))
         colors.append(QtGui.QColor(113  ,  198  ,  113))
         colors.append(QtGui.QColor(198  ,  113   , 113))
+        return colors
 
-        return colors        
-    def UpdateRaport(self):
-        currentRow=self.ui.listWidget_OutFilesList.currentRow()
-        print currentRow
-        self.ui.listWidget_ChoosenOutFile.clear()
-        for sentence in self.source.OutFiles[currentRow].clearText:
-            self.ui.listWidget_ChoosenOutFile.addItem(sentence)
-    
-    def ChangeOutFile(self):
-        self.UpdateRaport()
-        
-    def Button_BackToPage_1(self):
-        self.ui.stackedWidget.setCurrentIndex(1)
+    def LoadOutFilesListInRaport(self):
+        self.ui.listWidget_OutFilesList.clear()
+        for outFile in self.source.GetOutFiles():  # make list of outfiles in top widget
+            outFileName=outFile.GetFileName()
+            self.ui.listWidget_OutFilesList.addItem(outFileName)  
+            self.ui.listWidget_OutFilesList.setCurrentRow(0) 
 
-    #3    
+    def Load3PageDisplay(self):
+        self.UpdateRaportStats()
+        self.UpdateMainFileText()
+        self.LoadOutFilesListInRaport()
+        self.UpdateChoosenOutFileText()
+        self.ColorMainFile()
+        self.ColorOutFilesList()    
+        self.ui.stackedWidget.setCurrentIndex(3) 
+        return True
+            
     def Button_BackToPage_2(self):
         self.ui.stackedWidget.setCurrentIndex(2)
+    
+    def listWidget_OutFilesListDClicked(self):
+        self.UpdateChoosenOutFileText()
     
     def listWidget_MainFileDClicked(self):
         currentRow=self.ui.listWidget_MainFile.currentRow() # number of clicked Sentence
@@ -262,18 +262,19 @@ class StartQT4(QtGui.QMainWindow):
             sentenceNumber=self.source.raportStructure[currentRow].values()[0]   # number of sentence in fileNumber where is repeat
         
             self.ui.listWidget_OutFilesList.setCurrentRow(fileNumber)  #change outFile text to show
-            self.UpdateRaport() # update widget
+            self.UpdateChoosenOutFileText() # update widget
             self.ui.listWidget_ChoosenOutFile.setCurrentRow(sentenceNumber) # make focus on sentence
         
     def listWidget_ChoosenOutFileDClicked(self):
+        self.Change_listWidget_ChoosenOutFileFoucs()
         clickedRow=self.ui.listWidget_ChoosenOutFile.currentRow() # number of clicked sentence
         #self.source.raportStructure=[{0:2}, {}, {}, {}, {}, {}, {}, {}]
         outFileNumber=self.ui.listWidget_OutFilesList.currentRow()  # in what file was that sentence
         #self.source.OutFiles[outFileNumber].repeats=[2,2,2,2,2,2,2]
         mainFileSentenceNumber=self.source.OutFiles[outFileNumber].repeats[clickedRow]  # search for repeat number
         self.ui.listWidget_MainFile.setCurrentRow(mainFileSentenceNumber) #change focus on left widget
-    
-
+        return True
+        
 if __name__ == "__main__":
     app = QtGui.QApplication(sys.argv)
     MainWindow = QtGui.QMainWindow()

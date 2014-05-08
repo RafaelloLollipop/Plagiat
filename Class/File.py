@@ -6,6 +6,12 @@ import urllib
 import re                       # do wyrażeń regularnych!
 from hashlib import sha224      # do tworzenia hashy!
 import json
+try:
+    from xml.etree.cElementTree import XML
+except ImportError:
+    from xml.etree.ElementTree import XML
+import zipfile
+ 
 
 class File():
     def __init__(self):
@@ -126,12 +132,15 @@ class File():
         '''TODO: RAFAL '''
         text=''
         if(path.find('.pdf')>=0):
-            text=self.LoadFromPdf(path)
+            return self.LoadFromPdf(path)
         if(path.find('.txt')>=0):
-            text=self.LoadFromTxt(path)
+            return self.LoadFromTxt(path)
         if(path.find('.html')>=0):
-            text=self.LoadFromHtml(path)      
-        return text
+            return self.LoadFromHtml(path)      
+        if(path.find('.docx')>=0):
+            return self.LoadFromDocx(path)
+        #MakeError
+        return False
     
     '''download text from www'''
     def DownloadText(self,path):
@@ -166,6 +175,25 @@ class File():
             text += pdf.getPage(i).extractText() + "\n"
         
         return text
+    
+    def LoadFromDocx(self,path): 
+        """
+        Take the path of a docx file as argument, return the text in unicode.
+        """
+        document = zipfile.ZipFile(path)
+        xml_content = document.read('word/document.xml')
+        document.close()
+        tree = XML(xml_content)
+ 
+        paragraphs = []
+        for paragraph in tree.getiterator(PARA):
+            texts = [node.text
+                     for node in paragraph.getiterator(TEXT)
+                     if node.text]
+            if texts:
+                paragraphs.append(''.join(texts))
+ 
+        return '\n\n'.join(paragraphs)
 
     '''Return true if contain www or http
     '''
