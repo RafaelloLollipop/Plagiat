@@ -92,7 +92,16 @@ class File():
         return parsedText
     
   
-    
+    def HasAbb(self, sentence):
+        '''
+        This method checks if the sentence ends with abbreviation (for instance: prof., mgr.). Return true if exists or false if not.
+        '''
+        result = False
+        abbList = ["mgr", "prof", "hab"]
+        for abb in abbList:
+            if (sentence.endswith(abb)):
+                result = True
+        return result
     
     def MakeClearAndHashedText(self,text):
         '''
@@ -109,24 +118,20 @@ class File():
         lista_temp=re.split(query ,text) # Wstępny podział tekstu
 #         lista_temp = re.split(r' *[\.\?!][\'"\)\]]* *', text)
         
-        print "text: " + text;
-        print "1 !!!";
-        print lista_temp;
-        
         lista = [];
-        print "000000";
+        schowek = ""
         for el in lista_temp:
             # usuwanie wielokoptnych spacji, enterów i tebów
             el = " ".join(el.split());
-            lista.append(el);
-#             if ((el[1]=="\n") or (el[1]==" ") or (el[1]=="\t")):
-#                 print el;
-#                 print "TU";
-#                 print el[2:];
-#                 lista.append(el[2:]);
-#             else:
-#                 print el;
-#                 lista.append(el);
+            # sprawdzanie skrotow
+            if (self.HasAbb(el)==True):
+                schowek = el
+            else:
+                if (schowek!=""):
+                    lista.append(schowek + ". " + el)
+                else:
+                    lista.append(el)
+                schowek = ""
        
         for sentence in lista:
             # metody jeszcze nie napisane, więc jeszcze komment
