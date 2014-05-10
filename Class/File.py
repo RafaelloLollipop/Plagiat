@@ -66,10 +66,13 @@ class File():
             sentence = re.sub('\W'+char+'$', '', sentence) # znak na końcu tekstu
         for pol, ang in polskie_znaki.items():
             sentence = sentence.replace(pol, ang)
-        sentence = re.sub(' ', '', sentence) # usuwanie spacji
+#         sentence = re.sub(' ', '', sentence) # usuwanie spacji
+        re.sub(r'\W+', '', sentence)
+        sentence =  ''.join(ch for ch in sentence if ch.isalnum())
         
         
         clearedSentence = sentence
+        
         return clearedSentence
     
         '''Hashing sentence Method'''
@@ -102,10 +105,14 @@ class File():
         
         '''
         
-        query = "[A-Z]*[.?!][ \\n\\t]+" # Zapytanie regex. Wzór: duża litera + coś + kropka, pytajnik, wykrzyknić + spacja enter lub tab
+        query = "[A-Z]*[\\.\\?!][ \\n\\t]+" # Zapytanie regex. Wzór: duża litera + coś + kropka, pytajnik, wykrzyknić + spacja enter lub tab
         lista_temp=re.split(query ,text) # Wstępny podział tekstu
+#         lista_temp = re.split(r' *[\.\?!][\'"\)\]]* *', text)
         
         print "text: " + text;
+        print "1 !!!";
+        print lista_temp;
+        
         lista = [];
         print "000000";
         for el in lista_temp:
@@ -120,6 +127,7 @@ class File():
 #             else:
 #                 print el;
 #                 lista.append(el);
+       
         for sentence in lista:
             # metody jeszcze nie napisane, więc jeszcze komment
             self.clearText.append(sentence)
