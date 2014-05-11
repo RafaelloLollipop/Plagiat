@@ -48,8 +48,10 @@ class MainFile(File):
         Pretty good working, wrong recognision: sthwww.page.com
     '''
     def searchForWWW(self,text):
-        exp = '(https?:\/\/|www)?([\da-zA-z]+)([\da-zA-Z\.-]+)\.([a-zA-Z]{2,6})([\/\.-][\S]+)?'; # http:// lub https:// adres.rozszerzenie/cos-z-myslnikami
-        www_temp = re.findall(exp, text);
+        try:
+            exp = '(https?:\/\/|www)?([\da-zA-z]+)([\da-zA-Z\.-]+)\.([a-zA-Z]{2,6})([\/\.-][\S]+)?'; # http:// lub https:// adres.rozszerzenie/cos-z-myslnikami
+            www_temp = re.findall(exp, text);
+        except: print "Regex error while searching www addresses."
         www = [];
 #         print "--------";
 #         www = [];
@@ -60,9 +62,6 @@ class MainFile(File):
             if ((adres[-1]==".") or (adres[-1]=="!") or (adres[-1]=="?")): # jeżeli na końcu www jest .!? to usuń ją
                 adres = adres[:-1];
             self.wwwAdress.append(adres); # dodawanie do listy self.wwwAdress
-        print "-------------";
-        for el in self.wwwAdress:
-            print el;
         return True
     
     def GenerateMainFileFromJSONConfig(self,config):    

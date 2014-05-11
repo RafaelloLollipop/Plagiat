@@ -3,8 +3,14 @@ import nltk
 import StringIO
 from PyPDF2 import PdfFileWriter, PdfFileReader
 import urllib
-import re                       # do wyrażeń regularnych!
-from hashlib import sha224      # do tworzenia hashy!
+try:
+    import re                       # do wyrażeń regularnych!
+except ImportError:
+    print "Nie udało się załadować biblioteki re"
+try:
+    from hashlib import sha224      # do tworzenia hashy!
+except ImportError:
+    print "Nie udało się załadować biblioteki hashlib"
 import json
 try:
     from xml.etree.cElementTree import XML
@@ -50,7 +56,7 @@ class File():
          # 0. do małych liter
         sentence = sentence.lower()
         # 1. znaki interpunkcyjne
-        interpunkcja = [',', ':', ';', '!', '@', '#', '$', '%', '^', '&', '\*', '\.', '\(', '\)', '-', '_', '\+', '=', '\{', '\}', '\[', '\]', '\|', '<', '>', '\?', '\n', '\t']
+        interpunkcja = [',', ':', ';', '!', '@', '#', '$', '%', '^', '&', '\*', '\.', '\(', '\)', '-', '_', '\+', '=', '\{', '\}', '\[', '\]', '\|', '<', '>', '\n', '\t']
         # polskie łączniki
         laczniki = ['i', 'a', 'w', 'o', 'lub','jednak', 'na', 'u', 'pod', 'powyżej', 'poniżej', 'ponad', 'ale',]
         # polskie znaki ę ą 
@@ -66,7 +72,7 @@ class File():
             sentence = re.sub('\W'+char+'$', '', sentence) # znak na końcu tekstu
         for pol, ang in polskie_znaki.items():
             sentence = sentence.replace(pol, ang)
-#         sentence = re.sub(' ', '', sentence) # usuwanie spacji
+        # usuwanie znaków, które nie są literami lub cyframi
         re.sub(r'\W+', '', sentence)
         sentence =  ''.join(ch for ch in sentence if ch.isalnum())
         
@@ -82,8 +88,10 @@ class File():
         Output: hash-tag (52 bites)
         Description: Function using hashlib library creates hast-tag from proceesed sentence.
         '''
-        
-        hashedSentence = sha224(sentence).hexdigest()
+        try:
+            hashedSentence = sha224(sentence).hexdigest()
+        except:
+            print "Nie udało się zahashować zdania"
         return hashedSentence
     
     '''Method take HTML code and delete from it tags, operators etc. At end we have clear text'''
@@ -116,7 +124,6 @@ class File():
         
         query = "[A-Z]*[\\.\\?!][ \\n\\t]+" # Zapytanie regex. Wzór: duża litera + coś + kropka, pytajnik, wykrzyknić + spacja enter lub tab
         lista_temp=re.split(query ,text) # Wstępny podział tekstu
-#         lista_temp = re.split(r' *[\.\?!][\'"\)\]]* *', text)
         
         lista = [];
         schowek = ""
@@ -134,7 +141,6 @@ class File():
                 schowek = ""
        
         for sentence in lista:
-            # metody jeszcze nie napisane, więc jeszcze komment
             self.clearText.append(sentence)
             sentencePrepared = self.PrepareSentenceToHash(sentence)
             sentenceHash=self.HashSentence(sentencePrepared)

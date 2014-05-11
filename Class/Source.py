@@ -214,7 +214,6 @@ class Source():
         TODO:KAMIL
         '''
         
-        #pathList = []  # lista adresow
         for path in pathList:  
             newOutFile=OutFile(path)
             self.OutFilesCandidate.remove(path)
