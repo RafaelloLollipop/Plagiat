@@ -7,6 +7,7 @@ from Tkinter import Tk
 from tkFileDialog import askopenfilename
 from OutFile import OutFile
 import json
+import ngram
 
 class Source():
     """Config class """
@@ -229,6 +230,7 @@ class Source():
         '''    
         #Loop
         self.CompareHashMethod(OutFile)
+        self.CheckSimilarity(OutFile, 0.35)     # tutaj jako drugi argument treshold z gui 
         self.AddOutFileToJSONConfig(OutFile)
         #EndOfLoop
         return True
@@ -255,6 +257,27 @@ class Source():
         for el in OutFile.repeats:
             print el;
         return True
+    
+    def CheckSimilarity(self, OutFile, treshold):
+        result = []
+    
+        for zdanie_ref in OutFile.clearText: 
+            i = 0
+            best_comparison = 0
+            best_iteration = -1
+            for zdanie_glo in self.mainFile.clearText: 
+                comparison = ngram.NGram.compare(zdanie_ref,zdanie_glo,N=1)
+                if (comparison > best_comparison):
+                    best_comparison = comparison
+                    best_iteration = i
+                i+=1
+            if (best_comparison > treshold):
+                result.append(best_iteration)
+            else:
+                result.append(-1)
+        
+        print result 
+        return result       # Tutaj masz wyniki tak na takiej samej zasadzie jak w metodzie CompareHashMethod
     
     def AddOutFileToJSONConfig(self,OutFile):
         ''' End when Raport is sucesfully generated
