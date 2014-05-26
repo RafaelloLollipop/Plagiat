@@ -1,15 +1,15 @@
-# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-                                    
 #pyuic4 gui.ui > gui.py
 #QtCore.QTextCodec.setCodecForCStrings(QtCore.QTextCodec.codecForName("UTF-8"))
 from os import path
 from Tkinter import Tk
 from tkFileDialog import askopenfilename
 import sys
-import time
+import time                                     
 from PyQt4 import QtCore, QtGui
 sys.path.append(path.abspath('./Class'))
 from Source import Source
-from gui import Ui_MainWindow
+from gui import Ui_MainWindow                   
 
 
 
@@ -33,6 +33,7 @@ class StartQT4(QtGui.QMainWindow):
         QtCore.QObject.connect(self.ui.Button_AddOutFromCandidate,QtCore.SIGNAL("clicked()"), self.Button_AddOutFromCandidate)
         QtCore.QObject.connect(self.ui.Button_ShowRaport,QtCore.SIGNAL("clicked()"), self.Button_ShowRaport)
         QtCore.QObject.connect(self.ui.listWidget_OutFilesList,QtCore.SIGNAL("doubleClicked(QModelIndex)"), self.listWidget_OutFilesListDClicked)
+        QtCore.QObject.connect(self.ui.listWidget_MethodList,QtCore.SIGNAL("doubleClicked(QModelIndex)"), self.listWidget_MethodListDClicked)        
         QtCore.QObject.connect(self.ui.listWidget_MainFile,QtCore.SIGNAL("doubleClicked(QModelIndex)"), self.listWidget_MainFileDClicked)
         QtCore.QObject.connect(self.ui.listWidget_ChoosenOutFile,QtCore.SIGNAL("doubleClicked(QModelIndex)"), self.listWidget_ChoosenOutFileDClicked)
         QtCore.QObject.connect(self.ui.Button_BackToPage_2,QtCore.SIGNAL("clicked()"), self.Button_BackToPage_2)
@@ -63,6 +64,7 @@ class StartQT4(QtGui.QMainWindow):
     '''Buttons'''
     def Button_Next1(self):
         '''Load from file button'''
+        
         self.source.PrepareMainFile()
         name=self.ui.lineEdit_LoadMainFile_Name.displayText() 
         self.source.SetConfigName(name) 
@@ -188,16 +190,27 @@ class StartQT4(QtGui.QMainWindow):
             self.ui.listWidget_ChoosenOutFile.addItem(sentence)
        
     def ColorMainFile(self):    
+        self.ClearColorOnMainFile()
+        currentMethodRow=self.ui.listWidget_MethodList.currentRow()
         ListOfSentencesToColor=self.source.ListOfMainFileSentenceToColor()
+        print ListOfSentencesToColor
         colors=self.GetColors()
         colorIt=-1
         for outFile in ListOfSentencesToColor:
+            outFileCurrentMethod=outFile[currentMethodRow]
             colorIt+=1
             color=colors[colorIt]
-            for number in outFile:
+            for number in outFileCurrentMethod:
+                print "KOLORUJE"
+                print number
                 item=self.ui.listWidget_MainFile.item(number)
                 item.setBackgroundColor(color)
-
+    
+    def ClearColorOnMainFile(self):
+        for number in range(self.source.HowManySentencesInMainFile()):
+            item=self.ui.listWidget_MainFile.item(number)
+            item.setBackgroundColor(QtGui.QColor(255,255,255))
+    
     def ColorOutFilesList(self):    
         numberOfOutFiles=len(self.source.GetOutFiles())
         colors=self.GetColors()
@@ -235,15 +248,25 @@ class StartQT4(QtGui.QMainWindow):
         for outFile in self.source.GetOutFiles():  # make list of outfiles in top widget
             outFileName=outFile.GetFileName()
             self.ui.listWidget_OutFilesList.addItem(outFileName)  
-            self.ui.listWidget_OutFilesList.setCurrentRow(0) 
+        self.ui.listWidget_OutFilesList.setCurrentRow(0)
 
+
+    
+    def LoadMethodList(self):
+        self.ui.listWidget_MethodList.addItem("Hash metoda")
+        self.ui.listWidget_MethodList.addItem("Druga metoda")
+        self.ui.listWidget_MethodList.setCurrentRow(0) 
+        return True
+    
     def Load3PageDisplay(self):
         self.UpdateRaportStats()
         self.UpdateMainFileText()
         self.LoadOutFilesListInRaport()
         self.UpdateChoosenOutFileText()
+        self.LoadMethodList()    
         self.ColorMainFile()
-        self.ColorOutFilesList()    
+        self.ColorOutFilesList()
+
         self.ui.stackedWidget.setCurrentIndex(3) 
         return True
             
@@ -252,6 +275,9 @@ class StartQT4(QtGui.QMainWindow):
     
     def listWidget_OutFilesListDClicked(self):
         self.UpdateChoosenOutFileText()
+        
+    def listWidget_MethodListDClicked(self):
+        self.ColorMainFile()
     
     def listWidget_MainFileDClicked(self):
         currentRow=self.ui.listWidget_MainFile.currentRow() # number of clicked Sentence
@@ -266,7 +292,7 @@ class StartQT4(QtGui.QMainWindow):
             self.ui.listWidget_ChoosenOutFile.setCurrentRow(sentenceNumber) # make focus on sentence
         
     def listWidget_ChoosenOutFileDClicked(self):
-        self.Change_listWidget_ChoosenOutFileFoucs()
+        #self.Change_listWidget_ChoosenOutFileFoucs()
         clickedRow=self.ui.listWidget_ChoosenOutFile.currentRow() # number of clicked sentence
         #self.source.raportStructure=[{0:2}, {}, {}, {}, {}, {}, {}, {}]
         outFileNumber=self.ui.listWidget_OutFilesList.currentRow()  # in what file was that sentence

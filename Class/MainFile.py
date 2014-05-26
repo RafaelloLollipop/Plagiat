@@ -48,6 +48,7 @@ class MainFile(File):
         Pretty good working, wrong recognision: sthwww.page.com
     '''
     def searchForWWW(self,text):
+        www_temp=''
         try:
             exp = '(https?:\/\/|www)?([\da-zA-z]+)([\da-zA-Z\.-]+)\.([a-zA-Z]{2,6})([\/\.-][\S]+)?'; # http:// lub https:// adres.rozszerzenie/cos-z-myslnikami
             www_temp = re.findall(exp, text);

@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'gui.ui'
 #
-# Created: Tue May 06 18:29:56 2014
+# Created: Mon May 26 19:56:04 2014
 #      by: PyQt4 UI code generator 4.10.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -121,6 +121,7 @@ class Ui_MainWindow(object):
         self.listWidget_CandidateOutFiles.setObjectName(_fromUtf8("listWidget_CandidateOutFiles"))
         self.listWidget_OutFiles = QtGui.QListWidget(self.page_2)
         self.listWidget_OutFiles.setGeometry(QtCore.QRect(400, 250, 256, 192))
+        self.listWidget_OutFiles.setProperty("isWrapping", False)
         self.listWidget_OutFiles.setObjectName(_fromUtf8("listWidget_OutFiles"))
         self.Button_ShowRaport = QtGui.QPushButton(self.page_2)
         self.Button_ShowRaport.setGeometry(QtCore.QRect(430, 510, 91, 23))
@@ -148,12 +149,15 @@ class Ui_MainWindow(object):
         font = QtGui.QFont()
         font.setFamily(_fromUtf8("Tahoma"))
         self.listWidget_MainFile.setFont(font)
+        self.listWidget_MainFile.setProperty("isWrapping", False)
+        self.listWidget_MainFile.setWordWrap(True)
         self.listWidget_MainFile.setObjectName(_fromUtf8("listWidget_MainFile"))
         self.listWidget_OutFilesList = QtGui.QListWidget(self.page_3)
         self.listWidget_OutFilesList.setGeometry(QtCore.QRect(550, 160, 391, 61))
         self.listWidget_OutFilesList.setObjectName(_fromUtf8("listWidget_OutFilesList"))
         self.listWidget_ChoosenOutFile = QtGui.QListWidget(self.page_3)
         self.listWidget_ChoosenOutFile.setGeometry(QtCore.QRect(550, 250, 391, 311))
+        self.listWidget_ChoosenOutFile.setWordWrap(True)
         self.listWidget_ChoosenOutFile.setObjectName(_fromUtf8("listWidget_ChoosenOutFile"))
         self.Button_BackToPage_2 = QtGui.QPushButton(self.page_3)
         self.Button_BackToPage_2.setGeometry(QtCore.QRect(60, 30, 101, 31))
@@ -170,6 +174,9 @@ class Ui_MainWindow(object):
         self.label_repeatSentencesProcent = QtGui.QLabel(self.page_3)
         self.label_repeatSentencesProcent.setGeometry(QtCore.QRect(290, 130, 111, 31))
         self.label_repeatSentencesProcent.setObjectName(_fromUtf8("label_repeatSentencesProcent"))
+        self.listWidget_MethodList = QtGui.QListWidget(self.page_3)
+        self.listWidget_MethodList.setGeometry(QtCore.QRect(550, 90, 391, 61))
+        self.listWidget_MethodList.setObjectName(_fromUtf8("listWidget_MethodList"))
         self.stackedWidget.addWidget(self.page_3)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(MainWindow)
@@ -190,7 +197,7 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.menuFile.menuAction())
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(2)
+        self.stackedWidget.setCurrentIndex(3)
         QtCore.QObject.connect(self.actionQuit, QtCore.SIGNAL(_fromUtf8("triggered()")), MainWindow.close)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 

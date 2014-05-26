@@ -41,7 +41,7 @@ class OutFile(File):
             text=self.ParseHTML(downText)
         else:
             text=text=self.LoadTextFromFile(path)
-            
+        text=text.encode('utf-8','ignore')
         self.MakeClearAndHashedText(text)
 
         return True

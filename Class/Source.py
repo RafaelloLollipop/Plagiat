@@ -20,10 +20,10 @@ class Source():
         self.OutFiles=[] # List of OutFiles, with raports
         self.OutFilesCandidate=[] # List of filles who we want to make OutFile, path list
         self.raportStructure=[] # [{z ktorego outFile:ktore zdanie z outFile},[],[]]   raportStructure[0] jest 1 zdaniem z clearText    
+        self.lock=False # Locker to LoadWindow
         # 
     
     
-    '''getery i setery jebac to'''
     
     
     def SetConfigName(self,name):
@@ -109,28 +109,37 @@ class Source():
     
         #print raportStructure
         for outFileNumber in range(len(self.OutFiles)):
-            repeats=self.OutFiles[outFileNumber].repeats
-            #print self.OutFiles[outFileNumber].repeats
-            for repeatNumber in range(len(repeats)):
-                if repeats[repeatNumber]>=0:
-                    #print [repeatNumber,repeats[repeatNumber]]  
-                    print "outFile numer "+str(outFileNumber) + ' w ktorym zdanie numer ' + str(repeatNumber) + ' jest zdaniem w main numer: '+str(repeats[repeatNumber])
-                    self.raportStructure[repeats[repeatNumber]]={outFileNumber:repeatNumber}
+            for method in self.OutFiles[outFileNumber].repeats:
+                print method
+                #repeats=self.OutFiles[outFileNumber].repeats
+                repeats=method
+                #print self.OutFiles[outFileNumber].repeats
+                for repeatNumber in range(len(repeats)):
+                    if repeats[repeatNumber]>=0:
+                        #print [repeatNumber,repeats[repeatNumber]]  
+                        print "outFile numer "+str(outFileNumber) + ' w ktorym zdanie numer ' + str(repeatNumber) + ' jest zdaniem w main numer: '+str(repeats[repeatNumber])
+                        self.raportStructure[repeats[repeatNumber]]={outFileNumber:repeatNumber}
         return True
     
     def ListOfMainFileSentenceToColor(self):
         '''return
         [file1 sentences list],[file2senteneslist]]
+        want
+        [[file 1 method 1 list,file 1 method 2 list],[file 2 method 1 list,file 2 method 2 list]]
         '''
         list=[]
         for outFileNumber in range(len(self.OutFiles)):
             outList=[]
-            repeats=self.OutFiles[outFileNumber].repeats
-            for repeatNumber in range(len(repeats)):
-                if repeats[repeatNumber]>=0:
-                    #print [repeatNumber,repeats[repeatNumber]]  
-                    outList.append(repeats[repeatNumber])
-            list.append(outList)
+            fileList=[]
+            for method in self.OutFiles[outFileNumber].repeats:
+                repeats=method
+                for repeatNumber in range(len(repeats)):
+                    if repeats[repeatNumber]>=0:
+                        #print [repeatNumber,repeats[repeatNumber]]  
+                        outList.append(repeats[repeatNumber])
+                fileList.append(outList)
+                outList=[]
+            list.append(fileList)
         return list
     
     def LoadChoosedLinks(self):
@@ -149,17 +158,20 @@ class Source():
     
     def SearchFile(self):
         """ This function return path to File"""
-
-        self.file_opt = options = {}
+        file_opt = {}
         myFormats = [
             ('Text','*.txt'),
             ('PDF','*.pdf'),
             ('HTML','*.html'),
             ('Microsoft Office .doc','*.doc'),
             ]
-        
-        Tk().withdraw() # we don't want a full GUI, so keep the root window from appearing
-        path=askopenfilename(filetypes=myFormats ) 
+    
+        path=''
+        if(not self.lock):
+            self.lock=True
+            root=Tk().withdraw() # we don't want a full GUI, so keep the root window from appearing
+            path=askopenfilename(filetypes=myFormats) 
+            self.lock=False
         return path
     
     
@@ -171,8 +183,12 @@ class Source():
             ('JSON','*.json')
             ]
         
-        Tk().withdraw() # we don't want a full GUI, so keep the root window from appearing
-        path=askopenfilename(filetypes=myFormats ) 
+        path=''
+        if(not self.lock):
+            self.lock=True
+            Tk().withdraw() # we don't want a full GUI, so keep the root window from appearing
+            path=askopenfilename(filetypes=myFormats ) 
+            self.lock=False
         return path
         
     def PrepareMainFile(self):
@@ -193,9 +209,7 @@ class Source():
         f.close()
         config = json.loads(config)  
        
-        print self.pathToMainFile
         configName=self.pathToMainFile.split('/')[len(self.pathToMainFile.split('/'))-1][:-5]
-        print configName
         self.pathToMainFile="" # .txt,.pdf etc
         self.configName=configName 
 
@@ -240,22 +254,24 @@ class Source():
         TODO:KAMIL
         make repeats list in OutFile complete         '''
         print "Tutaj hashe z Main File";
-        powtorki = [];
+        outRepeats=[]
+        powtorki = []
         for hashOutFile in OutFile.hashedText:
             iteracjaMain = 0;
             dodany = 0;
             for hashMainFile in self.mainFile.hashedText: 
-                print hashOutFile + " " + hashMainFile;
+                #print hashOutFile + " " + hashMainFile;
                 if (hashOutFile == hashMainFile):
-                    print iteracjaMain;
-                    OutFile.repeats.append(iteracjaMain);
+                    #print iteracjaMain;
+                    outRepeats.append(iteracjaMain);
                     dodany = 1;
                 iteracjaMain +=1;
             if (dodany!=1):
-                OutFile.repeats.append(-1);
-                    
-        for el in OutFile.repeats:
-            print el;
+               outRepeats.append(-1);
+        
+        OutFile.repeats.append(outRepeats)
+        #for el in OutFile.repeats:
+            #print el;
         return True
     
     def CheckSimilarity(self, OutFile, treshold):
@@ -276,8 +292,9 @@ class Source():
             else:
                 result.append(-1)
         
-        print result 
-        return result       # Tutaj masz wyniki tak na takiej samej zasadzie jak w metodzie CompareHashMethod
+        #print result 
+        OutFile.repeats.append(result)
+        return True       # Tutaj masz wyniki tak na takiej samej zasadzie jak w metodzie CompareHashMethod
     
     def AddOutFileToJSONConfig(self,OutFile):
         ''' End when Raport is sucesfully generated
