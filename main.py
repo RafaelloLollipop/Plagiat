@@ -32,12 +32,13 @@ class StartQT4(QtGui.QMainWindow):
         QtCore.QObject.connect(self.ui.testButton,QtCore.SIGNAL("clicked()"), self.RunProgram)
         QtCore.QObject.connect(self.ui.Button_AddOutFromCandidate,QtCore.SIGNAL("clicked()"), self.Button_AddOutFromCandidate)
         QtCore.QObject.connect(self.ui.Button_ShowRaport,QtCore.SIGNAL("clicked()"), self.Button_ShowRaport)
-        QtCore.QObject.connect(self.ui.listWidget_OutFilesList,QtCore.SIGNAL("doubleClicked(QModelIndex)"), self.listWidget_OutFilesListDClicked)
-        QtCore.QObject.connect(self.ui.listWidget_MethodList,QtCore.SIGNAL("doubleClicked(QModelIndex)"), self.listWidget_MethodListDClicked)        
+        QtCore.QObject.connect(self.ui.listWidget_OutFilesList,QtCore.SIGNAL("doubleClicked(QModelIndex)"), self.listWidget_OutFilesListDClicked)        
         QtCore.QObject.connect(self.ui.listWidget_MainFile,QtCore.SIGNAL("doubleClicked(QModelIndex)"), self.listWidget_MainFileDClicked)
         QtCore.QObject.connect(self.ui.listWidget_ChoosenOutFile,QtCore.SIGNAL("doubleClicked(QModelIndex)"), self.listWidget_ChoosenOutFileDClicked)
         QtCore.QObject.connect(self.ui.Button_BackToPage_2,QtCore.SIGNAL("clicked()"), self.Button_BackToPage_2)
         QtCore.QObject.connect(self.ui.Button_BackToPage_1,QtCore.SIGNAL("clicked()"), self.Button_BackToPage_1)
+        QtCore.QObject.connect(self.ui.comboBox_MethodList,QtCore.SIGNAL("currentIndexChanged(int)"), self.comboBox_MethodListClicked)
+        
 #0      
     '''Methods to load propertly 0 site'''
         
@@ -191,7 +192,7 @@ class StartQT4(QtGui.QMainWindow):
        
     def ColorMainFile(self):    
         self.ClearColorOnMainFile()
-        currentMethodRow=self.ui.listWidget_MethodList.currentRow()
+        currentMethodRow=self.ui.comboBox_MethodList.currentIndex()
         ListOfSentencesToColor=self.source.ListOfMainFileSentenceToColor()
         print ListOfSentencesToColor
         colors=self.GetColors()
@@ -250,20 +251,13 @@ class StartQT4(QtGui.QMainWindow):
             self.ui.listWidget_OutFilesList.addItem(outFileName)  
         self.ui.listWidget_OutFilesList.setCurrentRow(0)
 
+        
 
-    
-    def LoadMethodList(self):
-        self.ui.listWidget_MethodList.addItem("Hash metoda")
-        self.ui.listWidget_MethodList.addItem("Druga metoda")
-        self.ui.listWidget_MethodList.setCurrentRow(0) 
-        return True
-    
     def Load3PageDisplay(self):
         self.UpdateRaportStats()
         self.UpdateMainFileText()
         self.LoadOutFilesListInRaport()
-        self.UpdateChoosenOutFileText()
-        self.LoadMethodList()    
+        self.UpdateChoosenOutFileText()    
         self.ColorMainFile()
         self.ColorOutFilesList()
 
@@ -275,13 +269,14 @@ class StartQT4(QtGui.QMainWindow):
     
     def listWidget_OutFilesListDClicked(self):
         self.UpdateChoosenOutFileText()
-        
-    def listWidget_MethodListDClicked(self):
+    
+    
+    def comboBox_MethodListClicked(self):
         self.ColorMainFile()
+        
     
     def listWidget_MainFileDClicked(self):
         currentRow=self.ui.listWidget_MainFile.currentRow() # number of clicked Sentence
-        #self.source.raportStructure=[{0:2}, {}, {}, {}, {}, {}, {}, {}]
         
         if(len(self.source.raportStructure[currentRow].keys())>0):   # repeat exist
             fileNumber=self.source.raportStructure[currentRow].keys()[0]   # number of file when is repeat
@@ -292,12 +287,13 @@ class StartQT4(QtGui.QMainWindow):
             self.ui.listWidget_ChoosenOutFile.setCurrentRow(sentenceNumber) # make focus on sentence
         
     def listWidget_ChoosenOutFileDClicked(self):
+        currentMethodRow=self.ui.comboBox_MethodList.currentIndex()
         #self.Change_listWidget_ChoosenOutFileFoucs()
         clickedRow=self.ui.listWidget_ChoosenOutFile.currentRow() # number of clicked sentence
         #self.source.raportStructure=[{0:2}, {}, {}, {}, {}, {}, {}, {}]
         outFileNumber=self.ui.listWidget_OutFilesList.currentRow()  # in what file was that sentence
         #self.source.OutFiles[outFileNumber].repeats=[2,2,2,2,2,2,2]
-        mainFileSentenceNumber=self.source.OutFiles[outFileNumber].repeats[clickedRow]  # search for repeat number
+        mainFileSentenceNumber=self.source.OutFiles[outFileNumber].repeats[currentMethodRow][clickedRow]  # search for repeat number
         self.ui.listWidget_MainFile.setCurrentRow(mainFileSentenceNumber) #change focus on left widget
         return True
         

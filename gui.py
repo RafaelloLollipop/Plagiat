@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'gui.ui'
 #
-# Created: Mon May 26 19:56:04 2014
+# Created: Mon May 26 21:51:37 2014
 #      by: PyQt4 UI code generator 4.10.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -174,9 +174,11 @@ class Ui_MainWindow(object):
         self.label_repeatSentencesProcent = QtGui.QLabel(self.page_3)
         self.label_repeatSentencesProcent.setGeometry(QtCore.QRect(290, 130, 111, 31))
         self.label_repeatSentencesProcent.setObjectName(_fromUtf8("label_repeatSentencesProcent"))
-        self.listWidget_MethodList = QtGui.QListWidget(self.page_3)
-        self.listWidget_MethodList.setGeometry(QtCore.QRect(550, 90, 391, 61))
-        self.listWidget_MethodList.setObjectName(_fromUtf8("listWidget_MethodList"))
+        self.comboBox_MethodList = QtGui.QComboBox(self.page_3)
+        self.comboBox_MethodList.setGeometry(QtCore.QRect(810, 100, 69, 22))
+        self.comboBox_MethodList.setObjectName(_fromUtf8("comboBox_MethodList"))
+        self.comboBox_MethodList.addItem(_fromUtf8(""))
+        self.comboBox_MethodList.addItem(_fromUtf8(""))
         self.stackedWidget.addWidget(self.page_3)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(MainWindow)
@@ -225,6 +227,8 @@ class Ui_MainWindow(object):
         self.label_numberOfSentences.setText(_translate("MainWindow", "TextLabel", None))
         self.label_numberOfRepeatSentences.setText(_translate("MainWindow", "TextLabel", None))
         self.label_repeatSentencesProcent.setText(_translate("MainWindow", "TextLabel", None))
+        self.comboBox_MethodList.setItemText(0, _translate("MainWindow", "I metoda", None))
+        self.comboBox_MethodList.setItemText(1, _translate("MainWindow", "II metoda", None))
         self.menuFile.setTitle(_translate("MainWindow", "File", None))
         self.toolBar.setWindowTitle(_translate("MainWindow", "toolBar", None))
         self.actionQuit.setText(_translate("MainWindow", "Quit", None))

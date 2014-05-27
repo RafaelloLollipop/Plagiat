@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 import nltk   
+import sys
 import StringIO
+import codecs
 from PyPDF2 import PdfFileWriter, PdfFileReader
 import urllib
 try:
@@ -46,22 +48,50 @@ class File():
             text+=sentence+'. '
         return text
     
+    
+    def SaveChars(self):
+        inter = [',', ':', ';', '!', '@', '#', '$', '%', '^', '&', '\*', '\.', '\(', '\)', '-', '_', '\+', '=', '\{', '\}', '\[', '\]', '\|', '<', '>', '\n', '\t']
+        abbList = ["mgr", "prof", "hab"]
+        lacz = ['i', 'a', 'w', 'o', 'lub','jednak', 'na', 'u', 'pod', 'powyżej', 'poniżej', 'ponad', 'ale',]
+        struct=[]
+        struct.append(inter)
+        struct.append(lacz)
+        struct.append(abbList)
+        #configToSave=json.dumps(struct, indent=2,ensure_ascii=False,encoding='utf8')
+        
+        #f = open('Database'+".json", 'w')
+        f = codecs.open('Database'+'.json', "w", encoding="utf-8")
+        json.dump(struct, f, indent=2, ensure_ascii=False)
+        #f.write(configToSave)
+        f.close()
+        return True
+    
+    def LoadCharsDatabase(self):
+        data=[]
+        #f = open('Database'+'.json', 'r')
+        f  = file('Database'+'.json', "r")
+        #data=f.read()
+        data = json.loads(f.read().encode("utf-8"))
+        f.close()
+        #data= json.loads(data,encoding='unicode')
+        return data
+    
     '''Delete colons, space, making the letters small'''
     def PrepareSentenceToHash(self,sentence):
         ''' #Input: string sentence (unprocessed) 
         Output: string sentence (processed)
         Description: Function makes lower cases, deletes all punctuations (all spaces as well), polish joins-word (i, ale, pod) and changes polish letter to english equivalent.
         '''
-        
          # 0. do małych liter
         sentence = sentence.lower()
-        # 1. znaki interpunkcyjne
-        interpunkcja = [',', ':', ';', '!', '@', '#', '$', '%', '^', '&', '\*', '\.', '\(', '\)', '-', '_', '\+', '=', '\{', '\}', '\[', '\]', '\|', '<', '>', '\n', '\t']
+        [interpunkcja,laczniki,abbList]=self.LoadCharsDatabase()
+        #print polskie_znaki
+
         # polskie łączniki
-        laczniki = ['i', 'a', 'w', 'o', 'lub','jednak', 'na', 'u', 'pod', 'powyżej', 'poniżej', 'ponad', 'ale',]
+
         # polskie znaki ę ą 
         polskie_znaki = {'ę': 'e', 'ó': 'o', 'ą': 'a', 'ś': 's', 'ł': 'l', 'ż': 'z', 'ź': 'z', 'ć': 'c', 'ń': 'n', 'Ę': 'e', 'Ó': 'o', 'Ą': 'a', 'Ś': 's', 'Ł': 'l', 'Ż': 'z', 'Ź': 'z', 'Ć': 'c', 'Ń': 'n'}
-        
+
         
         
         for char in interpunkcja:
@@ -105,7 +135,7 @@ class File():
         This method checks if the sentence ends with abbreviation (for instance: prof., mgr.). Return true if exists or false if not.
         '''
         result = False
-        abbList = ["mgr", "prof", "hab"]
+        [interpunkcja,laczniki,abbList]=self.LoadCharsDatabase()
         for abb in abbList:
             if (sentence.endswith(abb)):
                 result = True
