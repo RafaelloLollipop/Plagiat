@@ -21,11 +21,19 @@ class Source():
         self.OutFilesCandidate=[] # List of filles who we want to make OutFile, path list
         self.raportStructure=[] # [{z ktorego outFile:ktore zdanie z outFile},[],[]]   raportStructure[0] jest 1 zdaniem z clearText    
         self.lock=False # Locker to LoadWindow
+        self._threshold=0
         # 
     
     
+    @property
+    def threshold(self):
+        return self._threshold
     
-    
+    @threshold.setter
+    def threshold(self,value):
+        print 'xD'
+        self._threshold=value
+            
     def SetConfigName(self,name):
         self.configName=name
         return True
@@ -244,7 +252,7 @@ class Source():
         '''    
         #Loop
         self.CompareHashMethod(OutFile)
-        self.CheckSimilarity(OutFile, 0.35)     # tutaj jako drugi argument treshold z gui 
+        self.CheckSimilarity(OutFile, self.threshold/100.0)     # tutaj jako drugi argument treshold z gui 
         self.AddOutFileToJSONConfig(OutFile)
         #EndOfLoop
         return True

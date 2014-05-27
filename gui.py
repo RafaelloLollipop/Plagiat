@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'gui.ui'
 #
-# Created: Mon May 26 21:51:37 2014
+# Created: Tue May 27 12:58:16 2014
 #      by: PyQt4 UI code generator 4.10.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -141,6 +141,12 @@ class Ui_MainWindow(object):
         self.Button_BackToPage_1 = QtGui.QPushButton(self.page_2)
         self.Button_BackToPage_1.setGeometry(QtCore.QRect(0, 510, 101, 31))
         self.Button_BackToPage_1.setObjectName(_fromUtf8("Button_BackToPage_1"))
+        self.horizontalSlider_Threshold = QtGui.QSlider(self.page_2)
+        self.horizontalSlider_Threshold.setGeometry(QtCore.QRect(200, 60, 160, 19))
+        self.horizontalSlider_Threshold.setMinimum(1)
+        self.horizontalSlider_Threshold.setMaximum(100)
+        self.horizontalSlider_Threshold.setOrientation(QtCore.Qt.Horizontal)
+        self.horizontalSlider_Threshold.setObjectName(_fromUtf8("horizontalSlider_Threshold"))
         self.stackedWidget.addWidget(self.page_2)
         self.page_3 = QtGui.QWidget()
         self.page_3.setObjectName(_fromUtf8("page_3"))
@@ -199,7 +205,7 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.menuFile.menuAction())
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(3)
+        self.stackedWidget.setCurrentIndex(2)
         QtCore.QObject.connect(self.actionQuit, QtCore.SIGNAL(_fromUtf8("triggered()")), MainWindow.close)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 

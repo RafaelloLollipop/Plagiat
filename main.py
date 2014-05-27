@@ -28,6 +28,7 @@ class StartQT4(QtGui.QMainWindow):
         QtCore.QObject.connect(self.ui.Button_LoadOutFileCandidate,QtCore.SIGNAL("clicked()"), self.Button_LoadOutFileCandidate)
         QtCore.QObject.connect(self.ui.Button_RemoveOutFileCandidate,QtCore.SIGNAL("clicked()"), self.Button_RemoveOutFileCandidate)
         QtCore.QObject.connect(self.ui.Button_RemoveOutFile,QtCore.SIGNAL("clicked()"), self.Button_RemoveOutFile)
+        QtCore.QObject.connect(self.ui.horizontalSlider_Threshold,QtCore.SIGNAL("valueChanged(int)"), self.horizontalSlider_ThresholdValueChanged)
         QtCore.QObject.connect(self.ui.Button_LoadOutFileCandidateFromWWW,QtCore.SIGNAL("clicked()"), self.Button_LoadOutFileCandidateFromWWW)
         QtCore.QObject.connect(self.ui.testButton,QtCore.SIGNAL("clicked()"), self.RunProgram)
         QtCore.QObject.connect(self.ui.Button_AddOutFromCandidate,QtCore.SIGNAL("clicked()"), self.Button_AddOutFromCandidate)
@@ -166,7 +167,11 @@ class StartQT4(QtGui.QMainWindow):
     def Button_ShowRaport(self):
         self.source.GenerateRaport() # Create raport
         self.Load3PageDisplay()
-        return True        
+        return True
+            
+    def horizontalSlider_ThresholdValueChanged(self):
+        self.source.threshold=self.ui.horizontalSlider_Threshold.value()
+        return True
 
         '''Method to properly load 3 site'''
     
@@ -187,6 +192,7 @@ class StartQT4(QtGui.QMainWindow):
     def UpdateChoosenOutFileText(self):
         currentRow=self.ui.listWidget_OutFilesList.currentRow()
         self.ui.listWidget_ChoosenOutFile.clear()
+        currentMethodRow=self.ui.comboBox_MethodList.currentIndex()
         for sentence in self.source.OutFiles[currentRow].clearText:
             self.ui.listWidget_ChoosenOutFile.addItem(sentence)
        
