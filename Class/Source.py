@@ -150,20 +150,6 @@ class Source():
             list.append(fileList)
         return list
     
-    def LoadChoosedLinks(self):
-        ''' this method load all adress choosen from BiographyLinks 
-        and show it in the table
-        '''
-        self.GetAdress()
-        return True
-    
-    def LoadBiographyLink(self):
-        ''' this method load all unused adress from wwwAdress list in mainFile object
-        and show it in the table
-        '''
-        self.mainFile.GetwwwAdress()
-        return True
-    
     def SearchFile(self):
         """ This function return path to File"""
         file_opt = {}
@@ -309,12 +295,6 @@ class Source():
         '''
         OutFile.AddOutFileToConfigJSON(self.configName)
         return True
-    
-    def ShowRaports(self):
-        ''' Start by click
-        TODO:RAFAL
-        '''
-        return True 
     
     def GetOutFileFromJSONConfig(self,outFileName):
         f = open(self.configName+'.json', 'r')

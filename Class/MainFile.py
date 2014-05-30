@@ -38,7 +38,7 @@ class MainFile(File):
         text=self.LoadTextFromFile(path)
         if (self.IsLink(path)):
             text=self.ParseHTML(text)
-        self.searchForWWW(text)#not work
+        self.searchForWWW(text)
         self.MakeClearAndHashedText(text)
         
         return True

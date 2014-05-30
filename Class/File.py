@@ -42,12 +42,6 @@ class File():
         
         return self.clearText
     
-    def FromListToTxt(self,list):
-        text=""
-        for sentence in list:
-            text+=sentence+'. '
-        return text
-    
     
     def SaveChars(self):
         inter = [',', ':', ';', '!', '@', '#', '$', '%', '^', '&', '\*', '\.', '\(', '\)', '-', '_', '\+', '=', '\{', '\}', '\[', '\]', '\|', '<', '>', '\n', '\t']
