@@ -24,7 +24,6 @@ class StartQT4(QtGui.QMainWindow):
         QtCore.QObject.connect(self.ui.Button_LoadMainFilePath,QtCore.SIGNAL("clicked()"), self.Button_LoadMainFilePath)
         QtCore.QObject.connect(self.ui.Button_LoadConfigPath,QtCore.SIGNAL("clicked()"), self.Button_LoadConfigPath)
         QtCore.QObject.connect(self.ui.Button_Next1,QtCore.SIGNAL("clicked()"), self.Button_Next1)
-        QtCore.QObject.connect(self.ui.Button_Next2,QtCore.SIGNAL("clicked()"), self.Button_Next2)
         QtCore.QObject.connect(self.ui.Button_LoadOutFileCandidate,QtCore.SIGNAL("clicked()"), self.Button_LoadOutFileCandidate)
         QtCore.QObject.connect(self.ui.Button_RemoveOutFileCandidate,QtCore.SIGNAL("clicked()"), self.Button_RemoveOutFileCandidate)
         QtCore.QObject.connect(self.ui.Button_RemoveOutFile,QtCore.SIGNAL("clicked()"), self.Button_RemoveOutFile)
@@ -66,20 +65,20 @@ class StartQT4(QtGui.QMainWindow):
     '''Buttons'''
     def Button_Next1(self):
         '''Load from file button'''
-        
-        self.source.PrepareMainFile()
-        name=self.ui.lineEdit_LoadMainFile_Name.displayText() 
-        self.source.SetConfigName(name) 
-        self.source.CreateConfig()
-        self.Load2PageDisplay()
-        self.ui.Line_LoadConfig_Path.clear()
+        print 
+        if(self.ui.radioButton_new.isChecked() and len(self.ui.Line_LoadMainFile_Path.text())>0):
+            self.source.PrepareMainFile()
+            name=self.ui.lineEdit_LoadMainFile_Name.displayText() 
+            self.source.SetConfigName(name) 
+            self.source.CreateConfig()
+            self.Load2PageDisplay()
+            self.ui.Line_LoadConfig_Path.clear()
+        if(self.ui.radioButton_loadOld.isChecked() and len(self.ui.Line_LoadConfig_Path.text())>0):
+            self.source.LoadConfig()
+            self.Load2PageDisplay()
+            self.ui.lineEdit_LoadMainFile_Name.clear()
+            self.ui.Line_LoadMainFile_Path.clear()
 
-    def Button_Next2(self):
-        '''Load from config button'''
-        self.source.LoadConfig()
-        self.Load2PageDisplay()
-        self.ui.lineEdit_LoadMainFile_Name.clear()
-        self.ui.Line_LoadMainFile_Path.clear()
     
     def Button_LoadMainFilePath(self):
         self.ui.lineEdit_LoadMainFile_Name.setText("XD") #TODELETE
@@ -131,6 +130,7 @@ class StartQT4(QtGui.QMainWindow):
     
     #button
     def Button_LoadOutFileCandidateFromWWW(self):
+        self.ui.listWidget_wwwFromMainFile.setVisible(not self.ui.listWidget_wwwFromMainFile.isVisible())
         adressList= self.source.GetAdressFromMainFile()
         clickedRow=self.ui.listWidget_wwwFromMainFile.currentRow()
         path=adressList[clickedRow]
