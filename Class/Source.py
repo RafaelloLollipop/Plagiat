@@ -197,14 +197,13 @@ class Source():
     
     
     def LoadConfig(self):
-        
         f = open(self.pathToMainFile, 'r')
         config = f.read()
         f.close()
         config = json.loads(config)  
        
         configName=self.pathToMainFile.split('/')[len(self.pathToMainFile.split('/'))-1][:-5]
-        self.pathToMainFile="" # .txt,.pdf etc
+        #self.pathToMainFile="" # .txt,.pdf etc
         self.configName=configName 
 
         mainFileJSON=config['mainFile']
@@ -224,7 +223,10 @@ class Source():
         '''
         
         for path in pathList:  
-            newOutFile=OutFile(path)
+            try:
+                newOutFile=OutFile(path)
+            except:
+                print "BLAD KODOWANIA"
             self.OutFilesCandidate.remove(path)
             self.OutFiles.append(newOutFile)
             self.SearchPlagiarsim(newOutFile)

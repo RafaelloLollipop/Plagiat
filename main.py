@@ -25,6 +25,9 @@ class StartQT4(QtGui.QMainWindow):
         QtCore.QObject.connect(self.ui.Button_LoadConfigPath,QtCore.SIGNAL("clicked()"), self.Button_LoadConfigPath)
         QtCore.QObject.connect(self.ui.Button_Next1,QtCore.SIGNAL("clicked()"), self.Button_Next1)
         QtCore.QObject.connect(self.ui.Button_LoadOutFileCandidate,QtCore.SIGNAL("clicked()"), self.Button_LoadOutFileCandidate)
+        QtCore.QObject.connect(self.ui.Button_Podglad,QtCore.SIGNAL("clicked()"), self.Button_Podglad)
+        QtCore.QObject.connect(self.ui.Button_Podglad2,QtCore.SIGNAL("clicked()"), self.Button_Podglad2)
+        QtCore.QObject.connect(self.ui.Button_ClosePodglad,QtCore.SIGNAL("clicked()"), self.Button_ClosePodglad)        
         QtCore.QObject.connect(self.ui.Button_RemoveOutFileCandidate,QtCore.SIGNAL("clicked()"), self.Button_RemoveOutFileCandidate)
         QtCore.QObject.connect(self.ui.Button_RemoveOutFile,QtCore.SIGNAL("clicked()"), self.Button_RemoveOutFile)
         QtCore.QObject.connect(self.ui.horizontalSlider_Threshold,QtCore.SIGNAL("valueChanged(int)"), self.horizontalSlider_ThresholdValueChanged)
@@ -38,7 +41,10 @@ class StartQT4(QtGui.QMainWindow):
         QtCore.QObject.connect(self.ui.Button_BackToPage_2,QtCore.SIGNAL("clicked()"), self.Button_BackToPage_2)
         QtCore.QObject.connect(self.ui.Button_BackToPage_1,QtCore.SIGNAL("clicked()"), self.Button_BackToPage_1)
         QtCore.QObject.connect(self.ui.comboBox_MethodList,QtCore.SIGNAL("currentIndexChanged(int)"), self.comboBox_MethodListClicked)
-        
+        QtCore.QObject.connect(self.ui.listWidget_wwwFromMainFile,QtCore.SIGNAL("doubleClicked(QModelIndex)"), self.listWidget_wwwFromMainFileDClicked)
+
+
+
 #0      
     '''Methods to load propertly 0 site'''
         
@@ -56,6 +62,8 @@ class StartQT4(QtGui.QMainWindow):
     '''Methods to load propertly 1 site'''
 
     def Load1PageDisplay(self):
+        self.ui.listWidget_MainFile_Podglad.setVisible(False)
+        self.ui.Button_ClosePodglad.setVisible(False)
         self.ui.lineEdit_LoadMainFile_Name.clear()
         self.ui.Line_LoadConfig_Path.clear()
         self.ui.Line_LoadMainFile_Path.clear()
@@ -63,9 +71,33 @@ class StartQT4(QtGui.QMainWindow):
 
         
     '''Buttons'''
+    def Button_Podglad(self):
+        if(len(self.ui.Line_LoadMainFile_Path.text())>0):
+            self.source.PrepareMainFile()
+            self.Podglad()
+                
+    def Button_Podglad2(self):    
+        if(self.ui.radioButton_loadOld.isChecked() and len(self.ui.Line_LoadConfig_Path.text())>0):
+            self.source.LoadConfig()
+            self.ui.lineEdit_LoadMainFile_Name.clear()
+            self.ui.Line_LoadMainFile_Path.clear()
+            self.Podglad()
+            
+    def Podglad(self):
+        self.ui.listWidget_MainFile_Podglad.setVisible(True)
+        self.ui.Button_ClosePodglad.setVisible(True)
+            
+        self.ui.listWidget_MainFile_Podglad.clear()
+        for sentence in self.source.GetMainFileClearText():  # show MainFile text to left widget 
+            self.ui.listWidget_MainFile_Podglad.addItem(sentence)
+
+            
+    def Button_ClosePodglad(self):
+        self.ui.listWidget_MainFile_Podglad.setVisible(False)
+        self.ui.Button_ClosePodglad.setVisible(False)
+    
     def Button_Next1(self):
         '''Load from file button'''
-        print 
         if(self.ui.radioButton_new.isChecked() and len(self.ui.Line_LoadMainFile_Path.text())>0):
             self.source.PrepareMainFile()
             name=self.ui.lineEdit_LoadMainFile_Name.displayText() 
@@ -125,29 +157,34 @@ class StartQT4(QtGui.QMainWindow):
         self.UpdateOutFilesList()
         self.UpdatePathToFile()
         self.UpdateOutFilesCandidateList()
+        self.ui.listWidget_wwwFromMainFile.setVisible(False)
+        self.ui.label_22.setVisible(False)
         self.ui.stackedWidget.setCurrentIndex(2)
         return True
     
-    #button
-    def Button_LoadOutFileCandidateFromWWW(self):
-        self.ui.listWidget_wwwFromMainFile.setVisible(not self.ui.listWidget_wwwFromMainFile.isVisible())
+    
+    def listWidget_wwwFromMainFileDClicked(self):
         adressList= self.source.GetAdressFromMainFile()
         clickedRow=self.ui.listWidget_wwwFromMainFile.currentRow()
         path=adressList[clickedRow]
         self.source.AddOutFileCandidate(path)
-        self.UpdateOutFilesCandidateList()     
+        self.UpdateOutFilesCandidateList()
+    
+    #button
+    def Button_LoadOutFileCandidateFromWWW(self):
+        self.ui.listWidget_wwwFromMainFile.setVisible(not self.ui.listWidget_wwwFromMainFile.isVisible())     
+        self.ui.label_22.setVisible(self.ui.listWidget_wwwFromMainFile.isVisible())
         return True
         
     def Button_RemoveOutFileCandidate(self):
         clickedRow=self.ui.listWidget_CandidateOutFiles.currentRow()
-        self.source.RemoveOutFileCandidate(clicked)
+        self.source.RemoveOutFileCandidate(clickedRow)
         self.UpdateOutFilesCandidateList() 
         
         return True
     
     def Button_LoadOutFileCandidate(self):
         path=self.source.SearchFile()
-        self.ui.Line_LoadOutFile_Path.setText(path)
         self.source.AddOutFileCandidate(path)
         self.UpdateOutFilesCandidateList()
     
@@ -158,6 +195,7 @@ class StartQT4(QtGui.QMainWindow):
 
     def Button_AddOutFromCandidate(self):
         self.source.GenerateOutFile(self.source.OutFilesCandidate)
+        
         self.UpdateOutFilesCandidateList()
         self.UpdateOutFilesList()
 
