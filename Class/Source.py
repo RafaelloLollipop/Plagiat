@@ -31,7 +31,6 @@ class Source():
     
     @threshold.setter
     def threshold(self,value):
-        print 'xD'
         self._threshold=value
             
     def SetConfigName(self,name):
@@ -240,7 +239,7 @@ class Source():
         '''    
         #Loop
         self.CompareHashMethod(OutFile)
-        self.CheckSimilarity(OutFile, self.threshold/100.0)     # tutaj jako drugi argument treshold z gui 
+        self.CheckSimilarity(OutFile)     # tutaj jako drugi argument treshold z gui 
         self.AddOutFileToJSONConfig(OutFile)
         #EndOfLoop
         return True
@@ -270,9 +269,8 @@ class Source():
             #print el;
         return True
     
-    def CheckSimilarity(self, OutFile, treshold):
+    def CheckSimilarity(self, OutFile):
         result = []
-    
         for zdanie_ref in OutFile.clearText: 
             i = 0
             best_comparison = 0
@@ -283,7 +281,7 @@ class Source():
                     best_comparison = comparison
                     best_iteration = i
                 i+=1
-            if (best_comparison > treshold):
+            if (best_comparison > self.threshold/100.0):
                 result.append(best_iteration)
             else:
                 result.append(-1)

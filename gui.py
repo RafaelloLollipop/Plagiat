@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'gui.ui'
 #
-# Created: Mon Jun 02 18:45:52 2014
+# Created: Tue Jun 03 21:18:53 2014
 #      by: PyQt4 UI code generator 4.10.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -402,6 +402,9 @@ class Ui_MainWindow(object):
         font.setWeight(50)
         self.label_20.setFont(font)
         self.label_20.setObjectName(_fromUtf8("label_20"))
+        self.label_numberOfThreshold = QtGui.QLabel(self.page_3)
+        self.label_numberOfThreshold.setGeometry(QtCore.QRect(800, 70, 111, 31))
+        self.label_numberOfThreshold.setObjectName(_fromUtf8("label_numberOfThreshold"))
         self.stackedWidget.addWidget(self.page_3)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(MainWindow)
@@ -422,7 +425,7 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.menuFile.menuAction())
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(1)
+        self.stackedWidget.setCurrentIndex(3)
         QtCore.QObject.connect(self.actionQuit, QtCore.SIGNAL(_fromUtf8("triggered()")), MainWindow.close)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
         MainWindow.setTabOrder(self.radioButton_new, self.radioButton_loadOld)
@@ -477,6 +480,7 @@ class Ui_MainWindow(object):
         self.label_18.setText(_translate("MainWindow", "Plik główny", None))
         self.label_19.setText(_translate("MainWindow", "Plik porównywany", None))
         self.label_20.setText(_translate("MainWindow", "Współczynnik odrzucenia", None))
+        self.label_numberOfThreshold.setText(_translate("MainWindow", "TextLabel", None))
         self.menuFile.setTitle(_translate("MainWindow", "File", None))
         self.toolBar.setWindowTitle(_translate("MainWindow", "toolBar", None))
         self.actionQuit.setText(_translate("MainWindow", "Quit", None))

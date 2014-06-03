@@ -208,7 +208,14 @@ class StartQT4(QtGui.QMainWindow):
         return True
             
     def horizontalSlider_ThresholdValueChanged(self):
-        self.source.threshold=self.ui.horizontalSlider_Threshold.value()
+        threshold=self.ui.horizontalSlider_Threshold.value()
+        self.source.threshold=threshold
+        
+        for OutFile in self.source.OutFiles:
+            OutFile.repeats.pop()
+            self.source.CheckSimilarity(OutFile)
+            print OutFile.repeats[1]
+        self.Load3PageDisplay()
         return True
 
         '''Method to properly load 3 site'''
@@ -231,9 +238,11 @@ class StartQT4(QtGui.QMainWindow):
         currentRow=self.ui.listWidget_OutFilesList.currentRow()
         self.ui.listWidget_ChoosenOutFile.clear()
         currentMethodRow=self.ui.comboBox_MethodList.currentIndex()
-        for sentence in self.source.OutFiles[currentRow].clearText:
-            self.ui.listWidget_ChoosenOutFile.addItem(sentence)
-       
+        try:
+            for sentence in self.source.OutFiles[currentRow].clearText:
+                self.ui.listWidget_ChoosenOutFile.addItem(sentence)
+        except:
+           print "BRAK OUTFILOW"
     def ColorMainFile(self):    
         self.ClearColorOnMainFile()
         currentMethodRow=self.ui.comboBox_MethodList.currentIndex()
@@ -304,7 +313,8 @@ class StartQT4(QtGui.QMainWindow):
         self.UpdateChoosenOutFileText()    
         self.ColorMainFile()
         self.ColorOutFilesList()
-
+        threshold=self.ui.horizontalSlider_Threshold.value()
+        self.ui.label_numberOfThreshold.setText(str(threshold))
         self.ui.stackedWidget.setCurrentIndex(3) 
         return True
             
