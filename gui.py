@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'gui.ui'
 #
-# Created: Tue Jun 03 22:27:02 2014
+# Created: Tue Jun 03 23:36:07 2014
 #      by: PyQt4 UI code generator 4.10.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -27,7 +27,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName(_fromUtf8("MainWindow"))
         MainWindow.setEnabled(True)
-        MainWindow.resize(800, 650)
+        MainWindow.resize(741, 650)
         MainWindow.setWindowOpacity(1.0)
         MainWindow.setAutoFillBackground(True)
         MainWindow.setDocumentMode(False)
@@ -298,6 +298,15 @@ class Ui_MainWindow(object):
         font.setWeight(50)
         self.label_22.setFont(font)
         self.label_22.setObjectName(_fromUtf8("label_22"))
+        self.listWidget_errorList = QtGui.QListWidget(self.page_2)
+        self.listWidget_errorList.setGeometry(QtCore.QRect(280, 540, 261, 61))
+        self.listWidget_errorList.setObjectName(_fromUtf8("listWidget_errorList"))
+        self.progressBar_GenerateOutFile = QtGui.QProgressBar(self.page_2)
+        self.progressBar_GenerateOutFile.setGeometry(QtCore.QRect(190, 480, 451, 23))
+        self.progressBar_GenerateOutFile.setAutoFillBackground(False)
+        self.progressBar_GenerateOutFile.setProperty("value", 0)
+        self.progressBar_GenerateOutFile.setTextVisible(False)
+        self.progressBar_GenerateOutFile.setObjectName(_fromUtf8("progressBar_GenerateOutFile"))
         self.stackedWidget.addWidget(self.page_2)
         self.page_3 = QtGui.QWidget()
         self.page_3.setObjectName(_fromUtf8("page_3"))
@@ -305,6 +314,7 @@ class Ui_MainWindow(object):
         self.listWidget_MainFile.setGeometry(QtCore.QRect(30, 210, 381, 291))
         font = QtGui.QFont()
         font.setFamily(_fromUtf8("Tahoma"))
+        font.setPointSize(9)
         self.listWidget_MainFile.setFont(font)
         self.listWidget_MainFile.setProperty("isWrapping", False)
         self.listWidget_MainFile.setWordWrap(True)
@@ -314,6 +324,10 @@ class Ui_MainWindow(object):
         self.listWidget_OutFilesList.setObjectName(_fromUtf8("listWidget_OutFilesList"))
         self.listWidget_ChoosenOutFile = QtGui.QListWidget(self.page_3)
         self.listWidget_ChoosenOutFile.setGeometry(QtCore.QRect(420, 210, 391, 291))
+        font = QtGui.QFont()
+        font.setFamily(_fromUtf8("Tahoma"))
+        font.setPointSize(9)
+        self.listWidget_ChoosenOutFile.setFont(font)
         self.listWidget_ChoosenOutFile.setWordWrap(True)
         self.listWidget_ChoosenOutFile.setObjectName(_fromUtf8("listWidget_ChoosenOutFile"))
         self.Button_BackToPage_2 = QtGui.QPushButton(self.page_3)
@@ -408,7 +422,7 @@ class Ui_MainWindow(object):
         self.Button_ClosePodglad.setObjectName(_fromUtf8("Button_ClosePodglad"))
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 21))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 741, 21))
         self.menubar.setObjectName(_fromUtf8("menubar"))
         self.menuFile = QtGui.QMenu(self.menubar)
         self.menuFile.setObjectName(_fromUtf8("menuFile"))
@@ -425,7 +439,7 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.menuFile.menuAction())
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(1)
+        self.stackedWidget.setCurrentIndex(2)
         QtCore.QObject.connect(self.actionQuit, QtCore.SIGNAL(_fromUtf8("triggered()")), MainWindow.close)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
         MainWindow.setTabOrder(self.testButton, self.Button_ShowRaport)

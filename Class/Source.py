@@ -225,8 +225,7 @@ class Source():
             try:
                 newOutFile=OutFile(path)
             except:
-                print "BLAD KODOWANIA"
-            self.OutFilesCandidate.remove(path)
+                raise Exception('OutFileCoddingError',path);
             self.OutFiles.append(newOutFile)
             self.SearchPlagiarsim(newOutFile)
             

@@ -194,11 +194,27 @@ class StartQT4(QtGui.QMainWindow):
         self.UpdateOutFilesList()
 
     def Button_AddOutFromCandidate(self):
-        self.source.GenerateOutFile(self.source.OutFilesCandidate)
-        
+        self.ui.progressBar_GenerateOutFile.setVisible(True)
+        self.ui.progressBar_GenerateOutFile.setValue(0)
+        howMuchOut=len(self.source.OutFilesCandidate)
+        print howMuchOut
+        valueRaise=100.0/howMuchOut
+        done=[]
+        for outFile in self.source.OutFilesCandidate:
+
+            try:
+                self.source.GenerateOutFile([outFile])
+            except Exception as ex:
+                if (ex.args[0]=="OutFileCoddingError"): print ex.args[1]
+                self.ui.listWidget_errorList.addItem(ex.args[0]+": "+ex.args[1]) 
+            done.append(outFile)
+            self.ui.progressBar_GenerateOutFile.setValue(self.ui.progressBar_GenerateOutFile.value()+valueRaise)
+            self.UpdateOutFilesCandidateList()
+            self.UpdateOutFilesList()
+        for complete in done:
+            self.source.OutFilesCandidate.remove(complete)
         self.UpdateOutFilesCandidateList()
         self.UpdateOutFilesList()
-
     def Button_BackToPage_1(self):
         self.ui.stackedWidget.setCurrentIndex(1)
     
