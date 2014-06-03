@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'gui.ui'
 #
-# Created: Tue Jun 03 23:36:07 2014
+# Created: Tue Jun 03 23:58:48 2014
 #      by: PyQt4 UI code generator 4.10.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -27,7 +27,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName(_fromUtf8("MainWindow"))
         MainWindow.setEnabled(True)
-        MainWindow.resize(741, 650)
+        MainWindow.resize(787, 650)
         MainWindow.setWindowOpacity(1.0)
         MainWindow.setAutoFillBackground(True)
         MainWindow.setDocumentMode(False)
@@ -422,7 +422,7 @@ class Ui_MainWindow(object):
         self.Button_ClosePodglad.setObjectName(_fromUtf8("Button_ClosePodglad"))
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 741, 21))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 787, 21))
         self.menubar.setObjectName(_fromUtf8("menubar"))
         self.menuFile = QtGui.QMenu(self.menubar)
         self.menuFile.setObjectName(_fromUtf8("menuFile"))
