@@ -26,6 +26,14 @@ class Source():
         # 
     
     
+    def ClearAll(self):
+
+        self.Adress=[]
+        self.OutFiles=[]
+        self.OutFilesCandidate=[] 
+        self.raportStructure=[] #
+        self._threshold=0
+    
     @property
     def threshold(self):
         return self._threshold
@@ -196,11 +204,13 @@ class Source():
         Check pathToMainFile correctness
         TODO:RAFAL
         '''
+        self.ClearAll()
         self.mainFile=MainFile(self.pathToMainFile)
         return True
     
     
     def LoadConfig(self):
+        self.ClearAll()
         f = open(self.pathToMainFile, 'r')
         config = f.read()
         f.close()

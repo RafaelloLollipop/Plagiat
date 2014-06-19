@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'gui2.ui'
 #
-# Created: Thu Jun 19 20:50:43 2014
+# Created: Thu Jun 19 22:00:13 2014
 #      by: PyQt4 UI code generator 4.10.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -91,7 +91,7 @@ class Ui_MainWindow(object):
         self.horizontalSlider_Threshold.setOrientation(QtCore.Qt.Horizontal)
         self.horizontalSlider_Threshold.setObjectName(_fromUtf8("horizontalSlider_Threshold"))
         self.label_numberOfThreshold = QtGui.QLabel(self.centralwidget)
-        self.label_numberOfThreshold.setGeometry(QtCore.QRect(690, 116, 111, 31))
+        self.label_numberOfThreshold.setGeometry(QtCore.QRect(670, 116, 131, 31))
         self.label_numberOfThreshold.setObjectName(_fromUtf8("label_numberOfThreshold"))
         self.listWidget_ChoosenOutFile = QtGui.QListWidget(self.centralwidget)
         self.listWidget_ChoosenOutFile.setGeometry(QtCore.QRect(400, 156, 391, 391))
@@ -103,7 +103,7 @@ class Ui_MainWindow(object):
         self.listWidget_ChoosenOutFile.setObjectName(_fromUtf8("listWidget_ChoosenOutFile"))
         self.label_20 = QtGui.QLabel(self.centralwidget)
         self.label_20.setEnabled(True)
-        self.label_20.setGeometry(QtCore.QRect(510, 96, 201, 41))
+        self.label_20.setGeometry(QtCore.QRect(510, 96, 151, 41))
         font = QtGui.QFont()
         font.setFamily(_fromUtf8("Tahoma"))
         font.setPointSize(10)
@@ -199,8 +199,22 @@ class Ui_MainWindow(object):
         font.setWeight(50)
         self.label_16.setFont(font)
         self.label_16.setObjectName(_fromUtf8("label_16"))
+        self.Button_Przelicz = QtGui.QPushButton(self.centralwidget)
+        self.Button_Przelicz.setGeometry(QtCore.QRect(690, 120, 91, 31))
+        self.Button_Przelicz.setIcon(icon2)
+        self.Button_Przelicz.setIconSize(QtCore.QSize(25, 25))
+        self.Button_Przelicz.setObjectName(_fromUtf8("Button_Przelicz"))
+        self.lineEdit_wwwPath = QtGui.QLineEdit(self.centralwidget)
+        self.lineEdit_wwwPath.setGeometry(QtCore.QRect(410, 380, 211, 31))
+        self.lineEdit_wwwPath.setObjectName(_fromUtf8("lineEdit_wwwPath"))
+        self.lineEdit_wwwPath.setVisible(False)
+        self.Button_AddWWW = QtGui.QPushButton(self.centralwidget)
+        self.Button_AddWWW.setGeometry(QtCore.QRect(630, 380, 91, 31))
+        self.Button_AddWWW.setIcon(icon2)
+        self.Button_AddWWW.setIconSize(QtCore.QSize(25, 25))
+        self.Button_AddWWW.setObjectName(_fromUtf8("Button_AddWWW"))
         self.listWidget_wwwFromMainFile = QtGui.QListWidget(self.centralwidget)
-        self.listWidget_wwwFromMainFile.setGeometry(QtCore.QRect(410, 90, 311, 331))
+        self.listWidget_wwwFromMainFile.setGeometry(QtCore.QRect(410, 90, 311, 291))
         self.listWidget_wwwFromMainFile.setObjectName(_fromUtf8("listWidget_wwwFromMainFile"))
         self.listWidget_wwwFromMainFile.setVisible(False)
         MainWindow.setCentralWidget(self.centralwidget)
@@ -262,6 +276,9 @@ class Ui_MainWindow(object):
         self.label_15.setText(_translate("MainWindow", "Ilość zdań w pliku głównym:", None))
         self.label_17.setText(_translate("MainWindow", "Współczynnik plagiatu:", None))
         self.label_16.setText(_translate("MainWindow", "Ilość zdań powtórzonych:", None))
+        self.Button_Przelicz.setText(_translate("MainWindow", "Przelicz", None))
+        self.Button_AddWWW.setText(_translate("MainWindow", "Dodaj", None))
+        self.Button_AddWWW.setVisible(False)
         self.menuFile.setTitle(_translate("MainWindow", "Projekt", None))
         self.menuResources.setTitle(_translate("MainWindow", "Zasoby", None))
         self.menuO_programie.setTitle(_translate("MainWindow", "O programie", None))

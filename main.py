@@ -6,6 +6,7 @@ from Tkinter import Tk
 from tkFileDialog import askopenfilename
 import sys
 import time                                     
+import webbrowser
 from PyQt4 import QtCore, QtGui
 sys.path.append(path.abspath('./Class'))
 from Source import Source
@@ -25,6 +26,8 @@ class StartQT4(QtGui.QMainWindow):
         QtCore.QObject.connect(self.ui.Button_LoadConfigPath,QtCore.SIGNAL("clicked()"), self.Button_LoadConfigPath)
         QtCore.QObject.connect(self.ui.Button_LoadOutFile,QtCore.SIGNAL("clicked()"), self.Button_LoadOutFileCandidate)      
         QtCore.QObject.connect(self.ui.Button_RemoveOutFile,QtCore.SIGNAL("clicked()"), self.Button_RemoveOutFile)
+        QtCore.QObject.connect(self.ui.Button_AddWWW,QtCore.SIGNAL("clicked()"), self.Button_AddWWWClicked)
+        QtCore.QObject.connect(self.ui.Button_Przelicz,QtCore.SIGNAL("clicked()"), self.Button_Przelicz)
         QtCore.QObject.connect(self.ui.horizontalSlider_Threshold,QtCore.SIGNAL("valueChanged(int)"), self.horizontalSlider_ThresholdValueChanged)
         QtCore.QObject.connect(self.ui.Button_LoadOutFileCandidateFromWWW,QtCore.SIGNAL("clicked()"), self.Button_LoadOutFileCandidateFromWWW)
         QtCore.QObject.connect(self.ui.listWidget_OutFilesList,QtCore.SIGNAL("doubleClicked(QModelIndex)"), self.listWidget_OutFilesListDClicked)        
@@ -32,13 +35,23 @@ class StartQT4(QtGui.QMainWindow):
         QtCore.QObject.connect(self.ui.listWidget_ChoosenOutFile,QtCore.SIGNAL("doubleClicked(QModelIndex)"), self.listWidget_ChoosenOutFileDClicked)
         QtCore.QObject.connect(self.ui.comboBox_MethodList,QtCore.SIGNAL("currentIndexChanged(int)"), self.comboBox_MethodListClicked)
         QtCore.QObject.connect(self.ui.listWidget_wwwFromMainFile,QtCore.SIGNAL("doubleClicked(QModelIndex)"), self.listWidget_wwwFromMainFileDClicked)
-
+        #actions
+        QtCore.QObject.connect(self.ui.actionNowy_projekt,QtCore.SIGNAL("triggered()"), self.Button_LoadMainFilePath)
+        QtCore.QObject.connect(self.ui.actionOtw_rz_projekt,QtCore.SIGNAL("triggered()"), self.Button_LoadConfigPath)
+        QtCore.QObject.connect(self.ui.actionDodaj_plik,QtCore.SIGNAL("triggered()"), self.Button_LoadOutFileCandidate)
+        QtCore.QObject.connect(self.ui.actionDodaj_WWW,QtCore.SIGNAL("triggered()"), self.Button_LoadOutFileCandidateFromWWW)
+        QtCore.QObject.connect(self.ui.actionUsu_plik,QtCore.SIGNAL("triggered()"), self.Button_RemoveOutFile)
+        QtCore.QObject.connect(self.ui.actionDokumentacja,QtCore.SIGNAL("triggered()"), self.Action_Dokumentacja)                
 
 
 
 
     '''Methods to load propertly 1 site'''
 
+    def Action_Dokumentacja(self):
+        webbrowser.open_new_tab("https://github.com/Vallher/Plagiat/wiki")
+    
+    
     def Button_LoadMainFilePath(self): #
         path=(self.source.SearchFile())[0]
         self.source.SetPath(path)
@@ -52,7 +65,6 @@ class StartQT4(QtGui.QMainWindow):
     def Button_LoadConfigPath(self):  #
         path=self.source.SearchConfig()
         self.source.SetPath(path)
-    
         self.source.LoadConfig()
         self.RefreshDisplay()
     
@@ -95,16 +107,22 @@ class StartQT4(QtGui.QMainWindow):
         path=[adressList[clickedRow]]
         self.source.AddOutFileCandidate(path)
         self.AddOutFiles()
+
+    
+    def Button_AddWWWClicked(self):
+        path=[str(self.ui.lineEdit_wwwPath.text())]
+        self.source.AddOutFileCandidate(path)
+        self.AddOutFiles()
     
     #button
     def Button_LoadOutFileCandidateFromWWW(self):
-        self.ui.listWidget_wwwFromMainFile.setVisible(not self.ui.listWidget_wwwFromMainFile.isVisible())     
+        self.ui.listWidget_wwwFromMainFile.setVisible(not self.ui.listWidget_wwwFromMainFile.isVisible())    
+        self.ui.lineEdit_wwwPath.setVisible(not self.ui.lineEdit_wwwPath.isVisible()) 
+        self.ui.Button_AddWWW.setVisible(not self.ui.Button_AddWWW.isVisible())  
         return True
     
     def Button_LoadOutFileCandidate(self):
         path=self.source.SearchFile()
-        print "GEGE"
-        print path
         self.source.AddOutFileCandidate(path)
         self.AddOutFiles()
     
@@ -137,7 +155,10 @@ class StartQT4(QtGui.QMainWindow):
     def horizontalSlider_ThresholdValueChanged(self):
         threshold=self.ui.horizontalSlider_Threshold.value()
         self.source.threshold=threshold
-        
+        self.RefreshDisplay()
+
+        return True
+    def Button_Przelicz(self):
         self.ui.progressBar_GenerateOutFile.setValue(0)
         howMuchOut=len(self.source.OutFiles)+1
         valueRaise=100.0/howMuchOut
@@ -150,6 +171,7 @@ class StartQT4(QtGui.QMainWindow):
         self.ui.progressBar_GenerateOutFile.setValue(100)
         self.RefreshDisplay()
         return True
+
 
         '''Method to properly load 3 site'''
     
