@@ -23,120 +23,46 @@ class StartQT4(QtGui.QMainWindow):
         
         QtCore.QObject.connect(self.ui.Button_LoadMainFilePath,QtCore.SIGNAL("clicked()"), self.Button_LoadMainFilePath)
         QtCore.QObject.connect(self.ui.Button_LoadConfigPath,QtCore.SIGNAL("clicked()"), self.Button_LoadConfigPath)
-        QtCore.QObject.connect(self.ui.Button_Next1,QtCore.SIGNAL("clicked()"), self.Button_Next1)
-        QtCore.QObject.connect(self.ui.Button_LoadOutFileCandidate,QtCore.SIGNAL("clicked()"), self.Button_LoadOutFileCandidate)
-        QtCore.QObject.connect(self.ui.Button_Podglad,QtCore.SIGNAL("clicked()"), self.Button_Podglad)
-        QtCore.QObject.connect(self.ui.Button_Podglad2,QtCore.SIGNAL("clicked()"), self.Button_Podglad2)
-        QtCore.QObject.connect(self.ui.Button_ClosePodglad,QtCore.SIGNAL("clicked()"), self.Button_ClosePodglad)        
-        QtCore.QObject.connect(self.ui.Button_RemoveOutFileCandidate,QtCore.SIGNAL("clicked()"), self.Button_RemoveOutFileCandidate)
+        QtCore.QObject.connect(self.ui.Button_LoadOutFile,QtCore.SIGNAL("clicked()"), self.Button_LoadOutFileCandidate)      
         QtCore.QObject.connect(self.ui.Button_RemoveOutFile,QtCore.SIGNAL("clicked()"), self.Button_RemoveOutFile)
         QtCore.QObject.connect(self.ui.horizontalSlider_Threshold,QtCore.SIGNAL("valueChanged(int)"), self.horizontalSlider_ThresholdValueChanged)
         QtCore.QObject.connect(self.ui.Button_LoadOutFileCandidateFromWWW,QtCore.SIGNAL("clicked()"), self.Button_LoadOutFileCandidateFromWWW)
-        QtCore.QObject.connect(self.ui.testButton,QtCore.SIGNAL("clicked()"), self.RunProgram)
-        QtCore.QObject.connect(self.ui.Button_AddOutFromCandidate,QtCore.SIGNAL("clicked()"), self.Button_AddOutFromCandidate)
-        QtCore.QObject.connect(self.ui.Button_ShowRaport,QtCore.SIGNAL("clicked()"), self.Button_ShowRaport)
         QtCore.QObject.connect(self.ui.listWidget_OutFilesList,QtCore.SIGNAL("doubleClicked(QModelIndex)"), self.listWidget_OutFilesListDClicked)        
         QtCore.QObject.connect(self.ui.listWidget_MainFile,QtCore.SIGNAL("doubleClicked(QModelIndex)"), self.listWidget_MainFileDClicked)
         QtCore.QObject.connect(self.ui.listWidget_ChoosenOutFile,QtCore.SIGNAL("doubleClicked(QModelIndex)"), self.listWidget_ChoosenOutFileDClicked)
-        QtCore.QObject.connect(self.ui.Button_BackToPage_2,QtCore.SIGNAL("clicked()"), self.Button_BackToPage_2)
-        QtCore.QObject.connect(self.ui.Button_BackToPage_1,QtCore.SIGNAL("clicked()"), self.Button_BackToPage_1)
         QtCore.QObject.connect(self.ui.comboBox_MethodList,QtCore.SIGNAL("currentIndexChanged(int)"), self.comboBox_MethodListClicked)
         QtCore.QObject.connect(self.ui.listWidget_wwwFromMainFile,QtCore.SIGNAL("doubleClicked(QModelIndex)"), self.listWidget_wwwFromMainFileDClicked)
 
 
 
-#0      
-    '''Methods to load propertly 0 site'''
-        
-    '''Buttons'''
-    
-    '''Others'''  
-    def RunProgram(self):
-        value=self.ui.progressBar_StartProgram.value()+23
-        self.ui.progressBar_StartProgram.setValue(value)
-        value= 100
-        if(value>99):
-            self.Load1PageDisplay()
 
-#1  
+
     '''Methods to load propertly 1 site'''
 
-    def Load1PageDisplay(self):
-        self.ui.listWidget_MainFile_Podglad.setVisible(False)
-        self.ui.Button_ClosePodglad.setVisible(False)
-        self.ui.lineEdit_LoadMainFile_Name.clear()
-        self.ui.Line_LoadConfig_Path.clear()
-        self.ui.Line_LoadMainFile_Path.clear()
-        self.ui.stackedWidget.setCurrentIndex(1)
-
-        
-    '''Buttons'''
-    def Button_Podglad(self):
-        if(len(self.ui.Line_LoadMainFile_Path.text())>0):
-            self.source.PrepareMainFile()
-            self.Podglad()
-                
-    def Button_Podglad2(self):    
-        if(self.ui.radioButton_loadOld.isChecked() and len(self.ui.Line_LoadConfig_Path.text())>0):
-            self.source.LoadConfig()
-            self.ui.lineEdit_LoadMainFile_Name.clear()
-            self.ui.Line_LoadMainFile_Path.clear()
-            self.Podglad()
-            
-    def Podglad(self):
-        self.ui.listWidget_MainFile_Podglad.setVisible(True)
-        self.ui.Button_ClosePodglad.setVisible(True)
-            
-        self.ui.listWidget_MainFile_Podglad.clear()
-        for sentence in self.source.GetMainFileClearText():  # show MainFile text to left widget 
-            self.ui.listWidget_MainFile_Podglad.addItem(sentence)
-
-            
-    def Button_ClosePodglad(self):
-        self.ui.listWidget_MainFile_Podglad.setVisible(False)
-        self.ui.Button_ClosePodglad.setVisible(False)
-    
-    def Button_Next1(self):
-        '''Load from file button'''
-        if(self.ui.radioButton_new.isChecked() and len(self.ui.Line_LoadMainFile_Path.text())>0):
-            self.source.PrepareMainFile()
-            name=self.ui.lineEdit_LoadMainFile_Name.displayText() 
-            self.source.SetConfigName(name) 
-            self.source.CreateConfig()
-            self.Load2PageDisplay()
-            self.ui.Line_LoadConfig_Path.clear()
-        if(self.ui.radioButton_loadOld.isChecked() and len(self.ui.Line_LoadConfig_Path.text())>0):
-            self.source.LoadConfig()
-            self.Load2PageDisplay()
-            self.ui.lineEdit_LoadMainFile_Name.clear()
-            self.ui.Line_LoadMainFile_Path.clear()
-
-    
-    def Button_LoadMainFilePath(self):
-        self.ui.lineEdit_LoadMainFile_Name.setText("XD") #TODELETE
-        path=self.source.SearchFile()
-        self.ui.Line_LoadMainFile_Path.setText(path)
+    def Button_LoadMainFilePath(self): #
+        path=(self.source.SearchFile())[0]
         self.source.SetPath(path)
         
-    def Button_LoadConfigPath(self):
+        self.source.PrepareMainFile()
+        name="XD" #TODOO
+        self.source.SetConfigName(name) 
+        self.source.CreateConfig()
+        self.RefreshDisplay()
+        
+    def Button_LoadConfigPath(self):  #
         path=self.source.SearchConfig()
-        self.ui.Line_LoadConfig_Path.setText(path)
         self.source.SetPath(path)
+    
+        self.source.LoadConfig()
+        self.RefreshDisplay()
     
     #2
     ''''Methods to load properly 2 site'''    
     def UpdateOutFilesList(self):    
-        self.ui.listWidget_OutFiles.clear()
+        self.ui.listWidget_OutFilesList.clear()
         for outFile in self.source.OutFiles:
             name=outFile.GetFileName()
-            print name
-            self.ui.listWidget_OutFiles.addItem(name)
-        return True
-    
-    def UpdateOutFilesCandidateList(self):    
-        self.ui.listWidget_CandidateOutFiles.clear()
-        for outFileName in self.source.OutFilesCandidate:
-            self.ui.listWidget_CandidateOutFiles.addItem(outFileName)
+            self.ui.listWidget_OutFilesList.addItem(name)
         return True
     
     
@@ -146,90 +72,83 @@ class StartQT4(QtGui.QMainWindow):
         for adress in list:
             self.ui.listWidget_wwwFromMainFile.addItem(adress)    
     
-    def UpdatePathToFile(self):
-        path=self.source.GetPath()
-        self.ui.Line_LoadMainFile_Path.setText(path)
-        return True
     
-    
-    def Load2PageDisplay(self):
+    def RefreshDisplay(self):
+        self.UpdateMainFileText()
         self.UpdateWWWlist()
         self.UpdateOutFilesList()
-        self.UpdatePathToFile()
-        self.UpdateOutFilesCandidateList()
-        self.ui.listWidget_wwwFromMainFile.setVisible(False)
-        self.ui.label_22.setVisible(False)
-        self.ui.stackedWidget.setCurrentIndex(2)
+        self.UpdateMainFileText()
+        self.source.GenerateRaport()
+        self.LoadOutFilesListInRaport()
+        self.UpdateChoosenOutFileText()    
+        self.UpdateRaportStats()
+        self.ColorMainFile()
+        self.ColorOutFilesList()
+        threshold=self.ui.horizontalSlider_Threshold.value()
+        self.ui.label_numberOfThreshold.setText(str(threshold))
         return True
     
     
     def listWidget_wwwFromMainFileDClicked(self):
         adressList= self.source.GetAdressFromMainFile()
         clickedRow=self.ui.listWidget_wwwFromMainFile.currentRow()
-        path=adressList[clickedRow]
+        path=[adressList[clickedRow]]
         self.source.AddOutFileCandidate(path)
-        self.UpdateOutFilesCandidateList()
+        self.AddOutFiles()
     
     #button
     def Button_LoadOutFileCandidateFromWWW(self):
         self.ui.listWidget_wwwFromMainFile.setVisible(not self.ui.listWidget_wwwFromMainFile.isVisible())     
-        self.ui.label_22.setVisible(self.ui.listWidget_wwwFromMainFile.isVisible())
-        return True
-        
-    def Button_RemoveOutFileCandidate(self):
-        clickedRow=self.ui.listWidget_CandidateOutFiles.currentRow()
-        self.source.RemoveOutFileCandidate(clickedRow)
-        self.UpdateOutFilesCandidateList() 
-        
         return True
     
     def Button_LoadOutFileCandidate(self):
         path=self.source.SearchFile()
+        print "GEGE"
+        print path
         self.source.AddOutFileCandidate(path)
-        self.UpdateOutFilesCandidateList()
+        self.AddOutFiles()
     
     def Button_RemoveOutFile(self):
-        clickedRow=self.ui.listWidget_OutFiles.currentRow()
+        clickedRow=self.ui.listWidget_OutFilesList.currentRow()
         self.source.RemoveOutFile(clickedRow)
         self.UpdateOutFilesList()
-
-    def Button_AddOutFromCandidate(self):
-        self.ui.progressBar_GenerateOutFile.setVisible(True)
+        self.RefreshDisplay()
+    
+    def AddOutFiles(self):
         self.ui.progressBar_GenerateOutFile.setValue(0)
         howMuchOut=len(self.source.OutFilesCandidate)
         print howMuchOut
         valueRaise=100.0/howMuchOut
         done=[]
         for outFile in self.source.OutFilesCandidate:
+            print "BLAD" + outFile
             self.ui.progressBar_GenerateOutFile.setValue(self.ui.progressBar_GenerateOutFile.value()+valueRaise)
             try:
                 self.source.GenerateOutFile([outFile])
             except Exception as ex:
                 self.ui.listWidget_errorList.addItem(ex.args[0]+": "+ex.args[1]) 
             done.append(outFile)
-            self.UpdateOutFilesCandidateList()
             self.UpdateOutFilesList()
         for complete in done:
             self.source.OutFilesCandidate.remove(complete)
-        self.UpdateOutFilesCandidateList()
         self.UpdateOutFilesList()
-    def Button_BackToPage_1(self):
-        self.ui.stackedWidget.setCurrentIndex(1)
-    
-    def Button_ShowRaport(self):
-        self.source.GenerateRaport() # Create raport
-        self.Load3PageDisplay()
-        return True
+        self.RefreshDisplay()
             
     def horizontalSlider_ThresholdValueChanged(self):
         threshold=self.ui.horizontalSlider_Threshold.value()
         self.source.threshold=threshold
         
+        self.ui.progressBar_GenerateOutFile.setValue(0)
+        howMuchOut=len(self.source.OutFiles)+1
+        valueRaise=100.0/howMuchOut
+        
+        
         for OutFile in self.source.OutFiles:
+            self.ui.progressBar_GenerateOutFile.setValue(self.ui.progressBar_GenerateOutFile.value()+valueRaise)
             OutFile.repeats.pop()
             self.source.CheckSimilarity(OutFile)
-            print OutFile.repeats[1]
-        self.Load3PageDisplay()
+        self.ui.progressBar_GenerateOutFile.setValue(100)
+        self.RefreshDisplay()
         return True
 
         '''Method to properly load 3 site'''
@@ -269,8 +188,6 @@ class StartQT4(QtGui.QMainWindow):
             colorIt+=1
             color=colors[colorIt]
             for number in outFileCurrentMethod:
-                print "KOLORUJE"
-                print number
                 item=self.ui.listWidget_MainFile.item(number)
                 item.setBackgroundColor(color)
     
@@ -291,10 +208,10 @@ class StartQT4(QtGui.QMainWindow):
                        
     def GetColors(self):
         colors=[]
-        colors.append(QtGui.QColor(176,23,31))
-        colors.append(QtGui.QColor(65,105,225))
-        colors.append(QtGui.QColor(93,71,139))
-        colors.append(QtGui.QColor(238,162,173))
+   #     colors.append(QtGui.QColor(176,23,31))
+    #    colors.append(QtGui.QColor(65,105,225))
+     #   colors.append(QtGui.QColor(93,71,139))
+      #  colors.append(QtGui.QColor(238,162,173))
         colors.append(QtGui.QColor(39   , 64  ,  139))
         colors.append(QtGui.QColor(189    ,252   , 201))
         colors.append(QtGui.QColor(139   , 117  ,  0))
@@ -318,34 +235,25 @@ class StartQT4(QtGui.QMainWindow):
             self.ui.listWidget_OutFilesList.addItem(outFileName)  
         self.ui.listWidget_OutFilesList.setCurrentRow(0)
 
-        
 
-    def Load3PageDisplay(self):
-        self.UpdateRaportStats()
-        self.UpdateMainFileText()
-        self.LoadOutFilesListInRaport()
-        self.UpdateChoosenOutFileText()    
-        self.ColorMainFile()
-        self.ColorOutFilesList()
-        threshold=self.ui.horizontalSlider_Threshold.value()
-        self.ui.label_numberOfThreshold.setText(str(threshold))
-        self.ui.stackedWidget.setCurrentIndex(3) 
-        return True
-            
-    def Button_BackToPage_2(self):
-        self.ui.stackedWidget.setCurrentIndex(2)
-    
     def listWidget_OutFilesListDClicked(self):
         self.UpdateChoosenOutFileText()
     
     
     def comboBox_MethodListClicked(self):
         self.ColorMainFile()
+        currentMethodRow=self.ui.comboBox_MethodList.currentIndex()
+        
+        if(currentMethodRow == 0):
+            self.ui.horizontalSlider_Threshold.setEnabled(False)
+        else:
+            self.ui.horizontalSlider_Threshold.setEnabled(True)
         
     
     def listWidget_MainFileDClicked(self):
         currentRow=self.ui.listWidget_MainFile.currentRow() # number of clicked Sentence
         
+
         if(len(self.source.raportStructure[currentRow].keys())>0):   # repeat exist
             fileNumber=self.source.raportStructure[currentRow].keys()[0]   # number of file when is repeat
             sentenceNumber=self.source.raportStructure[currentRow].values()[0]   # number of sentence in fileNumber where is repeat
@@ -353,7 +261,10 @@ class StartQT4(QtGui.QMainWindow):
             self.ui.listWidget_OutFilesList.setCurrentRow(fileNumber)  #change outFile text to show
             self.UpdateChoosenOutFileText() # update widget
             self.ui.listWidget_ChoosenOutFile.setCurrentRow(sentenceNumber) # make focus on sentence
-        
+
+                 
+            
+    
     def listWidget_ChoosenOutFileDClicked(self):
         currentMethodRow=self.ui.comboBox_MethodList.currentIndex()
         #self.Change_listWidget_ChoosenOutFileFoucs()

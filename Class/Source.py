@@ -4,7 +4,8 @@ from os import path
 sys.path.append(path.abspath('./Class'))
 from MainFile import *
 from Tkinter import Tk
-from tkFileDialog import askopenfilename
+from tkFileDialog import askopenfilename,askopenfilenames
+import Tkinter,tkFileDialog
 from OutFile import OutFile
 import json
 import ngram
@@ -70,7 +71,8 @@ class Source():
         return self.mainFile.GetClearText()
     
     def AddOutFileCandidate(self,outFilePath):
-        self.OutFilesCandidate.append(outFilePath)
+        for path in outFilePath:
+            self.OutFilesCandidate.append(path)
         return True
     
     def RemoveOutFileCandidate(self,number):
@@ -117,14 +119,14 @@ class Source():
         #print raportStructure
         for outFileNumber in range(len(self.OutFiles)):
             for method in self.OutFiles[outFileNumber].repeats:
-                print method
+                
                 #repeats=self.OutFiles[outFileNumber].repeats
                 repeats=method
                 #print self.OutFiles[outFileNumber].repeats
                 for repeatNumber in range(len(repeats)):
                     if repeats[repeatNumber]>=0:
                         #print [repeatNumber,repeats[repeatNumber]]  
-                        print "outFile numer "+str(outFileNumber) + ' w ktorym zdanie numer ' + str(repeatNumber) + ' jest zdaniem w main numer: '+str(repeats[repeatNumber])
+                        #print "outFile numer "+str(outFileNumber) + ' w ktorym zdanie numer ' + str(repeatNumber) + ' jest zdaniem w main numer: '+str(repeats[repeatNumber])
                         self.raportStructure[repeats[repeatNumber]]={outFileNumber:repeatNumber}
         return True
     
@@ -160,11 +162,14 @@ class Source():
             ]
     
         path=''
+        pathList=[]
         if(not self.lock):
             self.lock=True
             root=Tk().withdraw() # we don't want a full GUI, so keep the root window from appearing
-            path=askopenfilename(filetypes=myFormats) 
+            path=askopenfilenames(filetypes=myFormats)
+            path = path.strip('{}').split('} {')
             self.lock=False
+
         return path
     
     
@@ -220,8 +225,9 @@ class Source():
         After button click
         TODO:KAMIL
         '''
-        
+        print pathList
         for path in pathList:  
+            print path
             try:
                 newOutFile=OutFile(path)
             except:
