@@ -149,10 +149,10 @@ class StartQT4(QtGui.QMainWindow):
         for outFile in self.source.OutFilesCandidate:
             print "BLAD" + outFile
             self.ui.progressBar_GenerateOutFile.setValue(self.ui.progressBar_GenerateOutFile.value()+valueRaise)
-            try:
-                self.source.GenerateOutFile([outFile])
-            except Exception as ex:
-                self.ui.listWidget_errorList.addItem(ex.args[0]+": "+ex.args[1]) 
+            #try:
+            self.source.GenerateOutFile([outFile])
+            #except Exception as ex:
+            #    self.ui.listWidget_errorList.addItem(ex.args[0]+": "+ex.args[1]) 
             done.append(outFile)
             self.UpdateOutFilesList()
         for complete in done:
