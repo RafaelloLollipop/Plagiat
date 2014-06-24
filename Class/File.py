@@ -46,7 +46,7 @@ class File():
     def SaveChars(self):
         inter = [',', ':', ';', '!', '@', '#', '$', '%', '^', '&', '\*', '\.', '\(', '\)', '-', '_', '\+', '=', '\{', '\}', '\[', '\]', '\|', '<', '>', '\n', '\t']
         abbList = ["mgr", "prof", "hab"]
-        lacz = ['i', 'a', 'w', 'o', 'lub','jednak', 'na', 'u', 'pod', 'powyżej', 'poniżej', 'ponad', 'ale',]
+        lacz = ['i', 'a', 'w', 'o', 'lub','jednak', 'na', 'u', 'pod', 'ponad', 'ale',]
         struct=[]
         struct.append(inter)
         struct.append(lacz)
@@ -54,8 +54,8 @@ class File():
         #configToSave=json.dumps(struct, indent=2,ensure_ascii=False,encoding='utf8')
         
         #f = open('Database'+".json", 'w')
-        f = codecs.open('Database'+'.json', "w", encoding="utf-8")
-        json.dump(struct, f, indent=2, ensure_ascii=False)
+        f = codecs.open('Database'+'.json', "w")
+        json.dump(struct, f, indent=2)
         #f.write(configToSave)
         f.close()
         return True
@@ -65,7 +65,7 @@ class File():
         #f = open('Database'+'.json', 'r')
         f  = file('Database'+'.json', "r")
         #data=f.read()
-        data = json.loads(f.read().encode("utf-8"))
+        data = json.loads(f.read())
         f.close()
         #data= json.loads(data,encoding='unicode')
         return data
