@@ -237,9 +237,7 @@ class Source():
         After button click
         TODO:KAMIL
         '''
-        print pathList
         for path in pathList:  
-            print path
             try:
                 newOutFile=OutFile(path)
             except:

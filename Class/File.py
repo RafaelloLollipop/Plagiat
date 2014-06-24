@@ -252,4 +252,12 @@ class File():
         
         return False
     
+    def LinuxPDF(self,path):
+        text="";
+        script="pdftotext -layout " + pliczek.nazwa;
+        nazwa2=pliczek.nazwa.rstrip('pdf')+"txt";
+        os.system(script);
+        text=open(nazwa2).read();
+        return text;
+    
  

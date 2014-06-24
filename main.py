@@ -181,11 +181,9 @@ class StartQT4(QtGui.QMainWindow):
     def AddOutFiles(self):
         self.ui.progressBar_GenerateOutFile.setValue(0)
         howMuchOut=len(self.source.OutFilesCandidate)
-        print howMuchOut
         valueRaise=100.0/howMuchOut
         done=[]
         for outFile in self.source.OutFilesCandidate:
-            print "BLAD" + outFile
             self.ui.progressBar_GenerateOutFile.setValue(self.ui.progressBar_GenerateOutFile.value()+valueRaise)
             try:
                 self.source.GenerateOutFile([outFile])
@@ -248,12 +246,11 @@ class StartQT4(QtGui.QMainWindow):
             for sentence in self.source.OutFiles[currentRow].clearText:
                 self.ui.listWidget_ChoosenOutFile.addItem(sentence)
         except:
-           print "BRAK OUTFILOW"
+           print ""
     def ColorMainFile(self):    
         self.ClearColorOnMainFile()
         currentMethodRow=self.ui.comboBox_MethodList.currentIndex()
         ListOfSentencesToColor=self.source.ListOfMainFileSentenceToColor()
-        print ListOfSentencesToColor
         colors=self.GetColors()
         colorIt=-1
         for outFile in ListOfSentencesToColor:
