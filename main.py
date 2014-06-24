@@ -28,6 +28,7 @@ class StartQT4(QtGui.QMainWindow):
         QtCore.QObject.connect(self.ui.Button_RemoveOutFile,QtCore.SIGNAL("clicked()"), self.Button_RemoveOutFile)
         QtCore.QObject.connect(self.ui.Button_AddWWW,QtCore.SIGNAL("clicked()"), self.Button_AddWWWClicked)
         QtCore.QObject.connect(self.ui.Button_Przelicz,QtCore.SIGNAL("clicked()"), self.Button_Przelicz)
+        QtCore.QObject.connect(self.ui.Button_CloseAddWWW,QtCore.SIGNAL("clicked()"), self.CloseAddWWW)
         QtCore.QObject.connect(self.ui.horizontalSlider_Threshold,QtCore.SIGNAL("valueChanged(int)"), self.horizontalSlider_ThresholdValueChanged)
         QtCore.QObject.connect(self.ui.Button_LoadOutFileCandidateFromWWW,QtCore.SIGNAL("clicked()"), self.Button_LoadOutFileCandidateFromWWW)
         QtCore.QObject.connect(self.ui.listWidget_OutFilesList,QtCore.SIGNAL("doubleClicked(QModelIndex)"), self.listWidget_OutFilesListDClicked)        
@@ -35,6 +36,8 @@ class StartQT4(QtGui.QMainWindow):
         QtCore.QObject.connect(self.ui.listWidget_ChoosenOutFile,QtCore.SIGNAL("doubleClicked(QModelIndex)"), self.listWidget_ChoosenOutFileDClicked)
         QtCore.QObject.connect(self.ui.comboBox_MethodList,QtCore.SIGNAL("currentIndexChanged(int)"), self.comboBox_MethodListClicked)
         QtCore.QObject.connect(self.ui.listWidget_wwwFromMainFile,QtCore.SIGNAL("doubleClicked(QModelIndex)"), self.listWidget_wwwFromMainFileDClicked)
+       
+        
         #actions
         QtCore.QObject.connect(self.ui.actionNowy_projekt,QtCore.SIGNAL("triggered()"), self.Button_LoadMainFilePath)
         QtCore.QObject.connect(self.ui.actionOtw_rz_projekt,QtCore.SIGNAL("triggered()"), self.Button_LoadConfigPath)
@@ -43,11 +46,20 @@ class StartQT4(QtGui.QMainWindow):
         QtCore.QObject.connect(self.ui.actionUsu_plik,QtCore.SIGNAL("triggered()"), self.Button_RemoveOutFile)
         QtCore.QObject.connect(self.ui.actionDokumentacja,QtCore.SIGNAL("triggered()"), self.Action_Dokumentacja)                
 
-
-
+        #init
+        self.ui.listWidget_wwwFromMainFile.setVisible(False)    
+        self.ui.lineEdit_wwwPath.setVisible(False) 
+        self.ui.Button_AddWWW.setVisible(False) 
+        self.ui.Button_CloseAddWWW.setVisible(False)
 
     '''Methods to load propertly 1 site'''
 
+    def CloseAddWWW(self):
+        self.ui.listWidget_wwwFromMainFile.setVisible(not self.ui.listWidget_wwwFromMainFile.isVisible())    
+        self.ui.lineEdit_wwwPath.setVisible(not self.ui.lineEdit_wwwPath.isVisible()) 
+        self.ui.Button_AddWWW.setVisible(not self.ui.Button_AddWWW.isVisible()) 
+        self.ui.Button_CloseAddWWW.setVisible(not self.ui.Button_CloseAddWWW.isVisible())
+    
     def Action_Dokumentacja(self):
         webbrowser.open_new_tab("https://github.com/Vallher/Plagiat/wiki")
     
@@ -121,6 +133,7 @@ class StartQT4(QtGui.QMainWindow):
         self.ui.listWidget_wwwFromMainFile.setVisible(not self.ui.listWidget_wwwFromMainFile.isVisible())    
         self.ui.lineEdit_wwwPath.setVisible(not self.ui.lineEdit_wwwPath.isVisible()) 
         self.ui.Button_AddWWW.setVisible(not self.ui.Button_AddWWW.isVisible())  
+        self.ui.Button_CloseAddWWW.setVisible(not self.ui.Button_CloseAddWWW.isVisible())
         return True
     
     def Button_LoadOutFileCandidate(self):
