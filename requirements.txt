@@ -1,0 +1,13 @@
+nltk
+StringIO
+codecs
+PyPDF2
+urlib
+hashlib
+json
+zipfile
+Tkinter
+tkFileDialog
+ngram
+PyQt4
+webbrowser
