@@ -131,6 +131,7 @@ class File():
         '''
         result = False
         [interpunkcja,laczniki,abbList]=self.LoadCharsDatabase()
+        abbList=["mgr", "prof", "hab"]
         for abb in abbList:
             if (sentence.endswith(abb)):
                 result = True
