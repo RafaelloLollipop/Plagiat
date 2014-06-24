@@ -126,6 +126,7 @@ class StartQT4(QtGui.QMainWindow):
     def Button_LoadOutFileCandidate(self):
         #path=self.source.SearchFile()
         path=QtGui.QFileDialog.getOpenFileNames(self,'Open','',filter='Text files (*.txt *pdf *html *docx);;All files (*)')
+
         newPat=[]
         for p in path:
             newPat.append(str(p))
