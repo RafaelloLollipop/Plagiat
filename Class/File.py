@@ -65,8 +65,9 @@ class File():
         #f = open('Database'+'.json', 'r')
         f  = file('Database'+'.json', "r")
         #data=f.read()
-        data = json.loads(f.read())
+        data = json.loads(f.read().decode('utf-8'))
         f.close()
+        
         #data= json.loads(data,encoding='unicode')
         return data
     

@@ -58,7 +58,7 @@ class StartQT4(QtGui.QMainWindow):
         path=str(path)
         self.source.SetPath(path)
         self.source.PrepareMainFile()
-        name="XD" #TODOO
+        name="Projekt" #TODOO
         self.source.SetConfigName(name) 
         self.source.CreateConfig()
         self.RefreshDisplay()
