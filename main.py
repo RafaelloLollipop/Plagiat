@@ -69,17 +69,29 @@ class StartQT4(QtGui.QMainWindow):
         path=QtGui.QFileDialog.getOpenFileName(self,'Open','',filter='Text files (*.txt *pdf *html *docx);;All files (*)')
         path=str(path)
         self.source.SetPath(path)
-        self.source.PrepareMainFile()
+        try:
+            self.source.PrepareMainFile()
+        except Exception as ex:
+            self.ui.listWidget_errorList.addItem("Błąd ładowania pliku glównego / Brak lub błędna ścieżka")
+
         name="Projekt" #TODOO
         self.source.SetConfigName(name) 
-        self.source.CreateConfig()
+        try:
+            self.source.CreateConfig()
+        except Exception as ex:
+            self.ui.listWidget_errorList.addItem("Bład tworzenia konfiguracji")
         self.RefreshDisplay()
         
     def Button_LoadConfigPath(self):  #
         path=QtGui.QFileDialog.getOpenFileName(self,'Open','',filter='Config files (*.json);;All files (*)')
         path=str(path)
         self.source.SetPath(path)
-        self.source.LoadConfig()
+        
+        try:
+            self.source.LoadConfig()
+        except Exception as ex:
+            self.ui.listWidget_errorList.addItem("Błąd ładowania pliku zewnętrznego / Brak lub błędna ścieżka")
+
         self.RefreshDisplay()
     
     #2
@@ -94,17 +106,22 @@ class StartQT4(QtGui.QMainWindow):
     
     def UpdateWWWlist(self):
         self.ui.listWidget_wwwFromMainFile.clear()
-        list= self.source.GetAdressFromMainFile()
-        for adress in list:
-            self.ui.listWidget_wwwFromMainFile.addItem(adress)    
-    
+        try:
+            list= self.source.GetAdressFromMainFile()
+            for adress in list:
+                self.ui.listWidget_wwwFromMainFile.addItem(adress)    
+        except:
+            pass
     
     def RefreshDisplay(self):
         self.UpdateMainFileText()
         self.UpdateWWWlist()
         self.UpdateOutFilesList()
         self.UpdateMainFileText()
-        self.source.GenerateRaport()
+        try:
+            self.source.GenerateRaport()
+        except:
+            print("")
         self.LoadOutFilesListInRaport()
         self.UpdateChoosenOutFileText()    
         self.UpdateRaportStats()
@@ -126,7 +143,10 @@ class StartQT4(QtGui.QMainWindow):
     def Button_AddWWWClicked(self):
         path=[str(self.ui.lineEdit_wwwPath.text())]
         self.source.AddOutFileCandidate(path)
-        self.AddOutFiles()
+        try:
+            self.AddOutFiles()
+        except:
+            self.ui.listWidget_errorList.addItem("Nie wybrano pliku")
     
     #button
     def Button_LoadOutFileCandidateFromWWW(self):
@@ -145,11 +165,16 @@ class StartQT4(QtGui.QMainWindow):
             newPat.append(str(p))
         path=newPat
         self.source.AddOutFileCandidate(path)
-        self.AddOutFiles()
-    
+        try:
+            self.AddOutFiles()
+        except:
+            pass
     def Button_RemoveOutFile(self):
         clickedRow=self.ui.listWidget_OutFilesList.currentRow()
-        self.source.RemoveOutFile(clickedRow)
+        try:
+            self.source.RemoveOutFile(clickedRow)
+        except:
+            self.ui.listWidget_errorList.addItem("Nie wybrano pliku do usunięcia")
         self.UpdateOutFilesList()
         self.RefreshDisplay()
     
@@ -162,10 +187,10 @@ class StartQT4(QtGui.QMainWindow):
         for outFile in self.source.OutFilesCandidate:
             print "BLAD" + outFile
             self.ui.progressBar_GenerateOutFile.setValue(self.ui.progressBar_GenerateOutFile.value()+valueRaise)
-            #try:
-            self.source.GenerateOutFile([outFile])
-            #except Exception as ex:
-            #    self.ui.listWidget_errorList.addItem(ex.args[0]+": "+ex.args[1]) 
+            try:
+                self.source.GenerateOutFile([outFile])
+            except Exception as ex:
+                self.ui.listWidget_errorList.addItem(ex.args[0]+": "+ex.args[1]) 
             done.append(outFile)
             self.UpdateOutFilesList()
         for complete in done:
@@ -201,15 +226,20 @@ class StartQT4(QtGui.QMainWindow):
         numberOfRepeatSentences=self.source.HowManySentencesRepeats()
         self.ui.label_numberOfSentences.setText(str(mainFileSentencesNumber))
         self.ui.label_numberOfRepeatSentences.setText(str(numberOfRepeatSentences))
-        percentValue=numberOfRepeatSentences*100/mainFileSentencesNumber
-        self.ui.label_repeatSentencesProcent.setText(str(percentValue)+' %')
-        pass
+        try:
+            percentValue=numberOfRepeatSentences*100/mainFileSentencesNumber
+            self.ui.label_repeatSentencesProcent.setText(str(percentValue)+' %')
+        except:
+            pass
+
 
     def UpdateMainFileText(self):
         self.ui.listWidget_MainFile.clear()
-        for sentence in self.source.GetMainFileClearText():  # show MainFile text to left widget 
-            self.ui.listWidget_MainFile.addItem(sentence) 
-
+        try:
+            for sentence in self.source.GetMainFileClearText():  # show MainFile text to left widget 
+                self.ui.listWidget_MainFile.addItem(sentence) 
+        except:
+            self.ui.listWidget_errorList.addItem("Nie wybrano pliku głownego")
     def UpdateChoosenOutFileText(self):
         currentRow=self.ui.listWidget_OutFilesList.currentRow()
         self.ui.listWidget_ChoosenOutFile.clear()
