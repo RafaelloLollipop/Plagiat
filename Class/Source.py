@@ -9,6 +9,7 @@ import Tkinter,tkFileDialog
 from OutFile import OutFile
 import json
 import ngram
+from PyQt4 import QtCore, QtGui
 
 class Source():
     """Config class """
@@ -158,45 +159,8 @@ class Source():
                 outList=[]
             list.append(fileList)
         return list
-    
-    def SearchFile(self):
-        """ This function return path to File"""
-        file_opt = {}
-        myFormats = [
-            ('Text','*.txt'),
-            ('PDF','*.pdf'),
-            ('HTML','*.html'),
-            ('Microsoft Office .doc','*.doc'),
-            ]
-    
-        path=''
-        pathList=[]
-        if(not self.lock):
-            self.lock=True
-            root=Tk().withdraw() # we don't want a full GUI, so keep the root window from appearing
-            path=askopenfilenames(filetypes=myFormats)
-            path = path.strip('{}').split('} {')
-            self.lock=False
+     
 
-        return path
-    
-    
-    def SearchConfig(self):
-        """ This function return path to File"""
-
-        self.file_opt = options = {}
-        myFormats = [
-            ('JSON','*.json')
-            ]
-        
-        path=''
-        if(not self.lock):
-            self.lock=True
-            Tk().withdraw() # we don't want a full GUI, so keep the root window from appearing
-            path=askopenfilename(filetypes=myFormats ) 
-            self.lock=False
-        return path
-        
     def PrepareMainFile(self):
         '''Create objectMainFile
         Used after click event

@@ -53,9 +53,10 @@ class StartQT4(QtGui.QMainWindow):
     
     
     def Button_LoadMainFilePath(self): #
-        path=(self.source.SearchFile())[0]
-        self.source.SetPath(path)
         
+        path=QtGui.QFileDialog.getOpenFileName(self,'Open','',filter='Text files (*.txt *pdf *html *docx);;All files (*)')
+        path=str(path)
+        self.source.SetPath(path)
         self.source.PrepareMainFile()
         name="XD" #TODOO
         self.source.SetConfigName(name) 
@@ -63,7 +64,8 @@ class StartQT4(QtGui.QMainWindow):
         self.RefreshDisplay()
         
     def Button_LoadConfigPath(self):  #
-        path=self.source.SearchConfig()
+        path=QtGui.QFileDialog.getOpenFileName(self,'Open','',filter='Config files (*.json);;All files (*)')
+        path=str(path)
         self.source.SetPath(path)
         self.source.LoadConfig()
         self.RefreshDisplay()
@@ -122,7 +124,12 @@ class StartQT4(QtGui.QMainWindow):
         return True
     
     def Button_LoadOutFileCandidate(self):
-        path=self.source.SearchFile()
+        #path=self.source.SearchFile()
+        path=QtGui.QFileDialog.getOpenFileNames(self,'Open','',filter='Text files (*.txt *pdf *html *docx);;All files (*)')
+        newPat=[]
+        for p in path:
+            newPat.append(str(p))
+        path=newPat
         self.source.AddOutFileCandidate(path)
         self.AddOutFiles()
     
